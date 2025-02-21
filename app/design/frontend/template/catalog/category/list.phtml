@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Category listing page</h1>
+    <?php
+    $data = $this->listCatdata();
+    print_r($data);
+    ?>
+
+    <table border=5 cellspacing=5px cellpadding=10px>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Count</th>
+            <th>created at</th>
+            <th>Updated at</th>
+            <th>Visibility</th>
+
+
+        </thead>
+        <tbody>
+            <?php foreach($data as $data):?>
+            <tr>
+                <td><?php echo $data->getCategoryId(); ?></td>
+                <td><?php echo $data->getName();?></td>
+                <td><?php echo $data->getDescription();?></td>
+                <td><img src="<?php echo $data->getImage();?>"></td>
+                <td><?php echo $data->getProductCount();?></td>
+                <td><?php echo $data->getCreatedAt(); ?></td>
+                <td><?php echo $data->getUpdatedAt(); ?></td>
+                <td><?php echo $data->getVisibility();?></td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+</body>
+
+</html>

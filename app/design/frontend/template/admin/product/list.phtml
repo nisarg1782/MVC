@@ -1,0 +1,98 @@
+<?php
+$data = $this->listdata();
+// $data = $data_arr[0];
+// $model = $data_arr[1];
+$tablename ="catlog_product";
+$layout = Mage::getBlock('core/layout');
+$list = $layout->createBlock('catalog/category_list');
+$catdata = $list->listCatdata();
+// echo(get_class($this));
+?>
+<body>
+    <button>
+        <a href="<?php echo $this->getUrl("*/*/new") ?>">
+            click to add new Product
+        </a>
+    </button>
+    <br>
+    <table border=3 cellpadding=2px>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category_Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Rating</th>
+            <th>Color</th>
+            <th>Size</th>
+            <th>Brand</th>
+            <th>Warranty</th>
+            <th>weight</th>
+            <th>made in</th>
+            <th>model</th>
+            <th>mfg_date</th>
+            <th>material</th>
+            <th>terms and conditions</th>
+            <th>product_Status</th>
+            <th>Delete</th>
+            <th>Edit</th>
+        </thead>
+        <tbody>
+            <?php foreach ($data as $_data): ?>
+            <?php $image_path = "/MVC/Media/" . $tablename . "/" . $_data->getImage();
+                ?>
+            <tr>
+
+                <td><?php echo $_data->getProductId(); ?></td>
+                <td><?php echo $_data->getName(); ?></td>
+                <?php foreach ($catdata as $_catdata): ?>
+                <?php if ($_catdata->getCategoryId() == $_data->getCategoryId()): ?>
+                <td><?php echo $_catdata->getName(); ?></td>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                <td><?php echo $_data->getDescription(); ?></td>
+                <td><?php echo $_data->getPrice(); ?></td>
+                <td><img src="<?php echo $image_path; ?>" height=100 width="100"></td>
+                <td><?php echo $_data->getRating(); ?></td>
+                <td><?php echo $_data->getColor(); ?></td>
+                <td><?php echo $_data->getSize(); ?></td>
+                <td><?php echo $_data->getBrand(); ?></td>
+                <td><?php echo $_data->getWarranty(); ?></td>
+                <td><?php echo $_data->getweight(); ?></td>
+                <td><?php echo $_data->getMadeIn(); ?></td>
+                <td><?php echo $_data->getModel(); ?></td>
+                <td><?php echo $_data->getMfgDate(); ?></td>
+                <td><?php echo $_data->getMaterial(); ?></td>
+                <td><?php echo $_data->getTAndC(); ?></td>
+                <td>
+                    <?php echo $_data->getProductStatusText(); ?>
+
+
+                </td>
+                <?php
+
+                    $id = $_data->getProductId();
+                    $url = Mage::getBaseUrl();
+                    ?>
+                <td>
+                    <a href="<?php echo $url; ?>admin/product_index/delete/?id=<?php echo $id; ?>"
+                        onclick="return deleteprod();">
+                        Delete
+                    </a>
+                </td>
+
+                <td><a href="<?php echo $url ?>admin/product_index/new/?id=<?php echo $id; ?>">Edit</a></td>
+
+
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+
+    </table>
+    <script>
+    function deleteprod() {
+        return confirm("are you sure you wanted to delete this product");
+    }
+    </script>
+</body>

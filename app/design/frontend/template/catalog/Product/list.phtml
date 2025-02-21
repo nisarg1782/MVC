@@ -1,0 +1,50 @@
+    <?php
+    $data1 = $this->productData();
+    //print_r($data);
+    ?>
+<table border=3>
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category_Id</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Image</th>
+        <th>Rating</th>
+        <th>Color</th>
+        <th>Size</th>
+        <th>Brand</th>
+        <th>Warranty</th>
+        <th>weight</th>
+        <th>made in</th>
+        <th>model</th>
+        <th>mfg_date</th>
+        <th>material</th>
+        <th>terms and conditions</th>
+    </thead>
+    <tbody>
+        <?php foreach($data1 as $data):?>
+            <tr>
+            <td><?php echo $data->getProductId();?></td>
+            <td><?php echo $data->getProductName();?></td>
+            <td><?php echo $data->getCategoryName();?></td>
+            <td><?php echo $data->getDescription();?></td>
+            <td><?php echo $data->getPrice();?></td>
+            <td><img src="<?php echo $data->getImage();?>"></td>
+            <td><?php echo $data->getRating();?></td>
+            <td><?php echo $data->getColor();?></td>
+            <td><?php echo $data->getSize();?></td>
+            <td><?php echo $data->getBrand();?></td>
+            <td><?php echo $data->getWarranty();?></td>
+            <td><?php echo $data->getweight();?></td>
+            <td><?php echo $data->getMadeIn();?></td>
+            <td><?php echo $data->getModel();?></td>
+            <td><?php echo $data->getMfgDate();?></td>
+            <td><?php echo $data->getMaterial();?></td>
+            <td><?php echo $data->getTAndC();?></td>
+           
+            
+            </tr>
+            <?php endforeach;?>
+    </tbody>
+</table>

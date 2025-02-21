@@ -1,0 +1,20 @@
+<head>
+hello
+<?php
+$js=$this->getJs();
+$css=$this->getCss();
+$base_url=Mage::getBaseUrl();
+// foreach($js as $js)
+// {
+//     ?>
+<!-- //     <script src="<?php //echo $base_url .$js;?>"></script> -->
+    <?php
+// }
+foreach($css as $css)
+{
+    ?>
+    <link href="<?php echo $base_url . $css;?>" rel="stylesheet"></link>
+    <?php
+}
+?>
+</head>
