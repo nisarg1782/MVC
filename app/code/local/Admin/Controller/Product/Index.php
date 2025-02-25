@@ -30,63 +30,79 @@ class Admin_Controller_Product_Index
       $cartview = $layout->createBlock('Admin/Product_List')
          ->setTemplate('admin/product/list.phtml');
       //    print_r($view);
-      $layout->getChild('content')->addChild('cartindex', $cartview);
+      $layout->getChild('content')->addChild('list_prod', $cartview);
+      $layout->getChild("head")->addCss("css/admin/list.css");
       //print_r($layout);
       $layout->toHtml();
    }
    public function saveAction()
    {
+      $data = [];
+      $attr_data = [];
       $request = Mage::getModel('core/request');
       $product = Mage::getModel('catalog/product');
+      $product_gallrey = Mage::getModel("catalog/gallrey");
+      $product_attribute = Mage::getModel("catalog/attribute");
       $layout = Mage::getBlock('core/layout');
       echo "<pre>";
-      $data = $request->getParam("catlog_product");
-      $tablename = $product->getResource()->getTablename();
+      $product_data = $request->getParam("catalog_product");
+      $attribute_data = $request->getParam("catalog_product_attribute");
+      // print_r($attribute_data);
 
-      if ($_FILES[$tablename]["name"]["image"] && $_FILES[$tablename]["error"]["image"] == 0) {
 
 
-         $base_dir = Mage::getBaseDir();
-         print_r($base_dir);
-         print("<br>");
+      $image_data = $_FILES["catalog_media_gallery"];
+      // print_r($_FILES);
+      // die();
 
-         $upload_dir = $base_dir . "Media/" . $tablename;
-         if (!file_exists($upload_dir)) {
-            mkdir($upload_dir, 0755, true);
-         }
-         $filename = basename($_FILES[$tablename]["name"]["image"]);
-         print("the file name is " . $filename);
-         $upload_dir .= "/" . $filename;
-         print($upload_dir);
-
-         if (move_uploaded_file($_FILES[$tablename]["tmp_name"]["image"], $upload_dir)) {
-            $data["image"] = $filename;
-         }
-      }
-      if ($data["product_status"] == "0") {
-         $data["product_status"] = 0;
-      } else {
-         $data["product_status"] = 1;
-      }
-      //print_r($request->getParam('catlog_product'));
-      $product->setData($data);
+      $name = substr($product_data["name"], 0, 3);
+      $sku = $attribute_data["color"] . $product_data["category_id"] . $name;
+      $product_data["sku"] = $sku;
+      $product->setData($product_data);
       //print_r($request->getQuery("catlog_product"));
 
+      $product_data_model = $product->save();
+      $tablename = $product_attribute->getResource()->getTablename();
+      foreach ($attribute_data as $key => $value) {
+         $single_attribute = $product_attribute->getCollection()->addFieldToFilter("name", ["=" => $key]);
+         $data1 = $single_attribute->getData();
+         $attr_data["product_id"] = $product_data_model->getProductId();
+         $attr_data["attribute_id"] = $data1[0]->getAttributeId();
+         $attr_data["value"] = $value;
 
-      $product->save();
-      //print_r($product);
-      $url = $layout->getUrl("*/*/list");
-      header("Location:" . $url);
-      //   die();
+         // print_r($data1[0]->getAttributeId());
+      }
+      $tablename = $product_gallrey->getResource()->getTablename();
+      $count_images = count($_FILES[$tablename]["name"]["images"]);
+      // print_r($_FILES["catalog_media_gallrey"]["name"]["images"]);
+      // print(count($_FILES["catalog_media_gallrey"]["name"]["images"]));
+      for ($i = 0; $i < $count_images; $i++) {
+         if ($_FILES[$tablename]["name"]["images"][$i] && $_FILES[$tablename]["error"]["images"][$i] == 0) {
 
-      // //print(__CLASS__." <br>" . __FUNCTION__);
-      // $layout = Mage::getBlock('core/layout');
-      // $cartview = $layout->createBlock('Admin/Product_Save')
-      //    ->setTemplate('admin/product/save.phtml');
-      // //    print_r($view);
-      // $layout->getChild('content')->addChild('cartindex', $cartview);
-      // //print_r($layout);
-      // $layout->toHtml();
+            $base_dir = Mage::getBaseDir();
+            $upload_dir = $base_dir . DS . "media" . DS .  $tablename;
+
+            if (!file_exists($upload_dir)) {
+               mkdir($upload_dir, 0755, true);
+            }
+
+            $tmp_name = $_FILES[$tablename]["tmp_name"]["images"][$i];
+            $filename = basename($_FILES[$tablename]["name"]["images"][$i]);
+            $upload_path = $upload_dir . DS . $filename;
+
+            if (move_uploaded_file($tmp_name, $upload_path)) {
+               // Mage::log("File uploaded: " . $upload_path, null, 'custom_upload.log', true);
+               $data["file_path"] = $filename;
+               $data["type"] = "image";
+               $data["product_id"] = $product_data_model->getProductId();
+               $product_gallrey->setData($data);
+               $product_gallrey->save();
+            } else {
+            }
+         } else {
+         }
+      }
+      print($product_gallrey->getProductId());
    }
    public function deleteAction()
    {
@@ -125,5 +141,26 @@ class Admin_Controller_Product_Index
    //      echo $product->getCategoryId();
 
    //  }
-  
+   public function testAction()
+   {
+      $request = Mage::getModel("core/request");
+      $product = Mage::getModel('catalog/product');
+      $layout = Mage::getBlock("core/layout");
+      // $id = $request->getQuery("id");
+      //print("the id is ".$id);
+      //$request->delete($id);
+      echo "<pre>";
+      // $prod_Deldata = $product->getResource()->load(65);
+      // print_r($prod_Deldata);
+
+      // $request2=Mage::getModel("catalog/product");
+      // print_r($request2);
+      $request_single = Mage::getSingleton("catalog/product");
+      $request_single->name = "abcdefg";
+      print_r($request_single);
+
+      $request_single2 = Mage::getSingleton("catalog/product")->load(65);
+
+      print_r($request_single2);
+   }
 }

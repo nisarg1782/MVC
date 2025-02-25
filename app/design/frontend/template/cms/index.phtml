@@ -1,0 +1,214 @@
+<!-- 
+<?php //print_r($this);?>
+<style>
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Banner Slider */
+.mySwiper {
+    width: 100%;
+    height: 400px;
+}
+.mySwiper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Product Slider */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.swiper-slide {
+    text-align: center;
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+.swiper-slide:hover {
+    transform: translateY(-5px);
+}
+.swiper-slide img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.swiper-slide h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+.swiper-slide p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Swiper Navigation */
+.swiper-button-next, .swiper-button-prev {
+    color: #333;
+}
+.swiper-pagination-bullet-active {
+    background: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .mySwiper {
+        height: 300px;
+    }
+    .swiper-slide img {
+        height: 150px;
+    }
+}
+@media (max-width: 768px) {
+    .mySwiper {
+        height: 250px;
+    }
+    .swiper-slide {
+        padding: 10px;
+    }
+    .swiper-slide img {
+        height: 120px;
+    }
+}
+@media (max-width: 480px) {
+    .mySwiper {
+        height: 200px;
+    }
+    .swiper-slide img {
+        height: 100px;
+    }
+    .swiper-slide h3 {
+        font-size: 14px;
+    }
+    .swiper-slide p {
+        font-size: 12px;
+    }
+}
+</style>
+<body class="bg-gray-100">
+<h1>Hello index cms</h1>
+     Banner Slider -->
+    <!-- <div class="swiper mySwiper w-full h-[400px]">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="https://via.placeholder.com/1600x400/FF5733/FFF?text=Banner+1"
+                    class="w-full h-full object-cover"></div>
+            <div class="swiper-slide"><img src="https://via.placeholder.com/1600x400/33A1FF/FFF?text=Banner+2"
+                    class="w-full h-full object-cover"></div>
+            <div class="swiper-slide"><img src="https://via.placeholder.com/1600x400/FFC133/FFF?text=Banner+3"
+                    class="w-full h-full object-cover"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div> -->
+
+    <!-- Product Slider -->
+    <!-- <div class="container mx-auto my-10 px-4">
+        <h2 class="text-2xl font-bold mb-4">Featured Products</h2>
+        <div class="swiper mySwiper2">
+            <div class="swiper-wrapper"> -->
+                <!-- Sample Products -->
+                <!-- <div class="swiper-slide p-4 bg-white shadow rounded-lg">
+                    <img src="https://via.placeholder.com/200" class="w-full h-40 object-cover mb-2">
+                    <h3 class="font-semibold text-lg">Product 1</h3>
+                    <p class="text-gray-600">$100</p>
+                </div>
+                <div class="swiper-slide p-4 bg-white shadow rounded-lg">
+                    <img src="https://via.placeholder.com/200" class="w-full h-40 object-cover mb-2">
+                    <h3 class="font-semibold text-lg">Product 2</h3>
+                    <p class="text-gray-600">$120</p>
+                </div>
+                <div class="swiper-slide p-4 bg-white shadow rounded-lg">
+                    <img src="https://via.placeholder.com/200" class="w-full h-40 object-cover mb-2">
+                    <h3 class="font-semibold text-lg">Product 3</h3>
+                    <p class="text-gray-600">$80</p>
+                </div>
+                <div class="swiper-slide p-4 bg-white shadow rounded-lg">
+                    <img src="https://via.placeholder.com/200" class="w-full h-40 object-cover mb-2">
+                    <h3 class="font-semibold text-lg">Product 4</h3>
+                    <p class="text-gray-600">$95</p>
+                </div>
+                <div class="swiper-slide p-4 bg-white shadow rounded-lg">
+                    <img src="https://via.placeholder.com/200" class="w-full h-40 object-cover mb-2">
+                    <h3 class="font-semibold text-lg">Product 5</h3>
+                    <p class="text-gray-600">$110</p>
+                </div>
+                <div class="swiper-slide p-4 bg-white shadow rounded-lg">
+                    <img src="https://via.placeholder.com/200" class="w-full h-40 object-cover mb-2">
+                    <h3 class="font-semibold text-lg">Product 6</h3>
+                    <p class="text-gray-600">$130</p>
+                </div>
+                <div class="swiper-slide p-4 bg-white shadow rounded-lg">
+                    <img src="https://via.placeholder.com/200" class="w-full h-40 object-cover mb-2">
+                    <h3 class="font-semibold text-lg">Product 7</h3>
+                    <p class="text-gray-600">$90</p>
+                </div>
+                <div class="swiper-slide p-4 bg-white shadow rounded-lg">
+                    <img src="https://via.placeholder.com/200" class="w-full h-40 object-cover mb-2">
+                    <h3 class="font-semibold text-lg">Product 8</h3>
+                    <p class="text-gray-600">$85</p>
+                </div>
+                <div class="swiper-slide p-4 bg-white shadow rounded-lg">
+                    <img src="https://via.placeholder.com/200" class="w-full h-40 object-cover mb-2">
+                    <h3 class="font-semibold text-lg">Product 9</h3>
+                    <p class="text-gray-600">$105</p>
+                </div>
+                <div class="swiper-slide p-4 bg-white shadow rounded-lg">
+                    <img src="https://via.placeholder.com/200" class="w-full h-40 object-cover mb-2">
+                    <h3 class="font-semibold text-lg">Product 10</h3>
+                    <p class="text-gray-600">$115</p>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div> -->
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script>
+        // Banner Slider
+        var swiper = new Swiper(".mySwiper", {
+            spaceBetween: 30,
+            centeredSlides: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            }, -->
+        <!-- });
+
+        // Product Slider
+        var swiper2 = new Swiper(".mySwiper2", {
+            slidesPerView: 5,
+            spaceBetween: 20,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+    </script> -->
+
+<!-- </body> -->

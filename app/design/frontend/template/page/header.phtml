@@ -1,12 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <?php
+    $data = $this->getCategories();
+    ?>
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #222;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            margin-right: 20px;
+        }
+
+        .logo img {
+            height: 40px;
+            cursor: pointer;
+        }
+
+        nav {
+            flex-grow: 1;
+        }
+
+        nav .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .menu li {
+            position: relative;
+            margin-right: 15px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .menu a:hover {
+            color: #f8b400;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            color: black;
+            list-style: none;
+            padding: 0;
+            border: 1px solid #ddd;
+            width: 160px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu li {
+            padding: 10px;
+        }
+
+        .dropdown-menu a {
+            color: black;
+            display: block;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f8b400;
+            color: white;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .login-btn,
+        .cart-icon {
+            margin-left: 15px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .login-btn:hover,
+        .cart-icon:hover {
+            color: #f8b400;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Header</h1>
-    
-</body>
-</html>
+    <header>
+        <div class="logo">
+            <a href="#" onclick="location.reload();">
+                <img src="https://www.zilliondesigns.com/images/portfolio/ecommerce/image8.png" alt="E-commerce Logo">
+            </a>
+        </div>
+        <nav>
+            <ul class="menu">
+                <li class="dropdown">
+                    <a href="#">Categories</a>
+                    <ul class="dropdown-menu">
+                        <?php foreach ($data as $category): ?>
+                            <li><a href="#" data-value="<?= $category->getCategoryId(); ?>"><?= $category->getName(); ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="actions">
+            <button class="login-btn">Login</button>
+            <div class="cart-icon">🛒</div>
+        </div>
+    </header>

@@ -6,13 +6,19 @@ class Admin_Block_Product_New extends Core_Block_Template
     public function __construct()
     {
     }
+    public function getCategoryData()
+    {
+        $catdata = Mage::getModel("catalog/category")->getCollection();
+        $this->cat_data = $catdata->getdata();
+        return $this->cat_data;
+
+    }
     public function getProdData()
     {
-        
         //$product_id = Core_Model_Request::getQuery("id");
         $request=Mage::getModel("core/request");
         $product_id=$request->getQuery("id");
-        print("the id is ".$product_id);
+        //print("the id is ".$product_id);
         $catdata = Mage::getModel("catalog/category")->getCollection();
         $this->cat_data = $catdata->getdata();
         if ($product_id) {
@@ -31,5 +37,11 @@ class Admin_Block_Product_New extends Core_Block_Template
         $classname = "Admin_Block_Html_Elements_Text";
         $element = new $classname($field,$data);
         return $element->render();
+    }
+    public function getAttributes()
+    {
+        $model=Mage::getModel("catalog/attribute");
+        $data=$model->getCollection()->getdata();
+        return $data;
     }
 }

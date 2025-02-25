@@ -34,8 +34,8 @@ class Core_Model_Resource_Abstract
     public function delete($model)
     {
         $data = $model->getData();
-        print_r($data);
-        
+        // print_r($data);
+
         $sql = "DELETE FROM {$this->_tableName} WHERE {$this->_primaryKey}=$data";
         //print("the sql is ".$sql);
 
@@ -45,43 +45,20 @@ class Core_Model_Resource_Abstract
     {
         $primary_id = 0;
         $data = $model->getData();
-        
+
         $sql = "";
         $conditions = [];
 
-        // print_r($_FILES);
-        // if($_FILES[$this->_tableName]["name"]["image"] && $_FILES[$this->_tableName]["error"]["image"]==0)
-        // {
-        //     $base_dir=Mage::getBaseDir();
-        //     print_r($base_dir);
-        //     print("<br>");
-
-        //     $upload_dir=$base_dir."Media/".$this->_tableName;
-        //     if (!file_exists($upload_dir)) {
-        //         mkdir($upload_dir, 0755, true); 
-        //     }
-        //     $filename=basename($_FILES[$this->_tableName]["name"]["image"]);
-        //     print("the file name is ".$filename);
-        //     $upload_dir.="/".$filename;
-        //     print($upload_dir);
-            
-        //     if(move_uploaded_file($_FILES[$this->_tableName]["tmp_name"]["image"],$upload_dir))
-        //     {
-        //         $data["image"]=$filename;
-            
-        //     }
-           
-        // }
-    
+       
         if (isset($data[$this->_primaryKey]) && $data[$this->_primaryKey]) {
-        
-        
+
+
             $primary_id = $data[$this->_primaryKey];
             unset($data[$this->_primaryKey]);
 
             foreach ($data as $key => $val) {
 
-                
+
                 $conditions[] = sprintf(" `{$key}` ='%s'", addslashes($val));
             }
             //print_r($conditions);
@@ -90,7 +67,7 @@ class Core_Model_Resource_Abstract
 
             return $this->getAdapter()->query($sql);
         } else {
-            
+
             $cols = [];
             $values = [];
             foreach ($data as $key => $value) {
@@ -110,8 +87,9 @@ class Core_Model_Resource_Abstract
             );
             //print($sql);
             $id = $this->getAdapter()->insert($sql);
-            print("id is " . $id);
+            // print("id is " . $id);
             $model->load($id);
+            return $id;
         }
         //print(get_class($model));
 

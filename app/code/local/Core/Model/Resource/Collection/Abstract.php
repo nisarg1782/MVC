@@ -24,7 +24,7 @@ class Core_Model_Resource_Collection_Abstract
     {
 
         $sql = sprintf("SELECT %s FROM %s", implode(",", $this->_select["COLUMNS"]), $this->_select["FROM"]);
-        print_r($this->prepareQuery());
+        // print_r($this->prepareQuery());
 
         $data = $this->_resourcename->getAdapter()->FetchAll($this->prepareQuery());
         //print_r($data);
@@ -41,7 +41,7 @@ class Core_Model_Resource_Collection_Abstract
             $condition = ["=" => $condition];
         }
         $this->_select["WHERE"][$field][] = $condition;
-
+        
         return $this;
     }
 
@@ -97,6 +97,7 @@ class Core_Model_Resource_Collection_Abstract
             //print_r($wheresql);
 
             $query .= $wheresql;
+            
         }
         if (isset($this->_select["GROUP_BY"])) {
             $group = [];
@@ -175,7 +176,8 @@ class Core_Model_Resource_Collection_Abstract
                             case "<=":
                             case "<>":
                             case "eq":
-                                $where = "$field $op $_value";
+                            case "!=":
+                                $where = "$field $op '$_value'"; // add for string match
                                 break;
 
                             default:
@@ -260,9 +262,9 @@ class Core_Model_Resource_Collection_Abstract
         $this->_select["HAVING"][$field][] = $condition;
         return $this;
     }
-    public function alias($field,$aliasName)
+    public function alias($field, $aliasName)
     {
-        $this->_select["COLUMNS"][]=sprintf("%s.%s AS %s",$this->_resourcename->getTablename(),$field,$aliasName);
+        $this->_select["COLUMNS"][] = sprintf("%s.%s AS %s", $this->_resourcename->getTablename(), $field, $aliasName);
         return $this;
     }
 

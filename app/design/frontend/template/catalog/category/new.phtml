@@ -1,0 +1,28 @@
+<?php
+$data = $this->getParentCategory();
+?>
+
+<body>
+    <h2>Catalog Category Form</h2>
+    <form method="post" action="<?php echo $this->getUrl('*/*/save'); ?>">
+
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="catalog_category[name]" required maxlength="255"><br><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="catalog_category[description]"></textarea><br><br>
+        <label for="parent_id">Parent Category Name:</label>
+        <select id="parent_id" name="catalog_category[parent_id]">
+            <?php foreach ($data as $_data): ?>
+                <option value="<?php echo $_data->getCategoryId(); ?>"><?php echo $_data->getname(); ?></option>
+            <?php endforeach; ?>
+        </select><br><br>
+
+
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>

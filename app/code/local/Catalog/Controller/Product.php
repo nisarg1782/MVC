@@ -1,7 +1,6 @@
 <?php
 class Catalog_Controller_Product
 {
-
     public function viewAction()
     {
         $layout = Mage::getBlock('core/layout');
@@ -19,6 +18,7 @@ class Catalog_Controller_Product
         $layout->getChild('content')->addChild('list', $list);
         $layout->toHtml();
     }
+    
     // public function testAction()
     // {
 

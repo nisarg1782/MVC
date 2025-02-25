@@ -4,7 +4,7 @@ class Core_Model_DB_Adapter
     public $connect = null;
     protected $_config = [
         "hotsname" => "localhost",
-        "dbname" => "internshipproject",
+        "dbname" => "ccc_project",
         "username" => "root",
         "password" => ""
     ];
