@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
 <body>
     <h1>Category listing page</h1>
     <?php
     $data = $this->listCatdata();
+    // $data=array_unshift($data);
     //print_r($data);
     ?>
     <table border=5 cellspacing=5px cellpadding=10px>
@@ -21,21 +21,43 @@
             <th>Parent Category Name</th>
             <th>created at</th>
             <th>Updated at</th>
+            <th>Delete</th>
+            <th>Update</th>
         </thead>
         <tbody>
             <?php foreach ($data as $data): ?>
-                <tr>
-                    <td><?php echo $data->getCategoryId(); ?></td>
-                    <td><?php echo $data->getName(); ?></td>
-                    <td><?php echo $data->getDescription(); ?></td>
-                    <td><?php echo $data->getParentId(); ?></td>
-                    <td><?php echo $data->getCreatedAt(); ?></td>
-                    <td><?php echo $data->getUpdatedAt(); ?></td>
+            <tr>
+                <td><?php echo $data->getCategoryId(); ?></td>
+                <td><?php echo $data->getName(); ?></td>
+                <td><?php echo $data->getDescription(); ?></td>
+                <td><?php echo $data->getParentId(); ?></td>
+                <td><?php echo $data->getCreatedAt(); ?></td>
+                <td><?php echo $data->getUpdatedAt(); ?></td>
+                <?php
 
-                </tr>
+                    $id = $data->getCategoryId();
+                    $url = Mage::getBaseUrl();
+                    ?>
+                <td>
+                    <a href="<?php echo $url; ?>catalog/category/delete/?id=<?php echo $id; ?>"
+                        onclick="return deleteprod();">
+                        Delete
+                    </a>
+                </td>
+
+                <td><a href="<?php echo $url ?>catalog/category/new/?id=<?php echo $id; ?>">Edit</a></td>
+
+
+
+            </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
+    <Script>
+    function deleteprod() {
+        return confirm("are you sure you wanted to delete");
+    }
+    </script>
 </body>
 
 </html>

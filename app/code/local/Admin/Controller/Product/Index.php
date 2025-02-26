@@ -63,19 +63,51 @@ class Admin_Controller_Product_Index
 
       $product_data_model = $product->save();
       $tablename = $product_attribute->getResource()->getTablename();
+
+      // for storing attributes in attribute tables 
+      
       foreach ($attribute_data as $key => $value) {
          $single_attribute = $product_attribute->getCollection()->addFieldToFilter("name", ["=" => $key]);
          $data1 = $single_attribute->getData();
          $attr_data["product_id"] = $product_data_model->getProductId();
          $attr_data["attribute_id"] = $data1[0]->getAttributeId();
          $attr_data["value"] = $value;
+         $attribute_model = Mage::getModel("Catalog/Product_Attribute");
+         $attribute_model->setData($attr_data);
+         $attribute_productid = $attribute_model->save();
 
          // print_r($data1[0]->getAttributeId());
       }
+
+      // for storing Images in media gallery
       $tablename = $product_gallrey->getResource()->getTablename();
       $count_images = count($_FILES[$tablename]["name"]["images"]);
       // print_r($_FILES["catalog_media_gallrey"]["name"]["images"]);
       // print(count($_FILES["catalog_media_gallrey"]["name"]["images"]));
+      // if ($_FILES[$tablename]["name"]["main_image"] && $_FILES[$tablename]["error"]["main_image"] == 0) {
+
+      //    $base_dir = Mage::getBaseDir();
+      //    $upload_dir = $base_dir . DS . "media" . DS .  $tablename;
+
+      //    if (!file_exists($upload_dir)) {
+      //       mkdir($upload_dir, 0755, true);
+      //    }
+
+      //    $tmp_name = $_FILES[$tablename]["tmp_name"]["main_image"];
+      //    $filename = basename($_FILES[$tablename]["name"]["main_image"]);
+      //    $upload_path = $upload_dir . DS . $filename;
+
+      //    if (move_uploaded_file($tmp_name, $upload_path)) {
+      //       // Mage::log("File uploaded: " . $upload_path, null, 'custom_upload.log', true);
+      //       $data["main_image"] = $filename;
+      //       $data["type"] = "image";
+      //       $data["product_id"] = $product_data_model->getProductId();
+      //       $product_gallrey->setData($data);
+      //       $product_gallrey->save();
+      //    }
+      // } 
+
+
       for ($i = 0; $i < $count_images; $i++) {
          if ($_FILES[$tablename]["name"]["images"][$i] && $_FILES[$tablename]["error"]["images"][$i] == 0) {
 
@@ -102,7 +134,10 @@ class Admin_Controller_Product_Index
          } else {
          }
       }
-      print($product_gallrey->getProductId());
+      $url = $layout->getUrl("*/*/list");
+      header("Location:" . $url);
+
+      // print($product_gallrey->getProductId());
    }
    public function deleteAction()
    {

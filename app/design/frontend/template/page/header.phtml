@@ -1,121 +1,141 @@
 <head>
     <?php
     $data = $this->getCategories();
+    // $url=Mage::getBaseUrl()."Catalog
     ?>
     <script defer src="script.js"></script>
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
+       /* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #222;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+/* ====== HEADER STYLES ====== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #222;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensures header stays above other content */
+}
 
-        .logo {
-            margin-right: 20px;
-        }
+body {
+    padding-top: 70px; /* Push content down to prevent it from hiding under the fixed header */
+}
 
-        .logo img {
-            height: 40px;
-            cursor: pointer;
-        }
+.logo {
+    margin-right: 20px;
+}
 
-        nav {
-            flex-grow: 1;
-        }
+.logo img {
+    height: 40px;
+    cursor: pointer;
+}
 
-        nav .menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-        }
+/* Navigation Menu */
+nav {
+    flex-grow: 1;
+}
 
-        .menu li {
-            position: relative;
-            margin-right: 15px;
-        }
+nav .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
 
-        .menu a {
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            transition: color 0.3s ease;
-        }
+.menu li {
+    position: relative;
+    margin-right: 15px;
+}
 
-        .menu a:hover {
-            color: #f8b400;
-        }
+.menu a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
 
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            color: black;
-            list-style: none;
-            padding: 0;
-            border: 1px solid #ddd;
-            width: 160px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
+.menu a:hover {
+    color: #f8b400;
+}
 
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
+/* Dropdown */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    color: black;
+    list-style: none;
+    padding: 0;
+    border: 1px solid #ddd;
+    width: 160px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
 
-        .dropdown-menu li {
-            padding: 10px;
-        }
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
 
-        .dropdown-menu a {
-            color: black;
-            display: block;
-            transition: background 0.3s ease;
-        }
+.dropdown-menu li {
+    padding: 10px;
+}
 
-        .dropdown-menu a:hover {
-            background: #f8b400;
-            color: white;
-        }
+.dropdown-menu a {
+    color: black;
+    display: block;
+    transition: background 0.3s ease;
+}
 
-        .actions {
-            display: flex;
-            align-items: center;
-        }
+.dropdown-menu a:hover {
+    background: #f8b400;
+    color: white;
+}
 
-        .login-btn,
-        .cart-icon {
-            margin-left: 15px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
+/* Actions (Login & Cart) */
+.actions {
+    display: flex;
+    align-items: center;
+}
 
-        .login-btn:hover,
-        .cart-icon:hover {
-            color: #f8b400;
-        }
+.login-btn,
+.cart-icon {
+    margin-left: 15px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.login-btn:hover,
+.cart-icon:hover {
+    color: #f8b400;
+}
+
+/* ====== PRODUCT SECTION STYLES ====== */
+
     </style>
 </head>
 
 <body>
     <header>
         <div class="logo">
-            <a href="#" onclick="location.reload();">
+            <a href="" onclick="location.reload();">
                 <img src="https://www.zilliondesigns.com/images/portfolio/ecommerce/image8.png" alt="E-commerce Logo">
             </a>
         </div>
@@ -125,7 +145,7 @@
                     <a href="#">Categories</a>
                     <ul class="dropdown-menu">
                         <?php foreach ($data as $category): ?>
-                            <li><a href="#" data-value="<?= $category->getCategoryId(); ?>"><?= $category->getName(); ?></a></li>
+                            <li><a href="" data-value="<?= $category->getCategoryId(); ?>"><?= $category->getName(); ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </li>

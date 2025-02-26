@@ -32,17 +32,27 @@ class Catalog_Controller_Category
         $layout = Mage::getBlock('core/layout');
         echo "<pre>";
         $data = $request->getParam("catalog_category");
-       
-    
-
         $product->setData($data);
-
-
-
         $product->save();
         print("data saved");
+        $url = $layout->getUrl("*/*/list");
+        header("Location:" . $url);
+    }
+    public function deleteAction()
+    {
+        $request = Mage::getModel("core/request");
+        $product = Mage::getModel('catalog/category');
+        $layout = Mage::getBlock("core/layout");
+        $new = $layout->createBlock('catalog/category_delete');
+        $id = $request->getQuery("id");
+        //print("the id is ".$id);
+        //$request->delete($id);
+        $prod_Deldata = $product->getResource()->load($id);
+        print_r($prod_Deldata);
+        $product->setData($id);
+        $product->delete();
 
-        $url = $layout->getUrl("*/*/new");
+        $url = $layout->getUrl("*/*/list");
         header("Location:" . $url);
     }
 }

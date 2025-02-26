@@ -2,12 +2,14 @@
 html, body {
     height: 100%;
     margin: 0;
+    width: 100%;  /* Ensure full width */
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Full height */
+    min-height: 100vh; /* Full viewport height */
+    width: 100%;  /* Ensure full width */
 }
 
 .content {
@@ -19,9 +21,56 @@ footer {
     color: white;
     text-align: center;
     padding: 10px 0;
+    width: 100%;  /* Ensure footer spans full width */
+    position: relative; /* Ensures it stays inside container */
 }
-</style>
+#backToTop {
+    display: none; /* Hidden by default */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background 0.3s, opacity 0.3s;
+    opacity: 0.8;
+}
 
+#backToTop:hover {
+    background-color: #0056b3;
+    opacity: 1;
+}
+
+
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const backToTopButton = document.getElementById("backToTop");
+
+    // Show button when scrolling down
+    window.addEventListener("scroll", function () {
+        if (window.scrollY > 200) { // Show after 200px scroll
+            backToTopButton.style.display = "block";
+        } else {
+            backToTopButton.style.display = "none";
+        }
+    });
+
+    // Scroll smoothly to top when clicked
+    backToTopButton.addEventListener("click", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+});
+
+    </script>
 <div class="container">
     <div class="content">
         <!-- Your main content here -->
