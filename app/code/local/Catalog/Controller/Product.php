@@ -18,7 +18,7 @@ class Catalog_Controller_Product
         $layout->getChild('content')->addChild('list', $list);
         $layout->toHtml();
     }
-    
+
     // public function testAction()
     // {
 
@@ -69,4 +69,14 @@ class Catalog_Controller_Product
     //     // echo "<pre>";
     //     //print_r($product);
     // }
+    public function testAction()
+    {
+        echo "<pre>";
+        echo "<pre>";
+        $collections = Mage::getModel("catalog/product")
+        ->load("56");
+            
+        print_r($collections);
+        echo "</pre>";
+    }
 }

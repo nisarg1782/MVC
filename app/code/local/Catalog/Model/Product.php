@@ -17,4 +17,23 @@ class Catalog_Model_Product extends Core_Model_Abstract
 
         return isset($this->status[$this->getProductStatus()]) ? $this->status[$this->getProductStatus()] : "NA";
     }
+    protected function _afterLoad()
+    {
+        if ($this->getProductId()) {
+            $collection = Mage::getModel("catalog/product_Attribute")
+                ->getcollection()
+                ->addFieldToFilter("product_id", $this->getProductId())
+                ->joinLeft(
+                    ["attr" => "catalog_attribute"],
+                    "attr.attribute_id = main_table.attribute_id",
+                    ["name" => "name"]
+                ); // echo "<pre>";
+            // print_r($collection->getData());
+            // echo "</pre>";
+            foreach ($collection->getData() as $_data) {
+                $this->{$_data->getName()} = $_data->getValue();
+            }
+        }
+        return $this;
+    }
 }

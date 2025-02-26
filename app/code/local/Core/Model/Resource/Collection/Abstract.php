@@ -15,15 +15,21 @@ class Core_Model_Resource_Collection_Abstract
         $this->_model = $model;
         return $this;
     }
-    public function select()
+    public function select($columns = ["*"])
     {
-        $this->_select["FROM"] = $this->_resourcename->getTablename();
-        $this->_select["COLUMNS"] = ["*"];
+        $this->_select['FROM'] = ["main_table" => $this->_resourcename->getTableName()];
+        // $this->_select['COLUMNS'] = is_array($columns) ? $columns : [$columns];
+        $columns = is_array($columns) ? $columns : [$columns];
+        foreach ($columns as $column) {
+            $this->_select['COLUMNS'][] = "main_table." . $column;
+        }
+        return $this;
     }
+
     public function getdata()
     {
 
-        $sql = sprintf("SELECT %s FROM %s", implode(",", $this->_select["COLUMNS"]), $this->_select["FROM"]);
+        // $sql = sprintf("SELECT %s FROM %s", implode(",", $this->_select["COLUMNS"]), $this->_select["FROM"]);
         // print_r($this->prepareQuery());
 
         $data = $this->_resourcename->getAdapter()->FetchAll($this->prepareQuery());
@@ -41,23 +47,30 @@ class Core_Model_Resource_Collection_Abstract
             $condition = ["=" => $condition];
         }
         $this->_select["WHERE"][$field][] = $condition;
-        
+
         return $this;
     }
 
+
     public function prepareQuery()
     {
-        $query = sprintf("SELECT %s FROM %s", implode(",", $this->_select["COLUMNS"]), $this->_select["FROM"]);
+        $query = sprintf("SELECT %s FROM %s AS %s", implode(",", $this->_select["COLUMNS"]), array_values($this->_select["FROM"])[0], array_keys($this->_select["FROM"])[0]);
         $where = [];
 
         $join_sql = "";
 
-        if (isset($this->_select["JOIN_LEFT"])) {
-
-            foreach ($this->_select["JOIN_LEFT"] as $join_left) {
-                $join_sql .= sprintf("LEFT JOIN %s ON %s ", $join_left['tablename'], $join_left['conditions']);
+        if (isset($this->_select['LEFT_JOIN'])) {
+            $leftjoinsql = "";
+            foreach ($this->_select["LEFT_JOIN"] as $leftjoin) {
+                $leftjoinsql .= sprintf(
+                    " LEFT JOIN %s AS %s ON %s ",
+                    array_values($leftjoin['tablename'])[0],
+                    array_keys($leftjoin['tablename'])[0],
+                    $leftjoin['condition']
+                );
             }
-            $query .= " " . $join_sql;
+            $query .= " " . $leftjoinsql;
+           
         }
         if (isset($this->_select["JOIN_RIGHT"])) {
             foreach ($this->_select["JOIN_RIGHT"] as $join_right) {
@@ -97,7 +110,6 @@ class Core_Model_Resource_Collection_Abstract
             //print_r($wheresql);
 
             $query .= $wheresql;
-            
         }
         if (isset($this->_select["GROUP_BY"])) {
             $group = [];
@@ -191,13 +203,20 @@ class Core_Model_Resource_Collection_Abstract
             }
         }
     }
-    public function joinLeft($tablename, $condition, $columns)
+    public function joinLeft($tableName, $condition, $columns)
     {
-        $this->_select["JOIN_LEFT"][] = ["tablename" => $tablename, "conditions" => $condition, "columns" => $columns];
-
-        foreach ($columns as $alias => $column) {
-
-            $this->_select["COLUMNS"][] = sprintf("%s.%s AS %s", $tablename, $column, $alias);
+        $this->_select["LEFT_JOIN"][] = [
+            "tablename" => $tableName,
+            "condition" => $condition,
+            "columns" => $columns
+        ];
+        foreach ($columns as $alias => $columnname) {
+            $this->_select['COLUMNS'][] = sprintf(
+                "%s.%s AS %s",
+                array_keys($tableName)[0],
+                $columnname,
+                $alias
+            );
         }
         return $this;
     }
@@ -266,6 +285,14 @@ class Core_Model_Resource_Collection_Abstract
     {
         $this->_select["COLUMNS"][] = sprintf("%s.%s AS %s", $this->_resourcename->getTablename(), $field, $aliasName);
         return $this;
+    }
+    private function getTableAlias($table)
+    {
+        return array_keys($table)[0];
+    }
+    private function getTableName($table)
+    {
+        return array_values($table)[0];
     }
 
 

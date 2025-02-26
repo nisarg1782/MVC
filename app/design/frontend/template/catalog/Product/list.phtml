@@ -129,8 +129,10 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
     <script>
         $(document).ready(function() {
             function filterProducts() {
-                let minPrice = $("input[name='min_price']").val().trim() !== "" ? parseFloat($("input[name='min_price']").val()) : 0;
-                let maxPrice = $("input[name='max_price']").val().trim() !== "" ? parseFloat($("input[name='max_price']").val()) : Infinity;
+                let minPrice = $("input[name='min_price']").val().trim() !== "" ? parseFloat($(
+                    "input[name='min_price']").val()) : 0;
+                let maxPrice = $("input[name='max_price']").val().trim() !== "" ? parseFloat($(
+                    "input[name='max_price']").val()) : Infinity;
 
                 console.log("Min Price:", minPrice, "Max Price:", maxPrice);
 
@@ -178,8 +180,8 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
                 </div>
                 <button type="submit">Apply Filters</button>
             </form>
-        </div>
 
+        </div>
         <!-- Product Display Section -->
         <div class="product-section">
             <div id="product-container" class="container">
@@ -210,6 +212,17 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
             </div>
         </div>
     </div>
+    <script>
+        //     setInterval(function () {
+        //     let before = performance.now();
+        //     debugger; // This will slow down execution if DevTools is open
+        //     let after = performance.now();
+        //     if (after - before > 100) {
+        //         alert("Developer tools detected! Please close DevTools.");
+        //         window.location.href = "about:blank"; // Redirect user
+        //     }
+        // }, 1000); important script to detect dev tools
+    </script>
 </body>
 
 </html>
