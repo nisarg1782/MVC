@@ -13,8 +13,6 @@ class Catalog_Model_Product extends Core_Model_Abstract
     ];
     public function getProductStatusText()
     {
-        // echo $this->getProductStatus();
-
         return isset($this->status[$this->getProductStatus()]) ? $this->status[$this->getProductStatus()] : "NA";
     }
     protected function _afterLoad()
@@ -27,13 +25,29 @@ class Catalog_Model_Product extends Core_Model_Abstract
                     ["attr" => "catalog_attribute"],
                     "attr.attribute_id = main_table.attribute_id",
                     ["name" => "name"]
-                ); // echo "<pre>";
-            // print_r($collection->getData());
-            // echo "</pre>";
-            foreach ($collection->getData() as $_data) {
-                $this->{$_data->getName()} = $_data->getValue();
+                );
+
+            $data = $collection->getData();
+
+            foreach ($data as $_data) {
+                $this->{$_data->getname()} = $_data->getvalue();
             }
         }
         return $this;
+    }
+    protected function _afterSave() {
+        $attr_data=$this->getadddata();
+        $attribute_model=Mage::getModel("catalog/product_attribute");
+       for($i=0;$i<count($attr_data);$i++)
+       {
+        $attr_data[$i]["product_id"]=$this->getProductId();
+        $attribute_model->setdata($attr_data[$i]);
+        $attribute_model->save();
+       }
+       
+      print_r($this->getadddata());
+      die;
+    //    print_r($attr_data);
+        
     }
 }

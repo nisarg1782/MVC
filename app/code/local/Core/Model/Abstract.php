@@ -4,6 +4,7 @@ class Core_Model_Abstract
     protected $_resourceClassName = "";
     protected $_collectionClassName = "";
     protected $_data = [];
+    protected $_extradata = [];
     public function init() {}
     public function __construct()
     {
@@ -26,6 +27,15 @@ class Core_Model_Abstract
         $this->_data = $data;
         return $this;
     }
+    // public function setadddata($data)
+    // {
+    //     $this->_extradata[] = $data;
+    //     return $this;
+    // }
+    // public function getadddata()
+    // {
+    //     return $this->_extradata;
+    // }
     public function getdata()
     {
         return $this->_data;
@@ -62,7 +72,11 @@ class Core_Model_Abstract
     public function load($value, $field = null)
     {
         $this->_data = $this->getResource()->load($value, $field);
+        // print("the data is ");
+        // print_r($this->_data);
+
         // echo "<pre>";// print_r($this);
+
         // echo "</pre>";
         $this->_afterLoad();
         return $this;
@@ -83,10 +97,15 @@ class Core_Model_Abstract
     public function save()
     {
         $this->getResource()->save($this);
+        // $this->_afterSave();
         return $this;
     }
     protected function _afterLoad()
     {
         // return $this;
+    }
+    protected function _afterSave()
+    {
+       
     }
 }

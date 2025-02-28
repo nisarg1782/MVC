@@ -26,9 +26,9 @@ class Core_Model_Resource_Abstract
     {
         return new Core_Model_DB_Adapter();
     }
-    public function load($value,$field=null)
+    public function load($value, $field = null)
     {
-        $field=(is_null($field))?$this->_primaryKey:$field;
+        $field = (is_null($field)) ? $this->_primaryKey : $field;
         $sql = "SELECT * FROM {$this->_tableName} WHERE {$field}='$value'  LIMIT 1";
         return $this->getAdapter()->fetchRow($sql);
     }
@@ -50,7 +50,7 @@ class Core_Model_Resource_Abstract
         $sql = "";
         $conditions = [];
 
-       
+
         if (isset($data[$this->_primaryKey]) && $data[$this->_primaryKey]) {
 
 
@@ -77,8 +77,7 @@ class Core_Model_Resource_Abstract
             }
             $columns = implode("`,`", $cols);
             $_values = implode("','", $values);
-            //$sql="INSERT INTO {$this->_tableName} (". implode(",",$cols).") VALUES (".implode(",",$values) .")";
-            //$sql=sprintf("INSERT INTO %s (`%s`) VALUES (`%s`)",$this->_tableName,$columns,$_values);
+            
 
             $sql = sprintf(
                 "INSERT INTO %s (`%s`) VALUES ('%s')",
@@ -86,10 +85,14 @@ class Core_Model_Resource_Abstract
                 $columns,
                 $_values
             );
-            //print($sql);
+            
             $id = $this->getAdapter()->insert($sql);
-            // print("id is " . $id);
+            
             $model->load($id);
+           print_r($model);
+           
+            
+
             return $id;
         }
         //print(get_class($model));

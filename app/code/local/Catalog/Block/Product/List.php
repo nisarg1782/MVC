@@ -10,12 +10,22 @@ class Catalog_Block_Product_List extends Core_Block_Template
         $cat = Mage::getModel("catalog/product")->getCollection()
             // ->alias("name", "product_name")
             ->innerJoin(
-                "catalog_media_gallery",
-                "catalog_product.product_id = catalog_media_gallery.product_id",
-                []
-            )->GroupBy(["catalog_product.product_id"]);
-        $data = $cat->getdata();
-    
+                ["cmg" => "catalog_media_gallery"],
+                "main_table.product_id = cmg.product_id",
+                ["image" => "file_path"]
+            )->GroupBy(["product_id"]);
+
+        
+            $data = $cat->getdata(); // Fetch product data
+
+           
+          
+            
+            echo "<pre>";
+            
+        
+          
+            
 
         return $data;
     }

@@ -1,5 +1,5 @@
 <?php
-class Admin_Controller_Product_Index
+class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
 {
    //protected $_product = [];
    public function newAction()
@@ -42,7 +42,7 @@ class Admin_Controller_Product_Index
       $request = Mage::getModel('core/request');
       $product = Mage::getModel('catalog/product');
       $product_gallrey = Mage::getModel("catalog/gallrey");
-      $product_attribute = Mage::getModel("catalog/attribute");
+       $product_attribute = Mage::getModel("catalog/attribute");
       $layout = Mage::getBlock('core/layout');
       echo "<pre>";
       $product_data = $request->getParam("catalog_product");
@@ -62,7 +62,8 @@ class Admin_Controller_Product_Index
       //print_r($request->getQuery("catlog_product"));
 
       $product_data_model = $product->save();
-      $tablename = $product_attribute->getResource()->getTablename();
+      
+      // $tablename = $product_attribute->getResource()->getTablename();
 
       // for storing attributes in attribute tables 
       
@@ -134,6 +135,7 @@ class Admin_Controller_Product_Index
          } else {
          }
       }
+     
       $url = $layout->getUrl("*/*/list");
       header("Location:" . $url);
 
@@ -196,6 +198,6 @@ class Admin_Controller_Product_Index
 
       $request_single2 = Mage::getSingleton("catalog/product")->load(65);
 
-      print_r($request_single2);
+      // print_r($request_single2);
    }
 }

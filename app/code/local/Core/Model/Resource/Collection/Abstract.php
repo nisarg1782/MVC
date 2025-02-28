@@ -70,7 +70,6 @@ class Core_Model_Resource_Collection_Abstract
                 );
             }
             $query .= " " . $leftjoinsql;
-           
         }
         if (isset($this->_select["JOIN_RIGHT"])) {
             foreach ($this->_select["JOIN_RIGHT"] as $join_right) {
@@ -80,8 +79,14 @@ class Core_Model_Resource_Collection_Abstract
         }
 
         if (isset($this->_select["JOIN_INNER"])) {
-            foreach ($this->_select["JOIN_INNER"] as $join_inner) {
-                $join_sql .= sprintf("INNER JOIN %s ON %s", $join_inner['tablename'], $join_inner['conditions']);
+            
+            foreach ($this->_select["JOIN_INNER"] as $innerjoin) {
+                $join_sql .= sprintf(
+                    " LEFT JOIN %s AS %s ON %s ",
+                    array_values($innerjoin['tablename'])[0],
+                    array_keys($innerjoin['tablename'])[0],
+                    $innerjoin['condition']
+                );
             }
             $query .= " " . $join_sql;
         }
@@ -228,11 +233,20 @@ class Core_Model_Resource_Collection_Abstract
         }
         return $this;
     }
-    public function innerJoin($tablename, $conditions, $columns)
+    public function innerJoin($tableName, $condition, $columns)
     {
-        $this->_select["JOIN_INNER"][] = ['tablename' => $tablename, 'conditions' => $conditions, 'columns' => $columns];
-        foreach ($columns as $alias => $_column) {
-            $this->_select["COLUMNS"][] = sprintf("%s.%s AS %s", $tablename, $_column, $alias);
+        $this->_select["JOIN_INNER"][] = [
+            "tablename" => $tableName,
+            "condition" => $condition,
+            "columns" => $columns
+        ];
+        foreach ($columns as $alias => $columnname) {
+            $this->_select['COLUMNS'][] = sprintf(
+                "%s.%s AS %s",
+                array_keys($tableName)[0],
+                $columnname,
+                $alias
+            );
         }
         return $this;
     }
