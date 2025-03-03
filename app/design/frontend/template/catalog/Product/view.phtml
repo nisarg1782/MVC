@@ -144,7 +144,13 @@ $count_img = count($data);
                 <?php endfor; ?>
             </div>
 
-            <button class="add-to-cart" onclick="addToCart()">Add to Cart</button>
+            <button class="add-to-cart" onclick="addToCart()">
+                <?php
+                $base_url=Mage::getBaseUrl();
+                $url=$base_url."checkout/cart/index";
+                ?>
+                <a href="<?php echo $url;?>">Add To Cart</a>
+            </button>
         </div>
     </div>
 

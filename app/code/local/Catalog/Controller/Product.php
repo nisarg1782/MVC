@@ -73,10 +73,7 @@ class Catalog_Controller_Product
     {
         echo "<pre>";
         echo "<pre>";
-        $collections = Mage::getModel("catalog/product")
-            ->load("56");
-
-        // print_r($collections);
-        echo "</pre>";
+        $collections = Mage::getModel("catalog/filter")->getProductCollection();
+        echo $collections->prepareQuery();
     }
 }

@@ -3,10 +3,13 @@ class Catalog_Model_Resource_Product_Collection extends Core_Model_Resource_Coll
 {
     public function addAttributeToSelect($attributes)
     {
-        print_r($attributes);
+        // print_r($attributes);
         foreach ($attributes as $attribute) {
             $a = Mage::getModel("catalog/attribute")
                 ->load($attribute, "name");
+            // echo "<pre>";
+            // print_r($a);
+
             $attribute_id = $a->getAttributeId();
             $this->joinLeft(
                 ["cpa_{$a->getName()}" => "catalog_product_attribute"],
@@ -14,8 +17,24 @@ class Catalog_Model_Resource_Product_Collection extends Core_Model_Resource_Coll
                 [$a->getName() => "value"]
             );
         }
-        print_r($this);
+        // print_r($this);
         // print_r($this->_select);
         return $this;
+    }
+    public function addCategoryFilter($category_id)
+    {
+        return $this->addFieldToFilter(
+            "category_id",
+            ["=" => $category_id]
+        );
+
+        // echo "<pre>";
+        // print_r($data);
+        // return $this;
+    }
+    public function addAttributeToFilter($attribute, $value)
+    {
+        $this->addAttributeToSelect([$attribute]);
+        $this->addFieldToFilter("cpa_{$attribute}.value", $value);
     }
 }

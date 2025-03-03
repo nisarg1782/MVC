@@ -42,19 +42,19 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       $request = Mage::getModel('core/request');
       $product = Mage::getModel('catalog/product');
       $product_gallrey = Mage::getModel("catalog/gallrey");
-       $product_attribute = Mage::getModel("catalog/attribute");
+      $product_attribute = Mage::getModel("catalog/attribute");
       $layout = Mage::getBlock('core/layout');
-      echo "<pre>";
+      // echo "<pre>";
       $product_data = $request->getParam("catalog_product");
       $attribute_data = $request->getParam("catalog_product_attribute");
-      // print_r($attribute_data);
-
+      //   echo "<pre>";
+      //    print_r($attribute_data);
+      //    die;
 
 
       $image_data = $_FILES["catalog_media_gallery"];
       // print_r($_FILES);
       // die();
-
       $name = substr($product_data["name"], 0, 3);
       $sku = $attribute_data["color"] . $product_data["category_id"] . $name;
       $product_data["sku"] = $sku;
@@ -62,23 +62,42 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       //print_r($request->getQuery("catlog_product"));
 
       $product_data_model = $product->save();
-      
+
       // $tablename = $product_attribute->getResource()->getTablename();
 
       // for storing attributes in attribute tables 
-      
+      $tmp = 0;
       foreach ($attribute_data as $key => $value) {
-         $single_attribute = $product_attribute->getCollection()->addFieldToFilter("name", ["=" => $key]);
+         $single_attribute = $product_attribute->getCollection()
+            ->addFieldToFilter("name", ["=" => $key]);
          $data1 = $single_attribute->getData();
-         $attr_data["product_id"] = $product_data_model->getProductId();
-         $attr_data["attribute_id"] = $data1[0]->getAttributeId();
-         $attr_data["value"] = $value;
-         $attribute_model = Mage::getModel("Catalog/Product_Attribute");
-         $attribute_model->setData($attr_data);
-         $attribute_productid = $attribute_model->save();
 
-         // print_r($data1[0]->getAttributeId());
+         if (!empty($data1)) { // Ensure data exists before accessing it
+            if (isset($product_data["product_id"]) && $product_data["product_id"]) {
+               $attribute = Mage::getModel("catalog/product_attribute")->getCollection()
+                  ->addFieldToFilter("product_id", ["=" => $product_data["product_id"]]);
+               $att_data = $attribute->getData();
+
+               if (!empty($att_data) && isset($att_data[$tmp])) { // Ensure index exists before using it
+                  $attr_data["value_id"] = $att_data[$tmp]->getValueId();
+                  $tmp++;
+               } else {
+                  error_log("Warning: No attribute data found for product_id " . $product_data["product_id"]);
+               }
+            }
+
+            $attr_data["product_id"] = $product_data_model->getProductId();
+            $attr_data["attribute_id"] = $data1[0]->getAttributeId();
+            $attr_data["value"] = $value;
+
+            $attribute_model = Mage::getModel("Catalog/Product_Attribute");
+            $attribute_model->setData($attr_data);
+            $attribute_model->save();
+         } else {
+            error_log("Warning: No attribute found for name = " . $key);
+         }
       }
+
 
       // for storing Images in media gallery
       $tablename = $product_gallrey->getResource()->getTablename();
@@ -135,49 +154,12 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
          } else {
          }
       }
-     
+
       $url = $layout->getUrl("*/*/list");
       header("Location:" . $url);
 
       // print($product_gallrey->getProductId());
    }
-   public function deleteAction()
-   {
-      $request = Mage::getModel("core/request");
-      $product = Mage::getModel('catalog/product');
-      $layout = Mage::getBlock("core/layout");
-      $id = $request->getQuery("id");
-      //print("the id is ".$id);
-      //$request->delete($id);
-      $prod_Deldata = $product->getResource()->load($id);
-
-      //$filename=$prod_Deldata["image"];
-      $filepath = "C:/xampp/htdocs/MVC/Media/" . $product->getResource()->getTablename() . "/" . $prod_Deldata["image"];
-      print($filepath);
-      unlink($filepath);
-      $product->setData($id);
-      $product->delete();
-      $url = $layout->getUrl("*/*/list");
-      header("Location:" . $url);
-
-      //print(__CLASS__." <br>" . __FUNCTION__);
-      //$layout = Mage::getBlock('core/layout');
-
-
-      // $cartview = $layout->createBlock('Admin/Product_Delete')
-      //    ->setTemplate('admin/product/delete.phtml');
-      // //    print_r($view);
-      // $layout->getChild('content')->addChild('cartindex', $cartview);
-      // //print_r($layout);
-      // $layout->toHtml();
-   }
-   //  public function testAction()
-   //  {
-   //      print_r ($product);
-   //      print("<br>");
-   //      echo $product->getCategoryId();
-
-   //  }
    public function testAction()
    {
       $request = Mage::getModel("core/request");
@@ -199,5 +181,24 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       $request_single2 = Mage::getSingleton("catalog/product")->load(65);
 
       // print_r($request_single2);
+   }
+   public function deleteAction()
+   {
+      $request = Mage::getModel("core/request");
+      $product = Mage::getModel('catalog/product');
+      $layout = Mage::getBlock("core/layout");
+      $id = $request->getQuery("id");
+      //print("the id is ".$id);
+      //$request->delete($id);
+      $prod_Deldata = $product->getResource()->load($id);
+
+      //$filename=$prod_Deldata["image"];
+      $filepath = "C:/xampp/htdocs/MVC/Media/" . $product->getResource()->getTablename() . "/" . $prod_Deldata["image"];
+      print($filepath);
+      unlink($filepath);
+      $product->setData($id);
+      $product->delete();
+      $url = $layout->getUrl("*/*/list");
+      header("Location:" . $url);
    }
 }

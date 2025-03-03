@@ -54,4 +54,11 @@ class Admin_Controller_Account extends Core_Controller_Admin_Action
         //     "password" => "989898"
         // ];
     }
+    public function logoutAction()
+    {
+        $session = Mage::getSingleton("core/session");
+        $session->remove("login");
+        $session->remove("admin_id");
+        $this->redirect("admin/account/login");
+    }
 }

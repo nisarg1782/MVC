@@ -50,6 +50,10 @@ class Core_Model_Resource_Collection_Abstract
 
         return $this;
     }
+    public function addCategoryFilter($para)
+    {
+       
+    }
 
 
     public function prepareQuery()
@@ -79,7 +83,7 @@ class Core_Model_Resource_Collection_Abstract
         }
 
         if (isset($this->_select["JOIN_INNER"])) {
-            
+
             foreach ($this->_select["JOIN_INNER"] as $innerjoin) {
                 $join_sql .= sprintf(
                     " LEFT JOIN %s AS %s ON %s ",

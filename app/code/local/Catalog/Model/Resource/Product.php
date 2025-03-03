@@ -6,4 +6,5 @@ class Catalog_Model_Resource_Product extends Core_Model_Resource_Abstract
     {
         $this->init("catalog_product", "product_id");
     }
+   
 }

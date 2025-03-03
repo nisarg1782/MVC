@@ -31,8 +31,12 @@ class Core_Model_Request
     {
         return $this->_actionName;
     }
-    public function  getQuery($field)
+    public function  getQuery($field=null)
     {
+        if($field===null)
+        {
+            return $_GET;
+        }
         if (isset($_GET[$field])) {
             return $_GET[$field];
         } else {

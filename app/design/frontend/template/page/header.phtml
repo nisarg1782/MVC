@@ -128,10 +128,13 @@ nav .menu {
 }
 
 /* ====== PRODUCT SECTION STYLES ====== */
-
     </style>
 </head>
-
+<?php
+// $val=$_SESSION["login"]:"";
+// $obj=new Core_Controller_Front_Action();
+// $val=$obj->get
+// ?>
 <body>
     <header>
         <div class="logo">
@@ -152,7 +155,25 @@ nav .menu {
             </ul>
         </nav>
         <div class="actions">
-            <button class="login-btn">Login</button>
+            <button class="login-btn">
+                <?php
+                if(isset($_SESSION["login"]))
+                {
+                    
+                    ?>
+
+                    <a href="http://localhost/MVC/admin/account/logout">LogOut</a>
+                    <?php
+                }
+                else{
+                   
+                   ?>
+
+                   <a href="http://localhost/MVC/admin/account/login">Login</a>
+                   <?php
+                }
+                ?>
+            </button>
             <div class="cart-icon">🛒</div>
         </div>
     </header>
