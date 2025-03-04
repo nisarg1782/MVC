@@ -42,8 +42,19 @@ class Core_Model_Resource_Abstract
 
         return $this->getAdapter()->query($sql);
     }
+    protected function _getDbColumns()
+    {
+        $sql = "SELECT COLUMN_NAME
+        FROM INFORMATION_SCHEMA.COLUMNS
+        WHERE TABLE_NAME ='{$this->getTablename()}'";
+        $columns = $this->getAdapter()->fetchCol($sql);
+        // print_r($columns);
+        return $columns;
+    }
     public function save($model)
     {
+        $db_columns = $this->_getDbColumns();
+        
         $primary_id = 0;
         $data = $model->getData();
 
@@ -58,9 +69,14 @@ class Core_Model_Resource_Abstract
             unset($data[$this->_primaryKey]);
 
             foreach ($data as $key => $val) {
+                if (in_array($key, $db_columns)) {
 
 
-                $conditions[] = sprintf(" `{$key}` ='%s'", addslashes($val));
+                    $conditions[] = sprintf(" `{$key}` ='%s'", addslashes($val));
+                }
+
+
+                
             }
             //print_r($conditions);
             $sql = "UPDATE {$this->_tableName} SET" . implode(",", $conditions) . " WHERE {$this->_primaryKey} = " . $primary_id;
@@ -72,12 +88,15 @@ class Core_Model_Resource_Abstract
             $cols = [];
             $values = [];
             foreach ($data as $key => $value) {
-                $cols[] = $key;
-                $values[] = $value;
+                if (in_array($key, $db_columns)) {
+                    $cols[] = $key;
+                    $values[] = $value;
+                }
+                
             }
             $columns = implode("`,`", $cols);
             $_values = implode("','", $values);
-            
+
 
             $sql = sprintf(
                 "INSERT INTO %s (`%s`) VALUES ('%s')",
@@ -85,13 +104,13 @@ class Core_Model_Resource_Abstract
                 $columns,
                 $_values
             );
-            
+
             $id = $this->getAdapter()->insert($sql);
-            
+
             $model->load($id);
-           print_r($model);
-           
-            
+            print_r($model);
+
+
 
             return $id;
         }

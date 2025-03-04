@@ -5,10 +5,13 @@ class Catalog_Model_Resource_Product_Collection extends Core_Model_Resource_Coll
     {
         // print_r($attributes);
         foreach ($attributes as $attribute) {
+            // print_r($attribute);
             $a = Mage::getModel("catalog/attribute")
                 ->load($attribute, "name");
-            // echo "<pre>";
-            // print_r($a);
+
+            echo "<pre>";
+            // print_r($a->getName());
+
 
             $attribute_id = $a->getAttributeId();
             $this->joinLeft(
@@ -18,6 +21,7 @@ class Catalog_Model_Resource_Product_Collection extends Core_Model_Resource_Coll
             );
         }
         // print_r($this);
+        // die;
         // print_r($this->_select);
         return $this;
     }

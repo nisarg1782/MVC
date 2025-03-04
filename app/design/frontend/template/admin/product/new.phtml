@@ -24,14 +24,16 @@ $productData = $this->getProductData();
             value="<?php echo $productData->getName(); ?>"><br><br>
 
         <label for="description">Description:</label>
-        <textarea id="description" name="catalog_product[description]"><?php echo $productData->getDescription(); ?></textarea><br><br>
+        <textarea id="description"
+            name="catalog_product[description]"><?php echo $productData->getDescription(); ?></textarea><br><br>
 
         <label for="price">Price:</label>
         <input type="number" id="price" name="catalog_product[price]" required step="0.01"
             value="<?php echo $productData->getPrice(); ?>"><br><br>
 
         <label for="stock_quantity">Stock Quantity:</label>
-        <input type="number" id="stock_quantity" name="catalog_product[stock_quantity]" value="<?php echo $productData->getStockQuantity() ?>"><br><br>
+        <input type="number" id="stock_quantity" name="catalog_product[stock_quantity]"
+            value="<?php echo $productData->getStockQuantity() ?>"><br><br>
 
         <label for="category_id">Category:</label>
         <select id="category_id" name="catalog_product[category_id]">
@@ -43,23 +45,39 @@ $productData = $this->getProductData();
                 </option>
             <?php endforeach; ?>
         </select><br><br>
-
         <?php
         foreach ($data as $_data) {
             $method = "get" . $_data->getName();
         ?>
             <label for="<?php echo $_data->getattributeId(); ?>"><?php echo $_data->getname(); ?>:</label>
-            <input type="<?php echo $_data->gettype() ?>" value="<?php echo $productData->$method(); ?>" name="catalog_product_attribute[<?php echo $_data->getname(); ?>]">
+            <input type="<?php echo $_data->gettype() ?>" value="<?php echo $_data->$method(); ?>"
+                name="catalog_product[<?php echo $_data->getname(); ?>]">
             <br>
             <br>
         <?php
         }
         ?>
         <label for="images">Upload Other Images:</label>
-        <input type="file" id="images" name="catalog_media_gallery[images][]" multiple accept="image/*"><br><br>
+        <input type="file" id="images" name="catalog_media_gallery[images][]" multiple accept="image/*" oninput="test()"><br><br>
+        <div id="img_div" style="display: none;">
+
+        </div>
         <button type="submit">Submit</button>
     </form>
+    <script>
+        function test() {
 
+            document.getElementById("img_div").innerHTML = "";
+            var img_data = "";
+            var img = document.getElementById("images").files;
+            for (var i = 0; i < img.length; i++) {
+                img_data +=
+                    "<label><input type='radio' name='main_image' value='" + img[i].name + "'> " + img[i].name + "</label><br>";
+            }
+            document.getElementById("img_div").innerHTML = img_data;
+            document.getElementById("img_div").style.display = "block";
+        }
+    </script>
 </body>
 
 </html>

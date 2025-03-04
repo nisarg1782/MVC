@@ -1,6 +1,7 @@
 <?php
 $data1 = $this->productData(); // Assuming this returns an array of product objects
 $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
+$catdata = $this->getCategoryData(); // Assuming this gets category data
 ?>
 
 <!DOCTYPE html>
@@ -13,16 +14,12 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
-        /* Main Container Layout */
         .main-container {
             display: flex;
-            flex-wrap: wrap;
-            /* Allows wrapping on smaller screens */
             gap: 20px;
             padding: 20px;
         }
 
-        /* Sidebar Styling */
         .sidebar {
             width: 250px;
             background: #f8f9fa;
@@ -45,11 +42,11 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
         .sidebar label {
             font-size: 14px;
             margin: 5px 0;
+            cursor: pointer;
         }
 
         .sidebar input[type="number"] {
-            width: 100%;
-            /* Full width for consistency */
+            width: calc(50% - 5px);
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -70,7 +67,6 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
             background-color: #0056b3;
         }
 
-        /* Product Section */
         .product-section {
             flex: 1;
             display: flex;
@@ -83,15 +79,12 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
             gap: 20px;
         }
 
-        /* Grid Layout for Products */
         .row {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
         }
 
-        /* Product Card Styling */
         .product-card {
             background: white;
             border-radius: 10px;
@@ -103,11 +96,9 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
         }
 
         .product-card img {
-            width: 100%;
-            height: auto;
-            max-height: 150px;
+            width: 200px;
+            height: 100px;
             border-radius: 10px;
-            object-fit: cover;
         }
 
         .view-btn {
@@ -121,15 +112,10 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
             transition: background 0.3s;
         }
 
-        .view-btn:hover {
-            background-color: #0056b3;
-        }
-
         .product-card:hover {
             transform: translateY(-5px);
         }
 
-        /* Responsive Fixes */
         @media (max-width: 768px) {
             .main-container {
                 flex-direction: column;
@@ -139,43 +125,30 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
             .sidebar {
                 width: 100%;
             }
-
-            .row {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .product-card {
-                width: 90%;
-                /* Ensures cards are responsive */
-            }
         }
     </style>
-    <script>
+    
+    <!-- <script>
         $(document).ready(function() {
             function filterProducts() {
-                let minPrice = $("input[name='min_price']").val().trim() !== "" ? parseFloat($(
-                    "input[name='min_price']").val()) : 0;
-                let maxPrice = $("input[name='max_price']").val().trim() !== "" ? parseFloat($(
-                    "input[name='max_price']").val()) : Infinity;
+                let minPrice = $("input[name='min_price']").val().trim() !== "" ? parseFloat($("input[name='min_price']").val()) : 0;
+                let maxPrice = $("input[name='max_price']").val().trim() !== "" ? parseFloat($("input[name='max_price']").val()) : Infinity;
+                // let selectedCategory = $("input[name='category']:checked").val(); // Get selected category
 
                 console.log("Min Price:", minPrice, "Max Price:", maxPrice);
 
                 $(".product-card").each(function() {
                     let priceText = $(this).find(".price").text().trim();
                     let price = parseFloat(priceText.replace("Rs. ", "").replace(",", "").trim());
+                    // let productCategory = $(this).data("category"); // Get category from data attribute
 
-                    console.log("Extracted Price Text:", priceText, "Converted Price:", price);
-
-
-                    console.log("Product Price:", price, "Visible Before:", $(this).is(":visible"));
+                    // let priceMatch = 
+                    // let categoryMatch = selectedCategory === "all" || productCategory === selectedCategory;
 
                     if (price >= minPrice && price <= maxPrice) {
                         $(this).show();
-                        console.log("Product is now VISIBLE ✅");
                     } else {
                         $(this).hide();
-                        console.log("Product is now HIDDEN ❌");
                     }
                 });
             }
@@ -185,74 +158,66 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
                 filterProducts();
             });
 
-            $("input[name='min_price'], input[name='max_price']").on("input", function() {
+            $("input[name='min_price'], input[name='max_price']").on("input change", function() {
                 filterProducts();
             });
         });
-    </script>
+    </script> -->
 </head>
-
 <body>
     <div class="main-container">
         <!-- Sidebar for Filters -->
         <div class="sidebar">
             <h3>Filters</h3>
-            <form id="filter-form">
+            <form id="filter-form" method="GET">
                 <label for="price">Price Range:</label>
                 <div style="display: flex; gap: 10px;">
                     <input type="number" name="min_price" placeholder="Min">
                     <input type="number" name="max_price" placeholder="Max">
                 </div>
+                <h4>Select Category:</h4>
+                <?php foreach ($catdata as $category): ?>
+                    <label>
+                        <input type="radio" name="cid" value="<?php echo $category->getCategoryId(); ?>">
+                        <?php echo $category->getName(); ?>
+                    </label>
+                <?php endforeach; ?>
+
                 <button type="submit">Apply Filters</button>
             </form>
-
         </div>
+
         <!-- Product Display Section -->
         <div class="product-section">
             <div id="product-container" class="container">
                 <?php
-          
-            $count = 0;
-            $url = Mage::getBaseUrl();
-            
-            foreach ($data1 as $product):
-                $productName = htmlspecialchars($product->getName(), ENT_QUOTES, 'UTF-8');
-                $productPrice = number_format($product->getPrice(), 2);
-                $productImage = $mediaBaseUrl . $product->getImage();
-            
-                if ($count % 2 === 0) echo '<div class="row">';
-            ?>
-                <div class="product-card">
-                    <img src="<?php echo $productImage; ?>" alt="<?php echo $productName; ?>">
-                    <h3><?php echo $productName; ?></h3>
-                    <p class="price">Rs. <?php echo $productPrice; ?></p>
-                    <a href="<?php echo $url; ?>Catalog/Product/view/?id=<?php echo $product->getProductId(); ?>">
-                        <button class="view-btn">View Product</button>
-                    </a>
-                </div>
-            <?php
-                $count++;
-                if ($count % 2 === 0) echo '</div>';
-            endforeach;
-            
-            if ($count % 2 !== 0) echo '</div>'; // Close the last row if it has an odd number of items
-            ?>
-            
-               
+                $count = 0;
+                $url = Mage::getBaseUrl();
+                foreach ($data1 as $productObj):
+                    $productName = htmlspecialchars($productObj->getName(), ENT_QUOTES, 'UTF-8');
+                    $productPrice = number_format($productObj->getPrice(), 2);
+                    $productImage = $mediaBaseUrl . $productObj->getImage();
+                    $productCategory = $productObj->getCategoryId(); // Assuming product has a category ID
+
+                    if ($count % 2 === 0) echo '<div class="row">';
+                ?>
+                    <div class="product-card" data-category="<?php echo $productCategory; ?>">
+                        <img src="<?php echo $productImage; ?>" alt="<?php echo $productName; ?>">
+                        <h3><?php echo $productName; ?></h3>
+                        <p class="price">Rs. <?php echo $productPrice; ?></p>
+                        <a href="<?php echo $url; ?>Catalog/Product/view/?id=<?php echo $productObj->getProductId(); ?>">
+                            <button class="view-btn">View Product</button>
+                        </a>
+                    </div>
+                <?php
+                    $count++;
+                    if ($count % 2 === 0) echo '</div>';
+                endforeach;
+                if ($count % 2 !== 0) echo '</div>';
+                ?>
             </div>
         </div>
     </div>
-    <script>
-        //     setInterval(function () {
-        //     let before = performance.now();
-        //     debugger; // This will slow down execution if DevTools is open
-        //     let after = performance.now();
-        //     if (after - before > 100) {
-        //         alert("Developer tools detected! Please close DevTools.");
-        //         window.location.href = "about:blank"; // Redirect user
-        //     }
-        // }, 1000); important script to detect dev tools
-    </script>
 </body>
 
 </html>

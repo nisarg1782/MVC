@@ -39,25 +39,34 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
    {
       $data = [];
       $attr_data = [];
+
       $request = Mage::getModel('core/request');
+      $main_img = $request->getParam("main_image");
       $product = Mage::getModel('catalog/product');
       $product_gallrey = Mage::getModel("catalog/gallrey");
       $product_attribute = Mage::getModel("catalog/attribute");
       $layout = Mage::getBlock('core/layout');
-      // echo "<pre>";
+      
       $product_data = $request->getParam("catalog_product");
       $attribute_data = $request->getParam("catalog_product_attribute");
-      //   echo "<pre>";
-      //    print_r($attribute_data);
-      //    die;
+      echo "<pre>";
+      print_r($product_data);
+        // die();
+        $name = substr($product_data["name"], 0, 3);
+        $sku = $product_data["color"] . $product_data["category_id"] . $name;
+        $product_data["sku"] = $sku;
+      $product->setData($product_data);
+      print_r($product);
+     
+      $product->save();
+     
+      
+      die;
 
 
       $image_data = $_FILES["catalog_media_gallery"];
       // print_r($_FILES);
-      // die();
-      $name = substr($product_data["name"], 0, 3);
-      $sku = $attribute_data["color"] . $product_data["category_id"] . $name;
-      $product_data["sku"] = $sku;
+    
       $product->setData($product_data);
       //print_r($request->getQuery("catlog_product"));
 
@@ -68,34 +77,35 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       // for storing attributes in attribute tables 
       $tmp = 0;
       foreach ($attribute_data as $key => $value) {
-         $single_attribute = $product_attribute->getCollection()
-            ->addFieldToFilter("name", ["=" => $key]);
-         $data1 = $single_attribute->getData();
+         $single_attribute = $product_attribute
+            ->load($key, "name");
 
-         if (!empty($data1)) { // Ensure data exists before accessing it
-            if (isset($product_data["product_id"]) && $product_data["product_id"]) {
-               $attribute = Mage::getModel("catalog/product_attribute")->getCollection()
-                  ->addFieldToFilter("product_id", ["=" => $product_data["product_id"]]);
-               $att_data = $attribute->getData();
+         // $data1 = $single_attribute->getData();
 
-               if (!empty($att_data) && isset($att_data[$tmp])) { // Ensure index exists before using it
-                  $attr_data["value_id"] = $att_data[$tmp]->getValueId();
-                  $tmp++;
-               } else {
-                  error_log("Warning: No attribute data found for product_id " . $product_data["product_id"]);
-               }
+
+         // Ensure data exists before accessing it
+         if (isset($product_data["product_id"]) && $product_data["product_id"]) {
+            $attribute = Mage::getModel("catalog/product_attribute")->getCollection()
+               ->addFieldToFilter("product_id", ["=" => $product_data["product_id"]]);
+            $att_data = $attribute->getData();
+
+            if (!empty($att_data) && isset($att_data[$tmp])) { // Ensure index exists before using it
+               $attr_data["value_id"] = $att_data[$tmp]->getValueId();
+               $tmp++;
+            } else {
+               error_log("Warning: No attribute data found for product_id " . $product_data["product_id"]);
             }
-
-            $attr_data["product_id"] = $product_data_model->getProductId();
-            $attr_data["attribute_id"] = $data1[0]->getAttributeId();
-            $attr_data["value"] = $value;
-
-            $attribute_model = Mage::getModel("Catalog/Product_Attribute");
-            $attribute_model->setData($attr_data);
-            $attribute_model->save();
-         } else {
-            error_log("Warning: No attribute found for name = " . $key);
          }
+
+         $attr_data["product_id"] = $product_data_model->getProductId();
+         $attr_data["attribute_id"] = $single_attribute->getAttributeId();
+         $attr_data["value"] = $value;
+
+         $attribute_model = Mage::getModel("catalog/product_attribute");
+
+
+         $attribute_model->setData($attr_data);
+         $attribute_model->save();
       }
 
 
@@ -137,12 +147,25 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
             if (!file_exists($upload_dir)) {
                mkdir($upload_dir, 0755, true);
             }
+            if (basename($_FILES[$tablename]["name"]["images"][$i] == $main_img)) {
+               print("in if");
+               $data["default_file_path"] = 1;
+            } else {
+               print("in else");
+               $data["default_file_path"] = 0;
+            }
 
             $tmp_name = $_FILES[$tablename]["tmp_name"]["images"][$i];
             $filename = basename($_FILES[$tablename]["name"]["images"][$i]);
             $upload_path = $upload_dir . DS . $filename;
+            // print($filename);
+            // print("<br>");
+            // print($main_img);
+            // die;
+
 
             if (move_uploaded_file($tmp_name, $upload_path)) {
+
                // Mage::log("File uploaded: " . $upload_path, null, 'custom_upload.log', true);
                $data["file_path"] = $filename;
                $data["type"] = "image";

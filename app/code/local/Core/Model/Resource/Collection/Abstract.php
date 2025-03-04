@@ -50,11 +50,7 @@ class Core_Model_Resource_Collection_Abstract
 
         return $this;
     }
-    public function addCategoryFilter($para)
-    {
-       
-    }
-
+   
 
     public function prepareQuery()
     {
