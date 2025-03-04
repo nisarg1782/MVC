@@ -19,6 +19,7 @@ class Catalog_Model_Filter extends Core_Model_Abstract
         }
         
         // print_r(array_keys($parametr));
+        // die;
         $attribute_collection = Mage::getModel("catalog/attribute")->getCollection()
             ->addFieldToFilter("name", ["IN" => array_keys($parametr)]);
             // print_r($attribute_collection->getData());

@@ -170,7 +170,7 @@ class Core_Model_Resource_Collection_Abstract
                             case "IN":
                             case "NOT IN":
                                 $_value = is_array($_value) ? $_value : [$_value];
-                                $quotedValues = "'" . implode("', '", array_map('addslashes', $_value)) . "'";
+                                $quotedValues = "'" . implode("', '",$_value) . "'";
                                 $where = "$field $op ($quotedValues)";
                                 break;
 

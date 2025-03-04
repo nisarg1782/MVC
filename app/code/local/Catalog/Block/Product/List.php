@@ -14,6 +14,7 @@ class Catalog_Block_Product_List extends Core_Block_Template
         );
         // echo "<pre>";
         // print_r($cat->prepareQuery());
+        // die;
         $data = $cat->getdata();
         // echo "<pre>";
         // print_r($data);

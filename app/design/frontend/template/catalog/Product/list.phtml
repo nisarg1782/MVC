@@ -2,8 +2,16 @@
 $data1 = $this->productData(); // Assuming this returns an array of product objects
 $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
 $catdata = $this->getCategoryData(); // Assuming this gets category data
-?>
+$att_data = Mage::getModel("catalog/product_attribute")->getCollection()->addFieldToFilter(
+    "attribute_id",
+    ["=" => 1]
+)->getData();
+// echo "<pre>";
+// print_r($att_data);
 
+
+$unique = [];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +20,6 @@ $catdata = $this->getCategoryData(); // Assuming this gets category data
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Cards</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <style>
         .main-container {
             display: flex;
@@ -127,7 +134,7 @@ $catdata = $this->getCategoryData(); // Assuming this gets category data
             }
         }
     </style>
-    
+
     <!-- <script>
         $(document).ready(function() {
             function filterProducts() {
@@ -164,6 +171,7 @@ $catdata = $this->getCategoryData(); // Assuming this gets category data
         });
     </script> -->
 </head>
+
 <body>
     <div class="main-container">
         <!-- Sidebar for Filters -->
@@ -178,11 +186,26 @@ $catdata = $this->getCategoryData(); // Assuming this gets category data
                 <h4>Select Category:</h4>
                 <?php foreach ($catdata as $category): ?>
                     <label>
-                        <input type="radio" name="cid" value="<?php echo $category->getCategoryId(); ?>">
+                        <input type="checkbox" name="cid[]" value="<?php echo $category->getCategoryId(); ?>">
                         <?php echo $category->getName(); ?>
                     </label>
                 <?php endforeach; ?>
+                <br>
+                <h4>Select Attribute:</h4>
+                <?php
+                $unique = []; // Ensure $unique is initialized
+                foreach ($att_data as $data):
+                    $value = $data->getValue();
 
+                    if (!in_array($value, $unique) and $value!=""):
+                        $unique[] = $value; // Store the value directly in the array
+                ?>
+                        <?php echo $value; ?>
+                        <input type="checkbox" name="color[]" value="<?php echo $value; ?>">
+                <?php
+                    endif;
+                endforeach;
+                ?>
                 <button type="submit">Apply Filters</button>
             </form>
         </div>
