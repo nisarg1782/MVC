@@ -1,27 +1,26 @@
 <?php
 $data = $this->getParentCategory();
-$singlecatdata=$this->getSingleCatData();
+$singlecatdata = $this->getSingleCatData();
 // print_r($singlecatdata);
 ?>
 
 <body>
     <h2>Catalog Category Form</h2>
     <form method="post" action="<?php echo $this->getUrl('*/*/save'); ?>">
-    <?php
-    if(!empty($singlecatdata))
-    {
+        <?php
+        if (!empty($singlecatdata)) {
         ?>
-        <input type="hidden" name="catalog_category[category_id]" value="<?php echo $singlecatdata->getCategoryId();?>">
-    <?php
-    }
-    ?>
+            <input type="hidden" name="catalog_category[category_id]" value="<?php echo $singlecatdata->getCategoryId(); ?>">
+        <?php
+        }
+        ?>
 
         <label for="name">Name:</label>
         <input type="text" id="name" name="catalog_category[name]" required maxlength="255" value="<?php
-        echo $singlecatdata->getName();?>"><br><br>
+                                                                                                    echo $singlecatdata->getName(); ?>"><br><br>
 
         <label for="description">Description:</label>
-        <textarea id="description" name="catalog_category[description]"><?php echo $singlecatdata->getDescription();?></textarea><br><br>
+        <textarea id="description" name="catalog_category[description]"><?php echo $singlecatdata->getDescription(); ?></textarea><br><br>
         <label for="parent_id">Parent Category Name:</label>
         <select id="parent_id" name="catalog_category[parent_id]">
             <?php foreach ($data as $_data): ?>

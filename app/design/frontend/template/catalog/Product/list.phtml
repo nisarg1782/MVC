@@ -197,7 +197,7 @@ $unique = [];
                 foreach ($att_data as $data):
                     $value = $data->getValue();
 
-                    if (!in_array($value, $unique) and $value!=""):
+                    if (!in_array($value, $unique) and $value != ""):
                         $unique[] = $value; // Store the value directly in the array
                 ?>
                         <?php echo $value; ?>
