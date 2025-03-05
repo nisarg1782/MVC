@@ -13,10 +13,17 @@ class Catalog_Model_Filter extends Core_Model_Abstract
         // echo "<pre>";
         $parametr = $request->getQuery();
         if (isset($parametr["cid"])) {
+        //    var_dump($parametr["cid"]);
+        //    die;
+       if($parametr["cid"]=="")
+       {
+        unset($parametr["cid"]);
+       }else{
             $collection->addCategoryFilter($parametr["cid"]);
             // return $this;
             unset($parametr["cid"]);
         }
+    }
         
         // print_r(array_keys($parametr));
         // die;

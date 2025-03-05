@@ -27,6 +27,7 @@ class Catalog_Model_Resource_Product_Collection extends Core_Model_Resource_Coll
     }
     public function addCategoryFilter($category_id)
     {
+      
         return $this->addFieldToFilter(
             "category_id",
             ["IN" => $category_id]

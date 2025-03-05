@@ -54,14 +54,12 @@ class Core_Model_Resource_Abstract
     public function save($model)
     {
         $db_columns = $this->_getDbColumns();
-        
+
         $primary_id = 0;
         $data = $model->getData();
 
         $sql = "";
         $conditions = [];
-
-
         if (isset($data[$this->_primaryKey]) && $data[$this->_primaryKey]) {
 
 
@@ -74,9 +72,6 @@ class Core_Model_Resource_Abstract
 
                     $conditions[] = sprintf(" `{$key}` ='%s'", addslashes($val));
                 }
-
-
-                
             }
             //print_r($conditions);
             $sql = "UPDATE {$this->_tableName} SET" . implode(",", $conditions) . " WHERE {$this->_primaryKey} = " . $primary_id;
@@ -92,7 +87,6 @@ class Core_Model_Resource_Abstract
                     $cols[] = $key;
                     $values[] = $value;
                 }
-                
             }
             $columns = implode("`,`", $cols);
             $_values = implode("','", $values);
@@ -107,8 +101,8 @@ class Core_Model_Resource_Abstract
 
             $id = $this->getAdapter()->insert($sql);
 
-            $model->load($id);
-            print_r($model);
+            $model->{$this->_primaryKey}=$id;
+            // print_r($model);
 
 
 
@@ -117,4 +111,5 @@ class Core_Model_Resource_Abstract
         //print(get_class($model));
 
     }
+    
 }

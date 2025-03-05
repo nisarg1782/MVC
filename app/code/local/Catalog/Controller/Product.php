@@ -13,10 +13,29 @@ class Catalog_Controller_Product
     }
     public function listAction()
     {
+
         $layout = Mage::getBlock('core/layout');
         $list = $layout->createBlock('catalog/product_list');
         $layout->getChild('content')->addChild('list', $list);
         $layout->toHtml();
+        // $request = Mage::getSingleton("core/request");
+        // $tmp_get = $request->getQuery();
+        // if (empty($tmp_get)) {
+        //     $layout = Mage::getBlock('core/layout');
+        //     $list = $layout->createBlock('catalog/product_list');
+        //     $layout->getChild('content')->addChild('list', $list);
+        //     $layout->toHtml();
+        // } else {
+        //     header("Content-Type:application/json");
+        //     $productData = Mage::getBlock('catalog/product_list')
+        //                 ->productData()
+        //                 ;
+        //     $data=[];
+        //     foreach($productData as $row){
+        //         $data[]=$row->getData();
+        //     }
+        //     echo json_encode($data);
+        // }
     }
 
     // public function testAction()

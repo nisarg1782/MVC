@@ -49,64 +49,64 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       
       $product_data = $request->getParam("catalog_product");
       $attribute_data = $request->getParam("catalog_product_attribute");
-      echo "<pre>";
-      print_r($product_data);
+      // echo "<pre>";
+      // print_r($product_data);
         // die();
         $name = substr($product_data["name"], 0, 3);
-        $sku = $product_data["color"] . $product_data["category_id"] . $name;
+        $sku = $product_data["color"] . $product_data["category_id"] . $name."abcdokyhyhyh";
         $product_data["sku"] = $sku;
       $product->setData($product_data);
-      print_r($product);
+      // print_r($product);
      
-      $product->save();
+      $product_data_model=$product->save();
      
       
-      die;
+     
 
 
       $image_data = $_FILES["catalog_media_gallery"];
       // print_r($_FILES);
     
-      $product->setData($product_data);
-      //print_r($request->getQuery("catlog_product"));
+      // $product->setData($product_data);
+      // //print_r($request->getQuery("catlog_product"));
 
-      $product_data_model = $product->save();
+      // $product_data_model = $product->save();
 
       // $tablename = $product_attribute->getResource()->getTablename();
 
       // for storing attributes in attribute tables 
       $tmp = 0;
-      foreach ($attribute_data as $key => $value) {
-         $single_attribute = $product_attribute
-            ->load($key, "name");
+      // foreach ($attribute_data as $key => $value) {
+      //    $single_attribute = $product_attribute
+      //       ->load($key, "name");
 
-         // $data1 = $single_attribute->getData();
-
-
-         // Ensure data exists before accessing it
-         if (isset($product_data["product_id"]) && $product_data["product_id"]) {
-            $attribute = Mage::getModel("catalog/product_attribute")->getCollection()
-               ->addFieldToFilter("product_id", ["=" => $product_data["product_id"]]);
-            $att_data = $attribute->getData();
-
-            if (!empty($att_data) && isset($att_data[$tmp])) { // Ensure index exists before using it
-               $attr_data["value_id"] = $att_data[$tmp]->getValueId();
-               $tmp++;
-            } else {
-               error_log("Warning: No attribute data found for product_id " . $product_data["product_id"]);
-            }
-         }
-
-         $attr_data["product_id"] = $product_data_model->getProductId();
-         $attr_data["attribute_id"] = $single_attribute->getAttributeId();
-         $attr_data["value"] = $value;
-
-         $attribute_model = Mage::getModel("catalog/product_attribute");
+      //    // $data1 = $single_attribute->getData();
 
 
-         $attribute_model->setData($attr_data);
-         $attribute_model->save();
-      }
+      //    // Ensure data exists before accessing it
+      //    if (isset($product_data["product_id"]) && $product_data["product_id"]) {
+      //       $attribute = Mage::getModel("catalog/product_attribute")->getCollection()
+      //          ->addFieldToFilter("product_id", ["=" => $product_data["product_id"]]);
+      //       $att_data = $attribute->getData();
+
+      //       if (!empty($att_data) && isset($att_data[$tmp])) { // Ensure index exists before using it
+      //          $attr_data["value_id"] = $att_data[$tmp]->getValueId();
+      //          $tmp++;
+      //       } else {
+      //          error_log("Warning: No attribute data found for product_id " . $product_data["product_id"]);
+      //       }
+      //    }
+
+      //    $attr_data["product_id"] = $product_data_model->getProductId();
+      //    $attr_data["attribute_id"] = $single_attribute->getAttributeId();
+      //    $attr_data["value"] = $value;
+
+      //    $attribute_model = Mage::getModel("catalog/product_attribute");
+
+
+      //    $attribute_model->setData($attr_data);
+      //    $attribute_model->save();
+      // }
 
 
       // for storing Images in media gallery
