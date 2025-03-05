@@ -1,20 +1,17 @@
 <?php
-$data1 = $this->productData(); // Assuming this returns an array of product objects
+$data1 = $this->productData();
 $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
-$catdata = $this->getCategoryData(); // Assuming this gets category data
+$catdata = $this->getCategoryData();
 $att_data = Mage::getModel("catalog/product_attribute")->getCollection()->addFieldToFilter(
     "attribute_id",
     ["=" => 1]
 )->getData();
-// echo "<pre>";
-// print_r($att_data);
 
 
 $unique = [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -177,7 +174,7 @@ $unique = [];
         <!-- Sidebar for Filters -->
         <div class="sidebar">
             <h3>Filters</h3>
-            <form id="filter-form" method="GET">
+            <form id="filter-form" method="get">
                 <label for="price">Price Range:</label>
                 <div style="display: flex; gap: 10px;">
                     <input type="number" name="min_price" placeholder="Min">
@@ -196,7 +193,6 @@ $unique = [];
                 $unique = []; // Ensure $unique is initialized
                 foreach ($att_data as $data):
                     $value = $data->getValue();
-
                     if (!in_array($value, $unique) and $value != ""):
                         $unique[] = $value; // Store the value directly in the array
                 ?>
@@ -206,6 +202,7 @@ $unique = [];
                     endif;
                 endforeach;
                 ?>
+                <a href="http://localhost/MVC/catalog/product/list/?cid=">apply filters from link</a>
                 <button type="submit">Apply Filters</button>
             </form>
         </div>
