@@ -53,8 +53,10 @@ class Admin_Block_Product_New extends Core_Block_Template
             //);
             // print_r($data);
             // echo "<pre>";
-        $data1=Mage::getModel("catalog/gallrey")->getCollection()->addFieldToFilter("product_id",["="=>$product_id]);
-       $image_data=$data1->getData();
+            // print_r($data);
+            
+    //     $data1=Mage::getModel("catalog/gallrey")->getCollection()->addFieldToFilter("product_id",["="=>$product_id]);
+    //    $image_data=$data1->getData();
        
         // $attribute_data=Mage::getModel("catalog/product_attribute")->getCollection()->addFieldToFilter("product_id",["="=>$product_id]);
         // $att_data=$attribute_data->getData();
@@ -77,7 +79,7 @@ class Admin_Block_Product_New extends Core_Block_Template
         // }
 
         if (!empty($data)) {
-            return [$data,$image_data];
+            return $data;
         }
     }
 }

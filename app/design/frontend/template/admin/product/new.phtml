@@ -4,8 +4,8 @@
 $data = $this->getAttributes();
 
 $categories = $this->getCategoryData();
-$productData = $this->getProductData()[0];
-$image_data = $this->getProductData()[1];
+$productData = $this->getProductData();
+
 // echo "<pre>";
 // print_r($productData);
 ?>
@@ -70,10 +70,13 @@ $image_data = $this->getProductData()[1];
     </form>
     <div>
         <?php
-        foreach($image_data as $image):?>
-        <?php $path= Mage::getBaseUrl()."Media/Catalog_Product/".$image->getFilePath();?>
+        $base_url=Mage::getBaseUrl()."Media/Catalog_Product/";
+        // print_r($productData->getFiles());
+        // die;
+        for($i=0;$i<count($productData->getFiles());$i++):?>
+        <?php $path= $base_url.$productData->getFiles()[$i];?>
         <img src="<?php echo $path;?>" height="100" width="100">
-        <?php endforeach;?>
+        <?php endfor;?>
     </div>
     <script>
         function test() {

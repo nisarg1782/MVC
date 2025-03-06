@@ -27,11 +27,32 @@ class Catalog_Model_Product extends Core_Model_Abstract
                     ["name" => "name"]
                 );
 
+
             $data = $collection->getData();
 
             foreach ($data as $_data) {
                 $this->{$_data->getname()} = $_data->getvalue();
             }
+            $image_collection = Mage::getModel("catalog/gallrey")->getCollection()
+                ->addFieldToFilter("main_table.product_id", ["=" => $this->getProductId()])
+                ->joinLeft(
+                    ["cp" => "catalog_product"],
+                    "cp.product_id=main_table.product_id",
+                    []
+                );
+
+            $data1 = $image_collection->getData();
+
+            $image = [];
+            // echo "<pre>";
+            foreach ($data1 as $_data1) {
+                // print_r($_data1->getFilePath());
+                $image[] = $_data1->getFilePath();
+            }
+            $this->setdata(array_merge($this->getData(), ["files" => $image]));
+            // array_push($this,$images);
+
+
         }
         return $this;
     }
@@ -61,49 +82,61 @@ class Catalog_Model_Product extends Core_Model_Abstract
                     ->save();
             }
         }
-            $image_data = $_FILES["catalog_product"];
-            // print_r($image_data);
-            $product_gallrey = Mage::getModel("catalog/gallrey");
-            $main_img = $this->getMainImage();
-            // print_r($main_img);
-            $tablename = $this->getResource()->getTablename();
-            print_r($tablename);
 
-            $count_images = count($_FILES[$tablename]["name"]["images"]);
-            for ($i = 0; $i < $count_images; $i++) {
-                if ($_FILES[$tablename]["name"]["images"][$i] && $_FILES[$tablename]["error"]["images"][$i] == 0) {
+        $image_data = $_FILES["catalog_product"];
+        // print_r($image_data);
+        $product_gallrey = Mage::getModel("catalog/gallrey");
+        $main_img = $this->getMainImage();
+        // print_r($main_img);
+        $tablename = $this->getResource()->getTablename();
+        print_r($tablename);
 
-                    $base_dir = Mage::getBaseDir();
-                    $upload_dir = $base_dir . DS . "media" . DS .  $tablename;
+        $count_images = count($_FILES[$tablename]["name"]["images"]);
+        for ($i = 0; $i < $count_images; $i++) {
+            if ($_FILES[$tablename]["name"]["images"][$i] && $_FILES[$tablename]["error"]["images"][$i] == 0) {
 
-                    if (!file_exists($upload_dir)) {
-                        mkdir($upload_dir, 0755, true);
-                    }
-                    if (basename($_FILES[$tablename]["name"]["images"][$i] == $main_img)) {
-                        print("in if");
-                        $data["default_file_path"] = 1;
+                $base_dir = Mage::getBaseDir();
+                $upload_dir = $base_dir . DS . "media" . DS .  $tablename;
+
+                if (!file_exists($upload_dir)) {
+                    mkdir($upload_dir, 0755, true);
+                }
+                if (basename($_FILES[$tablename]["name"]["images"][$i] == $main_img)) {
+                    // print("in if");
+                    $data["default_file_path"] = 1;
+                } else {
+                    // print("in else");
+                    $data["default_file_path"] = 0;
+                }
+                $tmp_name = $_FILES[$tablename]["tmp_name"]["images"][$i];
+                $filename = basename($_FILES[$tablename]["name"]["images"][$i]);
+                $upload_path = $upload_dir . DS . $filename;
+
+                if (move_uploaded_file($tmp_name, $upload_path)) {
+                    $image_collection = Mage::getModel("catalog/gallrey")->getCollection()
+                        ->addFieldToFilter("product_id", ["=" => $this->getProductId()])
+                        ->addFieldToFilter("file_path", ["=" => $filename])->getData();
+                    if (isset($image_collection[0])) {
+                        print_r("in update ");
                     } else {
-                        print("in else");
-                        $data["default_file_path"] = 0;
+                        if ($main_img == basename($_FILES[$tablename]["name"]["images"][$i])) {
+                            Mage::getModel("catalog/gallrey")->setProductId($this->getProductId())
+                                ->setFilePath($filename)->setType("image")->setDefaultFilePath(1)->save();
+                        } else {
+                            Mage::getModel("catalog/gallrey")->setProductId($this->getProductId())
+                                ->setFilePath($filename)->setType("image")->setDefaultFilePath(0)->save();
+                        }
                     }
-                    $tmp_name = $_FILES[$tablename]["tmp_name"]["images"][$i];
-                    $filename = basename($_FILES[$tablename]["name"]["images"][$i]);
-                    $upload_path = $upload_dir . DS . $filename;
 
-
-                    if (move_uploaded_file($tmp_name, $upload_path)) {
-
-
-                        $data["file_path"] = $filename;
-                        $data["type"] = "image";
-                        $data["product_id"] = $this->getProductId();
-                        $product_gallrey->setData($data);
-                        $product_gallrey->save();
-                    } else {
-                    }
+                    // $data["file_path"] = $filename;
+                    // $data["type"] = "image";
+                    // $data["product_id"] = $this->getProductId();
+                    // $product_gallrey->setData($data);
+                    // $product_gallrey->save();
                 } else {
                 }
+            } else {
             }
         }
     }
-
+}

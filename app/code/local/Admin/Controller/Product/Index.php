@@ -1,4 +1,5 @@
 <?php
+ob_start();
 class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
 {
    //protected $_product = [];

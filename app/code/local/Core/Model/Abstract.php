@@ -98,12 +98,13 @@ class Core_Model_Abstract
     {
         $this->_beforeSave();
         $this->getResource()->save($this);
+        
         $this->_afterSave();
         return $this;
     }
     protected function _afterLoad()
     {
-        // return $this;
+        
     }
     protected function _beforeSave()
     {
@@ -111,6 +112,7 @@ class Core_Model_Abstract
     }
     protected function _afterSave()
     {
+        
         return $this;
     }
 }
