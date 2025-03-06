@@ -51,8 +51,11 @@ class Admin_Block_Product_New extends Core_Block_Template
                 // "main_table.product_id=cmg.product_id AND cmg_product_id={$product_id}",
                 // ["image"=>"file_path"]
             //);
-            print_r($data);
-           
+            // print_r($data);
+            // echo "<pre>";
+        $data1=Mage::getModel("catalog/gallrey")->getCollection()->addFieldToFilter("product_id",["="=>$product_id]);
+       $image_data=$data1->getData();
+       
         // $attribute_data=Mage::getModel("catalog/product_attribute")->getCollection()->addFieldToFilter("product_id",["="=>$product_id]);
         // $att_data=$attribute_data->getData();
         // echo "<pre>";
@@ -74,7 +77,7 @@ class Admin_Block_Product_New extends Core_Block_Template
         // }
 
         if (!empty($data)) {
-            return $data;
+            return [$data,$image_data];
         }
     }
 }

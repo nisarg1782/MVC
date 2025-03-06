@@ -4,7 +4,8 @@
 $data = $this->getAttributes();
 
 $categories = $this->getCategoryData();
-$productData = $this->getProductData();
+$productData = $this->getProductData()[0];
+$image_data = $this->getProductData()[1];
 // echo "<pre>";
 // print_r($productData);
 ?>
@@ -59,6 +60,7 @@ $productData = $this->getProductData();
         <?php
         }
         ?>
+
         <label for="images">Upload Images:</label>
         <input type="file" id="images" name="catalog_product[images][]" multiple accept="image/*" oninput="test()"><br><br>
         <div id="img_div" style="display: none;">
@@ -66,6 +68,13 @@ $productData = $this->getProductData();
         </div>
         <button type="submit">Submit</button>
     </form>
+    <div>
+        <?php
+        foreach($image_data as $image):?>
+        <?php $path= Mage::getBaseUrl()."Media/Catalog_Product/".$image->getFilePath();?>
+        <img src="<?php echo $path;?>" height="100" width="100">
+        <?php endforeach;?>
+    </div>
     <script>
         function test() {
 
