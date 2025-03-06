@@ -19,7 +19,7 @@ class Core_Block_Template
     }
     public function removeChild($key)
     {
-        $this->_child[$key];
+        unset($this->_child[$key]);
         return $this;
     }
     public function setTemplate($temp)
@@ -56,6 +56,10 @@ class Core_Block_Template
     public function ProductStatusText()
     {
         return 1;
+    }
+    public function getLayout()
+    {
+        return Mage::getBlockSingleton("core/layout");
     }
 }
 ?>

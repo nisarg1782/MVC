@@ -1,8 +1,4 @@
-<?php
-$data1 = $this->productData();
-$mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
-$catdata = $this->getCategoryData();
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,12 +14,7 @@ $catdata = $this->getCategoryData();
             padding: 20px;
         }
 
-        .sidebar {
-            width: 250px;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-        }
+        
 
         .product-section {
             flex: 1;
@@ -59,63 +50,20 @@ $catdata = $this->getCategoryData();
             cursor: pointer;
         }
     </style>
-    <script>
-        function showdata() {
-            var selectedCategories = [];
-            document.querySelectorAll('input[name="category[]"]:checked').forEach(function(checkbox) {
-                selectedCategories.push(checkbox.value);
-            });
-
-            var formattedCategories = selectedCategories.join(',');
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://localhost/MVC/catalog/product/list/?cid=" + formattedCategories, true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById("main_body").innerHTML = xhr.responseText;
-
-                    
-                    selectedCategories.forEach(function(value) {
-                        var checkbox = document.querySelector('input[name="category[]"][value="' + value + '"]');
-                        if (checkbox) {
-                            checkbox.checked = true;
-                        }
-                    });
-                }
-            };
-            xhr.send();
-        }
-    </script>
+   
 </head>
 
 <body id="main_body">
     <div class="main-container">
         <!-- Sidebar for Filters -->
-        <div class="sidebar">
-            <h3>Filters</h3>
-            <?php foreach ($catdata as $category): ?>
-                <label>
-                    <input type="checkbox" name="category[]" value="<?= $category->getCategoryId(); ?>" onchange="showdata()">
-                    <?php echo $category->getName(); ?>
-                </label>
-            <?php endforeach; ?>
-        </div>
-
+       
+        <?php
+        $this->getChildHtml("filter");
+        ?>
         <!-- Product Display Section -->
-        <div class="product-section">
-            <div id="product-container" class="container">
-                <?php foreach ($data1 as $productObj): ?>
-                    <div class="product-card">
-                        <img src="<?= $mediaBaseUrl . $productObj->getImage(); ?>" alt="<?= $productObj->getName(); ?>">
-                        <h3><?= $productObj->getName(); ?></h3>
-                        <p class="price">Rs. <?= number_format($productObj->getPrice(), 2); ?></p>
-                        <a href="<?= Mage::getBaseUrl(); ?>Catalog/Product/view/?id=<?= $productObj->getProductId(); ?>">
-                            <button class="view-btn">View Product</button>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
+       <?php
+       $this->getChildHtml("products");
+       ?>
     </div>
 </body>
 

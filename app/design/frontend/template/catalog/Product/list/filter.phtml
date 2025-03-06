@@ -1,0 +1,50 @@
+<?php
+$mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
+$catdata = $this->getCategoryData();
+?>
+ <script>
+        function showdata() {
+            var selectedCategories = [];
+            document.querySelectorAll('input[name="category[]"]:checked').forEach(function(checkbox) {
+                selectedCategories.push(checkbox.value);
+            });
+
+            var formattedCategories = selectedCategories.join(',');
+
+            var xhr = new XMLHttpRequest();
+            // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            xhr.open("GET", "http://localhost/MVC/catalog/product/list/?cid=" + formattedCategories, true);
+            // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("main_body").innerHTML = xhr.responseText;
+                    console.log("ajax"+xhr.responseText);
+                    
+                    selectedCategories.forEach(function(value) {
+                        var checkbox = document.querySelector('input[name="category[]"][value="' + value + '"]');
+                        if (checkbox) {
+                            checkbox.checked = true;
+                        }
+                    });
+                }
+            };
+            xhr.send();
+        }
+    </script>
+<!-- <style>
+    .sidebar {
+            width: 250px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+        }
+    </style> -->
+<div class="sidebar">
+<h3>Filters</h3>
+<?php foreach ($catdata as $category): ?>
+    <label>
+        <input type="checkbox" name="category[]" value="<?= $category->getCategoryId(); ?>" onchange="showdata()">
+        <?php echo $category->getName(); ?>
+    </label>
+<?php endforeach; ?>
+</div>

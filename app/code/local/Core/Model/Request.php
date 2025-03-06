@@ -31,10 +31,9 @@ class Core_Model_Request
     {
         return $this->_actionName;
     }
-    public function  getQuery($field=null)
+    public function  getQuery($field = null)
     {
-        if($field===null)
-        {
+        if ($field === null) {
             return $_GET;
         }
         if (isset($_GET[$field])) {
@@ -54,5 +53,47 @@ class Core_Model_Request
     public function getParams()
     {
         return $_POST;
+    }
+    //public function identifyRequest()
+    // {
+    //     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+    //         return "ajax";
+    //     } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         return "post";
+    //     } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    //         return "get";
+    //     } else {
+    //         echo "Unknown request type";
+    //     }
+    // }
+    public function is_Ajax()
+    {
+        // echo "<pre>";
+        // for($i=0;$i<10;$i++)
+        // {
+        //     print("<br>");
+        // }
+        // print_r($_SERVER);
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function is_Post()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            return True;
+        } else {
+            return false;
+        }
+    }
+    public function is_Get()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            return True;
+        } else {
+            return false;
+        }
     }
 }

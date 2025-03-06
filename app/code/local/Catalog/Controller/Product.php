@@ -14,8 +14,17 @@ class Catalog_Controller_Product
     public function listAction()
     {
 
-        $layout = Mage::getBlock('core/layout');
-        $list = $layout->createBlock('catalog/product_list');
+        $layout = Mage::getBlockSingleton("core/layout");
+        $request=Mage::getModel("core/request");
+      
+        if ($request->is_Ajax()) {
+             
+        } else {
+           print("no in ajax");
+            error_log("Not an AJAX request.");
+        }
+        
+        $list = $layout->createBlock('catalog/product_list')->setTemplate('catalog/product/list.phtml');;
         $layout->getChild('content')->addChild('list', $list);
         $layout->toHtml();
         // $request = Mage::getSingleton("core/request");

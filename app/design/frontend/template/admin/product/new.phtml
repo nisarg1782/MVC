@@ -70,13 +70,15 @@ $productData = $this->getProductData();
     </form>
     <div>
         <?php
-        $base_url=Mage::getBaseUrl()."Media/Catalog_Product/";
+        $base_url = Mage::getBaseUrl() . "Media/Catalog_Product/";
         // print_r($productData->getFiles());
         // die;
-        for($i=0;$i<count($productData->getFiles());$i++):?>
-        <?php $path= $base_url.$productData->getFiles()[$i];?>
-        <img src="<?php echo $path;?>" height="100" width="100">
-        <?php endfor;?>
+        if ($productData->getFiles() > 0) {
+            for ($i = 0; $i < count($productData->getFiles()); $i++): ?>
+                <?php $path = $base_url . $productData->getFiles()[$i]; ?>
+                <img src="<?php echo $path; ?>" height="100" width="100">
+        <?php endfor;
+        } ?>
     </div>
     <script>
         function test() {
