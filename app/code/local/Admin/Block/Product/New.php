@@ -46,8 +46,13 @@ class Admin_Block_Product_New extends Core_Block_Template
         $request = Mage::getSingleton("core/request");
         $product_id = $request->getQuery("id");
         $data = Mage::getModel("catalog/product")
-            ->load($product_id);
-            
+            ->load($product_id);//->joinLeft(
+                // ["cmg"=>"catalog_media_gallery"],
+                // "main_table.product_id=cmg.product_id AND cmg_product_id={$product_id}",
+                // ["image"=>"file_path"]
+            //);
+            print_r($data);
+           
         // $attribute_data=Mage::getModel("catalog/product_attribute")->getCollection()->addFieldToFilter("product_id",["="=>$product_id]);
         // $att_data=$attribute_data->getData();
         // echo "<pre>";

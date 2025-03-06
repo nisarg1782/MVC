@@ -47,18 +47,20 @@ $productData = $this->getProductData();
         </select><br><br>
         <?php
         foreach ($data as $_data) {
-            $method = "get" . $_data->getName();
+            $method = "get" . ucfirst($_data->getName());
+            // print_r($method);
+            // echo $_data->$method();
         ?>
             <label for="<?php echo $_data->getattributeId(); ?>"><?php echo $_data->getname(); ?>:</label>
-            <input type="<?php echo $_data->gettype() ?>" value="<?php echo $_data->$method(); ?>"
+            <input type="<?php echo $_data->gettype() ?>" value="<?php echo $productData->$method(); ?>"
                 name="catalog_product[<?php echo $_data->getname(); ?>]">
             <br>
             <br>
         <?php
         }
         ?>
-        <label for="images">Upload Other Images:</label>
-        <input type="file" id="images" name="catalog_media_gallery[images][]" multiple accept="image/*" oninput="test()"><br><br>
+        <label for="images">Upload Images:</label>
+        <input type="file" id="images" name="catalog_product[images][]" multiple accept="image/*" oninput="test()"><br><br>
         <div id="img_div" style="display: none;">
 
         </div>
@@ -72,7 +74,7 @@ $productData = $this->getProductData();
             var img = document.getElementById("images").files;
             for (var i = 0; i < img.length; i++) {
                 img_data +=
-                    "<label><input type='radio' name='main_image' value='" + img[i].name + "'> " + img[i].name + "</label><br>";
+                    "<label><input type='radio' name='catalog_product[main_image]' value='" + img[i].name + "'> " + img[i].name + "</label><br>";
             }
             document.getElementById("img_div").innerHTML = img_data;
             document.getElementById("img_div").style.display = "block";
