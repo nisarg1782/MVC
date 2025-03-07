@@ -23,36 +23,36 @@ $data = $this->listdata();
         </thead>
         <tbody>
             <?php foreach ($data as $_data): ?>
-                <tr>
-                    <td><?php echo $_data->getProductId(); ?></td>
-                    <td><?php echo $_data->getName(); ?></td>
-                    <td><?php echo $_data->getCategoryName(); ?></td>
-                    <td><?php echo $_data->getDescription(); ?></td>
-                    <td><?php echo number_format($_data->getPrice(), 2); ?></td>
-                    <td><?php echo $_data->getSku(); ?></td>
-                    <td><?php echo $_data->getStockQuantity(); ?></td>
-                    <?php
+            <tr>
+                <td><?php echo $_data->getProductId(); ?></td>
+                <td><?php echo $_data->getName(); ?></td>
+                <td><?php echo $_data->getCategoryName(); ?></td>
+                <td><?php echo $_data->getDescription(); ?></td>
+                <td><?php echo number_format($_data->getPrice(), 2); ?></td>
+                <td><?php echo $_data->getSku(); ?></td>
+                <td><?php echo $_data->getStockQuantity(); ?></td>
+                <?php
                     $id = $_data->getProductId();
                     $url = Mage::getBaseUrl();
                     ?>
-                    <td>
-                        <a href="<?php echo $url; ?>admin/product_index/delete/?id=<?php echo $id; ?>"
-                            onclick="return deleteprod();">
-                            Delete
-                        </a>
-                    </td>
+                <td>
+                    <a href="<?php echo $url; ?>admin/product_index/delete/?id=<?php echo $id; ?>"
+                        onclick="return deleteprod();">
+                        Delete
+                    </a>
+                </td>
 
-                    <td><a href="<?php echo $url ?>admin/product_index/new/?id=<?php echo $id; ?>">Edit</a></td>
+                <td><a href="<?php echo $url ?>admin/product_index/new/?id=<?php echo $id; ?>">Edit</a></td>
 
 
-                </tr>
+            </tr>
             <?php endforeach; ?>
         </tbody>
 
     </table>
     <script>
-        function deleteprod() {
-            return confirm("are you sure you wanted to delete this product");
-        }
+    function deleteprod() {
+        return confirm("are you sure you wanted to delete this product");
+    }
     </script>
 </body>

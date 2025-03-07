@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Cards</title>
-   
+
     <style>
         .main-container {
             display: flex;
@@ -13,7 +13,7 @@
             padding: 20px;
         }
 
-        
+
 
         .product-section {
             flex: 1;
@@ -49,20 +49,20 @@
             cursor: pointer;
         }
     </style>
-   
+
 </head>
 
 <body id="main_body">
     <div class="main-container">
         <!-- Sidebar for Filters -->
-       
+
         <?php
         $this->getChildHtml("filter");
         ?>
         <!-- Product Display Section -->
-       <?php
-       $this->getChildHtml("products");
-       ?>
+        <?php
+        $this->getChildHtml("products");
+        ?>
     </div>
 </body>
 

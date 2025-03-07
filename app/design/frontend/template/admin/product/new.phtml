@@ -62,7 +62,8 @@ $productData = $this->getProductData();
         ?>
 
         <label for="images">Upload Images:</label>
-        <input type="file" id="images" name="catalog_product[images][]" multiple accept="image/*" oninput="test()"><br><br>
+        <input type="file" id="images" name="catalog_product[images][]" multiple accept="image/*"
+            oninput="test()"><br><br>
         <div id="img_div" style="display: none;">
 
         </div>
@@ -88,7 +89,8 @@ $productData = $this->getProductData();
             var img = document.getElementById("images").files;
             for (var i = 0; i < img.length; i++) {
                 img_data +=
-                    "<label><input type='radio' name='catalog_product[main_image]' value='" + img[i].name + "'> " + img[i].name + "</label><br>";
+                    "<label><input type='radio' name='catalog_product[main_image]' value='" + img[i].name + "'> " + img[i]
+                    .name + "</label><br>";
             }
             document.getElementById("img_div").innerHTML = img_data;
             document.getElementById("img_div").style.display = "block";
