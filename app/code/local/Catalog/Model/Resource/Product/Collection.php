@@ -9,7 +9,7 @@ class Catalog_Model_Resource_Product_Collection extends Core_Model_Resource_Coll
             $a = Mage::getModel("catalog/attribute")
                 ->load($attribute, "name");
 
-            echo "<pre>";
+            // echo "<pre>";
             // print_r($a->getName());
 
 
@@ -27,7 +27,7 @@ class Catalog_Model_Resource_Product_Collection extends Core_Model_Resource_Coll
     }
     public function addCategoryFilter($category_id)
     {
-      
+
         return $this->addFieldToFilter(
             "category_id",
             ["IN" => $category_id]
@@ -42,10 +42,10 @@ class Catalog_Model_Resource_Product_Collection extends Core_Model_Resource_Coll
         $this->addAttributeToSelect([$attribute]);
         // echo "123";
         // print_r($value);
-        $key=array_keys($value);
+        $key = array_keys($value);
         // print_r($key);
-        $value1=implode("','",$value[$key[0]]);
+        // $value1=implode("','",$value[$key[0]]);
         // print($value1);
-        $this->addFieldToFilter("cpa_{$attribute}.value",["IN"=>$value1]);
+        $this->addFieldToFilter("cpa_{$attribute}.value", ["IN" => $value]);
     }
 }

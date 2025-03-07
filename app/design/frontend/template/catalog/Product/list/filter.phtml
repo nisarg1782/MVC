@@ -1,36 +1,31 @@
 <?php
 $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
 $catdata = $this->getCategoryData();
+
 ?>
- <script>
-        function showdata() {
-            var selectedCategories = [];
-            document.querySelectorAll('input[name="category[]"]:checked').forEach(function(checkbox) {
-                selectedCategories.push(checkbox.value);
-            });
+<script>
+    function showdata() {
+        var selectedCategories = $('input[name="category[]"]:checked').map(function() {
+            return this.value;
+        }).get();
 
-            var formattedCategories = selectedCategories.join(',');
+        var mfg_date = $('input[name="mfg_date"]').val();
 
-            var xhr = new XMLHttpRequest();
-            // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-            xhr.open("GET", "http://localhost/MVC/catalog/product/list/?cid=" + formattedCategories, true);
-            // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById("main_body").innerHTML = xhr.responseText;
-                    console.log("ajax"+xhr.responseText);
-                    
-                    selectedCategories.forEach(function(value) {
-                        var checkbox = document.querySelector('input[name="category[]"][value="' + value + '"]');
-                        if (checkbox) {
-                            checkbox.checked = true;
-                        }
-                    });
-                }
-            };
-            xhr.send();
-        }
-    </script>
+        $.ajax({
+            url: "http://localhost/MVC/catalog/product/list/",
+            type: "GET",
+            data: {
+                cid: selectedCategories, // Pass as an array
+                mfgdate: mfg_date
+            },
+            dataType: "html",
+            success: function(response) {
+                console.log(response);
+                $("#product_card").html(response);
+            }
+        });
+    }
+</script>
 <!-- <style>
     .sidebar {
             width: 250px;
@@ -40,11 +35,12 @@ $catdata = $this->getCategoryData();
         }
     </style> -->
 <div class="sidebar">
-<h3>Filters</h3>
-<?php foreach ($catdata as $category): ?>
-    <label>
-        <input type="checkbox" name="category[]" value="<?= $category->getCategoryId(); ?>" onchange="showdata()">
-        <?php echo $category->getName(); ?>
-    </label>
-<?php endforeach; ?>
+    <h3>Filters</h3>
+    <?php foreach ($catdata as $category): ?>
+        <label>
+            <input type="checkbox" name="category[]" value="<?= $category->getCategoryId(); ?>" onchange="showdata()">
+            <?php echo $category->getName(); ?>
+        </label>
+    <?php endforeach; ?>
+    <input type="date" name="mfg_date" onchange="showdata()">
 </div>

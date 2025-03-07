@@ -66,20 +66,30 @@ class Core_Model_Request
     //         echo "Unknown request type";
     //     }
     // }
-    public function is_Ajax()
-    {
-        // echo "<pre>";
-        // for($i=0;$i<10;$i++)
-        // {
-        //     print("<br>");
-        // }
-        // print_r($_SERVER);
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            return true;
-        } else {
-            return false;
-        }
-    }
+//     public function is_Ajax()
+//     {
+//         for($i=0;$i<10;$i++)
+//         {
+//             print("<br>");
+//         }
+//      echo "<pre>";
+//         // var_dump($_SERVER);
+//         // die;
+        
+// // var_dump(getallheaders());
+
+//         print_r($_SERVER);
+//         return (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) &&
+//             strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+//     }
+
+
+// Usage Example
+public function isAjax() {
+    return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'; 
+}
+
+
     public function is_Post()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -11,7 +11,7 @@ class Page_Block_Head extends Core_Block_Template
     {
         $this->_js[] = $file;
         //print($file);
-        print("<br>");
+        // print("<br>");
         return $this;
     }
     public function addCss($file)

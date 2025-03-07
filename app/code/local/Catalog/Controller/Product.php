@@ -15,17 +15,19 @@ class Catalog_Controller_Product
     {
 
         $layout = Mage::getBlockSingleton("core/layout");
-        $request=Mage::getModel("core/request");
-      
-        if ($request->is_Ajax()) {
-             
-        } else {
-           print("no in ajax");
-            error_log("Not an AJAX request.");
-        }
-        
-        $list = $layout->createBlock('catalog/product_list')->setTemplate('catalog/product/list.phtml');;
+        $request = Mage::getModel("core/request");
+        $list = $layout->createBlock('catalog/product_list')->setTemplate('catalog/product/list.phtml');
         $layout->getChild('content')->addChild('list', $list);
+        if ($request->isAjax()) {
+            // print("in if");
+            $layout->getChild("content")->getChild("list")->removeChild("filter");
+            $layout->removeChild("footer");
+            $layout->removeChild("header");
+        } else {
+            // print("no in ajax");
+            // error_log("Not an AJAX request.");
+        }
+
         $layout->toHtml();
         // $request = Mage::getSingleton("core/request");
         // $tmp_get = $request->getQuery();

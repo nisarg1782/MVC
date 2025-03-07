@@ -10,7 +10,7 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Cards</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <style>
     .main-container {
         display: flex;
@@ -52,34 +52,7 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
         cursor: pointer;
     }
     </style>
-    <script>
-    function showdata() {
-        var selectedCategories = [];
-        document.querySelectorAll('input[name="category[]"]:checked').forEach(function(checkbox) {
-            selectedCategories.push(checkbox.value);
-        });
-
-        var formattedCategories = selectedCategories.join(',');
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost/MVC/catalog/product/list/?cid=" + formattedCategories, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                document.getElementById("main_body").innerHTML = xhr.responseText;
-
-
-                selectedCategories.forEach(function(value) {
-                    var checkbox = document.querySelector('input[name="category[]"][value="' + value +
-                    '"]');
-                    if (checkbox) {
-                        checkbox.checked = true;
-                    }
-                });
-            }
-        };
-        xhr.send();
-    }
-    </script>
+   
 </head>
 
 <body id="main_body">
@@ -91,7 +64,7 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
         <div class="product-section">
             <div id="product-container" class="container">
                 <?php foreach ($data1 as $productObj): ?>
-                <div class="product-card">
+                <div class="product-card" id="product_card">
                     <img src="<?= $mediaBaseUrl . $productObj->getImage(); ?>" alt="<?= $productObj->getName(); ?>">
                     <h3><?= $productObj->getName(); ?></h3>
                     <p class="price">Rs. <?= number_format($productObj->getPrice(), 2); ?></p>
