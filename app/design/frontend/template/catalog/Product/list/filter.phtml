@@ -1,6 +1,7 @@
 <?php
 $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
 $catdata = $this->getCategoryData();
+$color=$this->getAttData();
 
 ?>
 <script>
@@ -10,18 +11,26 @@ $catdata = $this->getCategoryData();
         }).get();
 
         var mfg_date = $('input[name="mfg_date"]').val();
-
+        var color=$('input[name="color[]"]::checked').map(function()
+    {
+        return this.value;
+    }).get();
+    // var color=color.join(",");
         $.ajax({
             url: "http://localhost/MVC/catalog/product/list/",
             type: "GET",
             data: {
-                cid: selectedCategories, // Pass as an array
-                mfgdate: mfg_date
+                cid: selectedCategories,
+                mfgdate: mfg_date,
+                color:color
             },
             dataType: "html",
             success: function(response) {
-                console.log(response);
-                $("#product_card").html(response);
+                // console.log(response);
+                // $("#main_body").html("");
+                $("#product-container").empty().html(response);
+
+                // $("#product_card").html(response);
             }
         });
     }
@@ -43,4 +52,14 @@ $catdata = $this->getCategoryData();
         </label>
     <?php endforeach; ?>
     <input type="date" name="mfg_date" onchange="showdata()">
+    <?php for($i=0;$i<count($color);$i++)
+    {
+        ?>
+        <label>
+        <input type="checkbox" name="color[]" value="<?= $color[$i];?>" onchange="showdata()">
+        <?php echo $color[$i]; ?>
+    </label>
+    <?php
+    }
+    ?>
 </div>

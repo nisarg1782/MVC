@@ -6,8 +6,8 @@ class Catalog_Block_Product_List extends Core_Block_Template
         $this->setTemplate('catalog/product/list.phtml');
         $filter = $this->getLayout()->createBlock("catalog/product_list_filter");
         $product = $this->getLayout()->createBlock("catalog/product_list_products");
-        $this->addChild("filter",$filter);
-        $this->addChild("products",$product);
+        $this->addChild("filter", $filter);
+        $this->addChild("products", $product);
         // $this->createBlock("catalog/product_list_filter");
         // $this->createBlock("catalog/product_list_products");
     }
@@ -21,7 +21,11 @@ class Catalog_Block_Product_List extends Core_Block_Template
         );
 
         $data = $cat->getdata();
-
+        // print_r($cat->prepareQuery());
+        // die;
+        // echo "<pre>";
+        // print_r($data);
+        // die;
         return $data;
     }
     public function getCategoryData()
@@ -31,5 +35,20 @@ class Catalog_Block_Product_List extends Core_Block_Template
             ->addFieldToFilter("parent_id", ["IN" => ["null", 0]]);
         $category_data = $category_collection->getData();
         return $category_data;
+    }
+    public function getAttData()
+    {
+        $product = Mage::getModel("catalog/product_attribute")->getCollection()->addFieldToFilter(
+            "attribute_id",
+            1
+        )->getData();
+        echo "<pre>";
+        $color = [];
+        // print_r($product);
+        foreach ($product as $data) {
+            array_push($color, $data->getValue());
+        }
+        $color = array_unique($color);
+        return $color;
     }
 }
