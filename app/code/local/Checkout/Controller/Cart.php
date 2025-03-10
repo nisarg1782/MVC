@@ -50,7 +50,7 @@ class Checkout_Controller_Cart
         }
 
         $session->set("cart", $cart);
-        $obj=new Core_Controller_Front_Action();
+        $obj = new Core_Controller_Front_Action();
         $obj->redirect("checkout/cart/index");
         // echo "<pre>";
         // print_r($session->get("cart"));

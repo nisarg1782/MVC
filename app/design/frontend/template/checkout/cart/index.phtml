@@ -3,8 +3,28 @@
 // $session = Mage::getModel("core/session");
 $cartData = $this->getCartData();
 // echo "</pre>";
-?>
+$base_url = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
+$tax_rate = 0.18; // 18% GST
+$total = 0;
 
+// if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["remove_item"])) {
+//     $itemToRemove = $_POST["remove_item"];
+//     foreach ($cartData as $key => $item) {
+//         if ($item["product_id"] == $itemToRemove) {
+//             print($item["quantity"]);
+//             if($item["quantity"]>=2)
+//             {
+//                 $item["quantity"]=$item["quantity"]-1;
+                
+//             }
+//             else{
+//                 unset($item["product_id"]);
+//             }
+//             break;
+//         }
+//     }
+// }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +35,7 @@ $cartData = $this->getCartData();
     <style>
         .cart-page {
             font-family: Arial, sans-serif;
-            background: #f9f9f9;
+            background: #f4f4f4;
             margin: 0;
             padding: 20px;
         }
@@ -26,14 +46,15 @@ $cartData = $this->getCartData();
             background: #fff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .cart-header {
             text-align: center;
-            font-size: 24px;
+            font-size: 26px;
             font-weight: bold;
             margin-bottom: 20px;
+            color: #333;
         }
 
         .cart-table {
@@ -48,50 +69,46 @@ $cartData = $this->getCartData();
             border-bottom: 1px solid #ddd;
         }
 
+        .cart-table th {
+            background-color: #007bff;
+            color: white;
+        }
+
         .cart-item-image {
             width: 60px;
             border-radius: 5px;
-        }
-
-        .cart-item-quantity {
-            width: 50px;
-            text-align: center;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .cart-item-remove-btn {
-            background: red;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .cart-item-remove-btn:hover {
-            background: darkred;
         }
 
         .cart-summary {
             text-align: right;
             margin-top: 20px;
             font-size: 18px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .cart-checkout-btn {
-            background: green;
+        .cart-summary p {
+            margin: 10px 0;
+        }
+
+        .cart-checkout-btn, .remove-btn {
+            background: #28a745;
             color: white;
             padding: 10px 20px;
             border: none;
             cursor: pointer;
             border-radius: 5px;
-            font-size: 18px;
+            font-size: 16px;
+            transition: background 0.3s;
         }
 
-        .cart-checkout-btn:hover {
-            background: darkgreen;
+        .cart-checkout-btn:hover, .remove-btn:hover {
+            background: #218838;
+        }
+        .remove-btn {
+            background: #dc3545;
         }
     </style>
 </head>
@@ -102,29 +119,52 @@ $cartData = $this->getCartData();
         <table class="cart-table">
             <thead>
                 <tr>
-                    <th>Product ID</th>
+                    <th>Image</th>
+                    <th>Name</th>
                     <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Sub Total</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (!empty($cartData)) : ?>
                     <?php foreach ($cartData as $item) : ?>
+                        <?php 
+                            $subtotal = $item["price"] * $item["quantity"];
+                            $total += $subtotal;
+                        ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($item['product_id']); ?></td>
+                            <td><img src="<?php echo $base_url . $item["image"]; ?>" height="100" width="100"></td>
+                            <td><?php echo htmlspecialchars($item['name']); ?></td>
                             <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                            <td>&#8377;<?php echo number_format($item["price"], 2); ?></td>
+                            <td>&#8377;<?php echo number_format($subtotal, 2); ?></td>
+                            <td>
+                                <form method="POST">
+                                    <input type="hidden" name="remove_item" value="<?php echo $item['product_id']; ?>">
+                                    <button type="submit" class="remove-btn">Remove</button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>
                     <tr>
-                        <td colspan="2">Your cart is empty.</td>
+                        <td colspan="6">Your cart is empty.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
         <div class="cart-summary">
+            <?php 
+                $tax_amount = $total * $tax_rate;
+                $grand_total = $total + $tax_amount;
+            ?>
+            <p><strong>Subtotal:</strong> &#8377;<?php echo number_format($total, 2); ?></p>
+            <p><strong>GST (18%):</strong> &#8377;<?php echo number_format($tax_amount, 2); ?></p>
+            <p><strong>Grand Total:</strong> &#8377;<?php echo number_format($grand_total, 2); ?></p>
             <button class="cart-checkout-btn">Proceed to Checkout</button>
         </div>
     </div>
 </body>
-
 </html>

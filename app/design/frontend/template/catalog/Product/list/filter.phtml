@@ -2,62 +2,80 @@
 $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
 $catdata = $this->getCategoryData();
 $color = $this->getAttData();
-// echo "<pre>";
-// print_r($color);
-// die;
 ?>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-    function showdata() {
-        var selectedCategories = $('input[name="category[]"]:checked').map(function() {
-            return this.value;
-        }).get();
-
-        var mfg_date = $('input[name="mfg_date"]').val();
-        var color = $('input[name="color[]"]::checked').map(function() {
-            return this.value;
-        }).get();
-        // var color=color.join(",");
-        $.ajax({
-            url: "http://localhost/MVC/catalog/product/list/",
-            type: "GET",
-            data: {
-                cid: selectedCategories,
-                mfgdate: mfg_date,
-                color: color
-            },
-            dataType: "html",
-            success: function(response) {
-                // console.log(response);
-                // $("#main_body").html("");
-                $("#product-container").empty().html(response);
-
-                // $("#product_card").html(response);
-            }
-        });
-    }
-</script>
-<!-- <style>
-    .sidebar {
-            width: 250px;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
+    class ProductFilter {
+        constructor() {
+            this.bindEvents();
         }
-    </style> -->
+
+        bindEvents() {
+            $('input[name="category[]"]').on("change", () => this.fetchData());
+            $('input[name="mfg_date"]').on("change", () => this.fetchData());
+            $('select[name="color"]').on("change", () => this.fetchData());
+        }
+
+        fetchData() {
+            // console.log("fetchData() called"); 
+
+            let selectedCategories = $('input[name="category[]"]:checked')
+                .map(function() {
+                    return $(this).val();
+                })
+                .get()
+                .join(",");
+
+            let mfg_date = $('input[name="mfg_date"]').val();
+            let selectedColors = $('select[name="color"]').val();
+
+            let requestData = {
+                cid: selectedCategories
+            };
+
+            if (mfg_date) requestData.mfgdate = mfg_date;
+            if (selectedColors) requestData.color = selectedColors;
+
+            // console.log("AJAX Request Data:", requestData); 
+
+            $.ajax({
+                url: "http://localhost/MVC/catalog/product/list/",
+                type: "GET",
+                data: requestData,
+                dataType: "html",
+                success: (response) => {
+                    console.log("AJAX Success:", response);
+                    $("#product-container").html(response);
+                },
+                error: (xhr, status, error) => {
+                    console.error("AJAX Error:", xhr.responseText, error);
+                }
+            });
+        }
+    }
+
+
+    $(document).ready(() => {
+        new ProductFilter();
+    });
+</script>
+
 <div class="sidebar">
     <h3>Filters</h3>
     <?php foreach ($catdata as $category): ?>
         <label>
-            <input type="checkbox" name="category[]" value="<?= $category->getCategoryId(); ?>" onchange="showdata()">
-            <?php echo $category->getName(); ?>
+            <input type="checkbox" name="category[]" value="<?= $category->getCategoryId(); ?>">
+            <?= $category->getName(); ?>
         </label>
     <?php endforeach; ?>
-    <input type="date" name="mfg_date" onchange="showdata()">
-    <select name="color" id="color" onchange="showdata()">
-        <option value="">Select a color</option>
-        <?php for ($i = 0; $i < count($color); $i++) { ?>
-            <option value="<?= $color[$i]; ?>"><?= $color[$i]; ?></option>
-        <?php } ?>
-    </select>
 
+    <input type="date" name="mfg_date">
+
+    <select name="color" id="color">
+        <option value="">Select a color</option>
+        <?php foreach ($color as $col): ?>
+            <option value="<?= $col; ?>"><?= $col; ?></option>
+        <?php endforeach; ?>
+    </select>
 </div>
