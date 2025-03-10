@@ -168,12 +168,12 @@ class Core_Model_Resource_Collection_Abstract
                     foreach ($_v as $op => $_value) {
                         switch (strtoupper($op)) {
                             case "IN":
-                                case "NOT IN":
-                                    $_value = is_array($_value) ? $_value : explode(',', $_value); // Ensure it's an array
-                                    $quotedValues = "'" . implode("', '", array_map('trim', $_value)) . "'"; // Trim spaces and format
-                                    $where = "$field $op ($quotedValues)";
-                                    break;
-                                
+                            case "NOT IN":
+                                $_value = is_array($_value) ? $_value : explode(',', $_value); // Ensure it's an array
+                                $quotedValues = "'" . implode("', '", array_map('trim', $_value)) . "'"; // Trim spaces and format
+                                $where = "$field $op ($quotedValues)";
+                                break;
+
 
 
                             case "LIKE":

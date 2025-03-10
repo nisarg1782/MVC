@@ -2,7 +2,9 @@
 $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
 $catdata = $this->getCategoryData();
 $color = $this->getAttData();
-
+// echo "<pre>";
+// print_r($color);
+// die;
 ?>
 <script>
     function showdata() {
@@ -51,13 +53,11 @@ $color = $this->getAttData();
         </label>
     <?php endforeach; ?>
     <input type="date" name="mfg_date" onchange="showdata()">
-    <?php for ($i = 0; $i < count($color); $i++) {
-    ?>
-        <label>
-            <input type="checkbox" name="color[]" value="<?= $color[$i]; ?>" onchange="showdata()">
-            <?php echo $color[$i]; ?>
-        </label>
-    <?php
-    }
-    ?>
+    <select name="color" id="color" onchange="showdata()">
+        <option value="">Select a color</option>
+        <?php for ($i = 0; $i < count($color); $i++) { ?>
+            <option value="<?= $color[$i]; ?>"><?= $color[$i]; ?></option>
+        <?php } ?>
+    </select>
+
 </div>

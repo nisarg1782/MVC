@@ -24,9 +24,8 @@ class Catalog_Controller_Product
             // $layout->getChild("content")->getChild("list")->removeChild("products");
             $layout->removeChild("footer");
             $layout->removeChild("header");
-            
         } else {
-          
+
             // print("no in ajax");
             // error_log("Not an AJAX request.");
         }
@@ -109,5 +108,4 @@ class Catalog_Controller_Product
         $collections = Mage::getModel("catalog/filter")->getProductCollection();
         echo $collections->prepareQuery();
     }
-   
 }

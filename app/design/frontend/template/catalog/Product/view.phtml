@@ -147,7 +147,7 @@ $count_img = count($data);
             <button class="add-to-cart" onclick="addToCart()">
                 <?php
                 $base_url=Mage::getBaseUrl();
-                $url=$base_url."checkout/cart/index";
+                $url=$base_url."checkout/cart/add/?id=".$data[$i]->getProductId();
                 ?>
                 <a href="<?php echo $url;?>">Add To Cart</a>
             </button>
