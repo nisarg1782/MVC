@@ -13,86 +13,86 @@ $cartData = $this->getCartData();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <style>
-    .cart-page {
-        font-family: Arial, sans-serif;
-        background: #f9f9f9;
-        margin: 0;
-        padding: 20px;
-    }
+        .cart-page {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
 
-    .cart-container {
-        width: 80%;
-        margin: auto;
-        background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        .cart-container {
+            width: 80%;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .cart-header {
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
+        .cart-header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
 
-    .cart-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-    .cart-table th,
-    .cart-table td {
-        padding: 15px;
-        text-align: center;
-        border-bottom: 1px solid #ddd;
-    }
+        .cart-table th,
+        .cart-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
 
-    .cart-item-image {
-        width: 60px;
-        border-radius: 5px;
-    }
+        .cart-item-image {
+            width: 60px;
+            border-radius: 5px;
+        }
 
-    .cart-item-quantity {
-        width: 50px;
-        text-align: center;
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+        .cart-item-quantity {
+            width: 50px;
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-    .cart-item-remove-btn {
-        background: red;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        cursor: pointer;
-        border-radius: 5px;
-    }
+        .cart-item-remove-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
 
-    .cart-item-remove-btn:hover {
-        background: darkred;
-    }
+        .cart-item-remove-btn:hover {
+            background: darkred;
+        }
 
-    .cart-summary {
-        text-align: right;
-        margin-top: 20px;
-        font-size: 18px;
-    }
+        .cart-summary {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 18px;
+        }
 
-    .cart-checkout-btn {
-        background: green;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 18px;
-    }
+        .cart-checkout-btn {
+            background: green;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+        }
 
-    .cart-checkout-btn:hover {
-        background: darkgreen;
-    }
+        .cart-checkout-btn:hover {
+            background: darkgreen;
+        }
     </style>
 </head>
 
@@ -108,16 +108,16 @@ $cartData = $this->getCartData();
             </thead>
             <tbody>
                 <?php if (!empty($cartData)) : ?>
-                <?php foreach ($cartData as $item) : ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($item['product_id']); ?></td>
-                    <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                </tr>
-                <?php endforeach; ?>
+                    <?php foreach ($cartData as $item) : ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($item['product_id']); ?></td>
+                            <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
                 <?php else : ?>
-                <tr>
-                    <td colspan="2">Your cart is empty.</td>
-                </tr>
+                    <tr>
+                        <td colspan="2">Your cart is empty.</td>
+                    </tr>
                 <?php endif; ?>
             </tbody>
         </table>
