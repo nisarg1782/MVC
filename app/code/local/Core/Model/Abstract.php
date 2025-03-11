@@ -51,7 +51,7 @@ class Core_Model_Abstract
         } else if ($f == 'set' && strpos($method, "_") === FALSE) {
             $value = substr($method, 3);
             $field = $this->camelToSnake($value);
-
+          
             $this->_data[$field] = $args[0];
             return $this;
         }

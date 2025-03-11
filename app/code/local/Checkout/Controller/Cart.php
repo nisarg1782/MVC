@@ -3,6 +3,7 @@ ob_start();
 // session_start();
 class Checkout_Controller_Cart
 {
+    public $productdata = [];
     public function indexAction()
     {
 
@@ -28,26 +29,27 @@ class Checkout_Controller_Cart
     }
     public function addAction()
     {
-        $product_id=0;
-        $quantity=0;
-       $request=Mage::getModel("core/request");
-       $data=$request->getParam("cart");
-       
-       $product_id=$data["productId"];
-       $quantity=$data["quantity"];
-       $cart_model=Mage::getSingleton("checkout/session")->getCart();
-       $cart_model->addProduct($product_id,$quantity);
-
-    
-        $layout = Mage::getBlock('core/layout');
-        $cartview = $layout->createBlock('checkout/cart_add')
-                       ->setTemplate('checkout/cart/add.phtml');
-        // $request=$layout->getRequest();
-                    //    print_r($view);
-                
-        $layout->getChild('content')->addChild('cartadd',$cartview);
-
-        $layout->toHtml();
+        // $productdata=[];
+        $product_id = 0;
+        $quantity = 0;
+        $request = Mage::getModel("core/request");
+        $data = $request->getParam("cart");
+        $product_id = $data["productId"];
+        $quantity = $data["quantity"];
+        $quantity = intval($quantity);
+        $product_id = intval($product_id);
+        var_dump($quantity);
+        var_dump($product_id);
+        $cart_model = Mage::getSingleton("checkout/session")->getCart()->addProduct($product_id,$quantity
+    )->save();
+        $cart_item_data = $cart_model->getItemCollection()->getData();
+        foreach ($cart_item_data as $cartdata) {
+            $this->productdata[] = $cartdata->getProduct();
+        }
+        $layout = Mage::getBlock("core/layout");
+        $url = $layout->getUrl("Checkout/Cart/Index");
+        print_r($url);
+        header("location:$url");
     }
     public function removeAction()
     {
@@ -59,16 +61,6 @@ class Checkout_Controller_Cart
 
         $layout->toHtml();
     }
-    public function testAction()
-    {
-        $cart=Mage::getModel("checkout/cart")->getCollection()->getData();
-        print_r($cart);
-
-        $cart_item=Mage::getModel("checkout/cart_item")->getCollection()->getData();
-        print_r($cart_item);
-    }
-    public function addProductAction()
-    {
-        
-    }
+    public function testAction() {}
+    public function addProductAction() {}
 }

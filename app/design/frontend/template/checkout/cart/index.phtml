@@ -1,0 +1,192 @@
+<?php
+$data = $this->getCartData();
+$url = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
+$total = 0;
+$taxRate = 0.18; // 18% GST
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cart-container {
+            width: 80%;
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Table Styling */
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .cart-table th,
+        .cart-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .cart-table th {
+            background: #007bff;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .cart-table img {
+            width: 80px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .cart-quantity {
+            width: 50px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .remove-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: darkred;
+        }
+
+        /* Summary Section */
+        .cart-summary {
+            border-top: 2px solid #ddd;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .summary-details {
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background: #f1f1f1;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .summary-details p {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        .checkout-btn {
+            background: green;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: darkgreen;
+        }
+
+        .empty-cart {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cart-container">
+        <h2>Your Shopping Cart</h2>
+
+        <?php if (!empty($data)) : ?>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($data as $_data) : ?>
+                <tr>
+                    <?php $path = $url . $_data->getProduct()->getFiles()[0]; ?>
+                    <td><img src="<?= $path; ?>" alt="Product Image"></td>
+                    <td><?= htmlspecialchars($_data->getProduct()->getName()); ?></td>
+                    <td>₹<?= number_format($_data->getPrice(), 2); ?></td>
+                    <td>
+                        <input type="number" value="<?= $_data->getQuantity(); ?>" min="1" class="cart-quantity">
+                    </td>
+                    <td>₹<?= number_format($_data->getSubTotal(), 2); ?></td>
+                    <td><button class="remove-btn">Remove</button></td>
+                </tr>
+               
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+<?php
+$total=$this->getTotalAmount();
+?>
+        <!-- Summary Section -->
+        <div class="cart-summary">
+            <div class="summary-details">
+                <p><strong>Subtotal:</strong> <span>₹<?= number_format($total, 2); ?></span></p>
+                <p><strong>Tax (18% GST):</strong> <span>₹<?= number_format($total * $taxRate, 2); ?></span></p>
+                <p><strong>Grand Total:</strong> <span>₹<?= number_format($total + ($total * $taxRate), 2); ?></span></p>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+
+        <?php else : ?>
+        <p class="empty-cart">Your cart is empty.</p>
+        <?php endif; ?>
+    </div>
+
+</body>
+
+</html>
