@@ -4,7 +4,6 @@ $catdata = $this->getCategoryData();
 $color = $this->getAttData();
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
     class ProductFilter {
         constructor() {
@@ -37,7 +36,7 @@ $color = $this->getAttData();
             if (mfg_date) requestData.mfgdate = mfg_date;
             if (selectedColors) requestData.color = selectedColors;
 
-            // console.log("AJAX Request Data:", requestData); 
+
 
             $.ajax({
                 url: "http://localhost/MVC/catalog/product/list/",
@@ -49,7 +48,7 @@ $color = $this->getAttData();
                     $("#product-container").html(response);
                 },
                 error: (xhr, status, error) => {
-                    console.error("AJAX Error:", xhr.responseText, error);
+                    // console.error("AJAX Error:", xhr.responseText, error);
                 }
             });
         }
@@ -60,7 +59,6 @@ $color = $this->getAttData();
         new ProductFilter();
     });
 </script>
-
 <div class="sidebar">
     <h3>Filters</h3>
     <?php foreach ($catdata as $category): ?>

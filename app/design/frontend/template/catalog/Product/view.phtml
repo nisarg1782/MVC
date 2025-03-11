@@ -86,7 +86,7 @@ $count_img = count($data);
             margin-bottom: 15px;
         }
 
-        
+
         .product-attributes {
             padding: 15px;
             background: #f1f1f1;
@@ -129,28 +129,35 @@ $count_img = count($data);
                     <img src="<?php echo $base_url . $data[$i]->getFilePath(); ?>" alt="Product Image">
                 <?php endfor; ?>
             </div>
-            <!-- Product Info -->
-            <div class="product-info">
-                <h2 class="product-title">Name:<?php echo $data[0]->getName(); ?></h2>
-                <p class="product-description">Description:<?php echo $data[0]->getDescription(); ?></p>
-                <p class="product-price">Price: <?php echo number_format($data[0]->getPrice(), 2); ?></p>
-            </div>
+            <form method="post" action="<?php echo $this->getUrl("checkout/cart/add"); ?>">
+                <!-- Product Info -->
+                <div class="product-info">
+                    <h2 class="product-title">Name:<?php echo $data[0]->getName(); ?></h2>
+                    <p class="product-description">Description:<?php echo $data[0]->getDescription(); ?></p>
+                    <p class="product-price">Price: <?php echo number_format($data[0]->getPrice(), 2); ?></p>
+                    <br>
+                    <input type="number" name="cart[quantity]" value="1">
 
-            <!-- Product Attributes -->
-            <div class="product-attributes">
-                <h3>Product Attributes</h3>
-                <?php for ($i = 0; $i < count($attribute_data); $i++): ?>
-                    <p><strong><?php echo $attribute_data[$i]->getName(); ?>:</strong> <?php echo $attribute_data[$i]->getValue(); ?></p>
-                <?php endfor; ?>
-            </div>
+                    <br>
+                </div>
 
-            <button class="add-to-cart" onclick="addToCart()">
+                <!-- Product Attributes -->
+                <div class="product-attributes">
+                    <h3>Product Attributes</h3>
+                    <?php for ($i = 0; $i < count($attribute_data); $i++): ?>
+                        <p><strong><?php echo $attribute_data[$i]->getName(); ?>:</strong> <?php echo $attribute_data[$i]->getValue(); ?></p>
+                    <?php endfor; ?>
+                </div>
+                <input type="hidden" name="cart[productId]" value="<?php echo $data[$i]->getProductId(); ?>">
+                <input type="submit">
+                <!-- <button class="add-to-cart" onclick="addToCart()">
                 <?php
-                $base_url=Mage::getBaseUrl();
-                $url=$base_url."checkout/cart/add/?id=".$data[$i]->getProductId();
+                //$base_url=Mage::getBaseUrl();
+                //$url=$base_url."checkout/cart/addProduct/?id=".$data[$i]->getProductId();
                 ?>
-                <a href="<?php echo $url;?>">Add To Cart</a>
-            </button>
+                <a href="<?php echo $url; ?>">Add To Cart</a>
+            </button> -->
+            </form>
         </div>
     </div>
 
@@ -160,25 +167,25 @@ $count_img = count($data);
         }
     </script>
     <script>
-    document.addEventListener("contextmenu", function(event) {
-        event.preventDefault();
-    });
+        document.addEventListener("contextmenu", function(event) {
+            event.preventDefault();
+        });
 
-    document.addEventListener("keydown", function(event) {
-        if (event.ctrlKey && (event.key === "u" || event.key === "U")) {
-            event.preventDefault();
-            alert("View source is disabled!");
-        }
-        if (event.ctrlKey && event.shiftKey && event.key === "I") {
-            event.preventDefault();
-            alert("Inspect Element is disabled!");
-        }
-        if (event.key === "F12") {
-            event.preventDefault();
-            alert("DevTools is disabled!");
-        }
-    });
-</script>
+        document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && (event.key === "u" || event.key === "U")) {
+                event.preventDefault();
+                alert("View source is disabled!");
+            }
+            if (event.ctrlKey && event.shiftKey && event.key === "I") {
+                event.preventDefault();
+                alert("Inspect Element is disabled!");
+            }
+            if (event.key === "F12") {
+                event.preventDefault();
+                alert("DevTools is disabled!");
+            }
+        });
+    </script>
 
 </body>
 

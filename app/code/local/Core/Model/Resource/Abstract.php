@@ -106,7 +106,7 @@ class Core_Model_Resource_Abstract
 
             
 
-            return $id;
+            // return $id;
         }
         //print(get_class($model));
 

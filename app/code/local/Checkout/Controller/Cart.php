@@ -28,42 +28,26 @@ class Checkout_Controller_Cart
     }
     public function addAction()
     {
-        $request = Mage::getModel("core/request");
-        $id = $request->getQuery("id");
-        // print_r($id);
-        $session = Mage::getSingleton("core/session");
-        $product = Mage::getModel("catalog/product")->load(
-            $id
-        );
+        $product_id=0;
+        $quantity=0;
+       $request=Mage::getModel("core/request");
+       $data=$request->getParam("cart");
+       
+       $product_id=$data["productId"];
+       $quantity=$data["quantity"];
+       $cart_model=Mage::getSingleton("checkout/session")->getCart();
+       $cart_model->addProduct($product_id,$quantity);
 
-        $cart = $session->get("cart") ?? [];
+    
+        $layout = Mage::getBlock('core/layout');
+        $cartview = $layout->createBlock('checkout/cart_add')
+                       ->setTemplate('checkout/cart/add.phtml');
+        // $request=$layout->getRequest();
+                    //    print_r($view);
+                
+        $layout->getChild('content')->addChild('cartadd',$cartview);
 
-        if (isset($cart[$id])) {
-
-            $cart[$id]['quantity'] += 1;
-        } else {
-
-            $cart[$id] = [
-                'product_id' => $id,
-                'quantity' => 1
-            ];
-        }
-
-        $session->set("cart", $cart);
-        $obj = new Core_Controller_Front_Action();
-        $obj->redirect("checkout/cart/index");
-        // echo "<pre>";
-        // print_r($session->get("cart"));
-        // echo "</pre>";
-
-
-        // $layout = Mage::getBlock('core/layout');
-        // $cartview = $layout->createBlock('checkout/cart_add')
-        //                ->setTemplate('checkout/cart/add.phtml');
-        //             //    print_r($view);
-        // $layout->getChild('content')->addChild('cartadd',$cartview);
-
-        // $layout->toHtml();
+        $layout->toHtml();
     }
     public function removeAction()
     {
@@ -74,5 +58,17 @@ class Checkout_Controller_Cart
         $layout->getChild('content')->addChild('cartremove', $cartview);
 
         $layout->toHtml();
+    }
+    public function testAction()
+    {
+        $cart=Mage::getModel("checkout/cart")->getCollection()->getData();
+        print_r($cart);
+
+        $cart_item=Mage::getModel("checkout/cart_item")->getCollection()->getData();
+        print_r($cart_item);
+    }
+    public function addProductAction()
+    {
+        
     }
 }
