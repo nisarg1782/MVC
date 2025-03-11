@@ -7,7 +7,6 @@ $taxRate = 0.18; // 18% GST
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -163,7 +162,10 @@ $taxRate = 0.18; // 18% GST
                         <input type="number" value="<?= $_data->getQuantity(); ?>" min="1" class="cart-quantity">
                     </td>
                     <td>₹<?= number_format($_data->getSubTotal(), 2); ?></td>
-                    <td><button class="remove-btn">Remove</button></td>
+                    <td><button class="remove-btn">
+
+                        <a href="<?php echo $this->getUrl("*/*/remove")."/?id=".$_data->getItemId()?>">Remove </a>
+                    </button></td>
                 </tr>
                
                 <?php endforeach; ?>

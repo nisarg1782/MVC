@@ -37,4 +37,17 @@ class Checkout_Model_Cart extends Core_Model_Abstract
     print_r($total);
     $this->setTotalAmount($total);
     }
+    public function removeItem($id)
+    {
+        
+        foreach($this->getItemCollection()->getData() as $_cart)
+       {
+            if($id==$_cart->getItemId())
+            {
+                
+                $_cart->delete();
+            }
+       }
+       return $this;
+    }
 }

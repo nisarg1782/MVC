@@ -29,7 +29,7 @@ class Checkout_Controller_Cart
     }
     public function addAction()
     {
-        // $productdata=[];
+        
         $product_id = 0;
         $quantity = 0;
         $request = Mage::getModel("core/request");
@@ -38,29 +38,49 @@ class Checkout_Controller_Cart
         $quantity = $data["quantity"];
         $quantity = intval($quantity);
         $product_id = intval($product_id);
-        var_dump($quantity);
-        var_dump($product_id);
+        // var_dump($quantity);
+        // var_dump($product_id);
         $cart_model = Mage::getSingleton("checkout/session")->getCart()->addProduct($product_id,$quantity
     )->save();
-        $cart_item_data = $cart_model->getItemCollection()->getData();
-        foreach ($cart_item_data as $cartdata) {
-            $this->productdata[] = $cartdata->getProduct();
-        }
+        // $cart_item_data = $cart_model->getItemCollection()->getData();
+        // foreach ($cart_item_data as $cartdata) {
+        //     $this->productdata[] = $cartdata->getProduct();
+        // }
         $layout = Mage::getBlock("core/layout");
         $url = $layout->getUrl("Checkout/Cart/Index");
-        print_r($url);
+        // print_r($url);
         header("location:$url");
     }
     public function removeAction()
     {
+        $request=Mage::getModel("core/request");
+        $id=$request->getQuery("id");
+        // print_r($id);
+        $cart=Mage::getSingleton("checkout/session")->getCart();
+        $cart->removeItem($id);
+        $cart->save();
         $layout = Mage::getBlock('core/layout');
-        $cartview = $layout->createBlock('checkout/cart_remove')
-            ->setTemplate('checkout/cart/remove.phtml');
-        //    print_r($view);
-        $layout->getChild('content')->addChild('cartremove', $cartview);
+        $url = $layout->getUrl("Checkout/Cart/Index");
+        // print_r($url);
+        header("location:$url");
+     
 
-        $layout->toHtml();
+        
+        // $cartview = $layout->createBlock('checkout/cart_remove')
+        //     ->setTemplate('checkout/cart/remove.phtml');
+        // //    print_r($view);
+        // $layout->getChild('content')->addChild('cartremove', $cartview);
+
+        // $layout->toHtml();
     }
-    public function testAction() {}
+    public function testAction() {
+
+        $cart=Mage::getSingleton("checkout/session")->
+                getCart()
+                ->getItemCollection();
+        $cart->select(["SUM(main_table.sub_total)"=>"subtotal","item_id"]);
+        Mage::log($cart->prepareQuery());
+
+    }
     public function addProductAction() {}
 }

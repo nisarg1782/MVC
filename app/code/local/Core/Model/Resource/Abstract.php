@@ -32,15 +32,33 @@ class Core_Model_Resource_Abstract
         $sql = "SELECT * FROM {$this->_tableName} WHERE {$field}='$value'  LIMIT 1";
         return $this->getAdapter()->fetchRow($sql);
     }
+    // public function delete($model)
+    // {
+    //     $data = $model->getData();
+    //     echo '<pre>';
+    //     print_r($data);
+    //     echo '</pre>';
+    //     $sql = "DELETE FROM {$this->_tableName} WHERE {$this->_primaryKey}=$data";
+    //     print("the sql is ".$sql);
+    //     die;
+
+    //     return $this->getAdapter()->query($sql);
+    // }
     public function delete($model)
     {
         $data = $model->getData();
-        // print_r($data);
 
-        $sql = "DELETE FROM {$this->_tableName} WHERE {$this->_primaryKey}=$data";
-        //print("the sql is ".$sql);
+        if (isset($data[$this->_primaryKey]) && $data[$this->_primaryKey]) {
+            $primaryId = $data[$this->_primaryKey];
+            $sql = sprintf("DELETE FROM %s WHERE %s = %s", $this->_tableName, $this->_primaryKey, $primaryId);
+            // echo 'delete sql:',$sql;
+            $this->getAdapter()->query($sql);
+            $model->load($primaryId);
 
-        return $this->getAdapter()->query($sql);
+        } else {
+            echo "Error: cannot perform delete over model:";
+            print_r($model);
+        }
     }
     protected function _getDbColumns()
     {

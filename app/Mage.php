@@ -55,4 +55,11 @@ class Mage
         // echo $class;
         // return new $class;
     }
+    public static function log($data)
+    {
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+    }
+   
 }
