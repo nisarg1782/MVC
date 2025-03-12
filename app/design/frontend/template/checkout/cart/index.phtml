@@ -1,146 +1,165 @@
 <?php
 $data = $this->getCartData();
 $url = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
-$total = 9000;
 $taxRate = 0.18; // 18% GST
-$discount = 0;
-$grandTotal = $total + ($total * $taxRate);
-
+$discount = Mage::getSingleton("checkout/session")->getCart()->getDiscountPrice();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
+    <title>Shopping Cart</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
         }
+
         .cart-container {
-            width: 80%;
-            max-width: 900px;
+            width: 90%;
+            max-width: 800px;
             margin: auto;
             background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+
         h2 {
             text-align: center;
             color: #333;
+            margin-bottom: 20px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
+
         th, td {
             border: 1px solid #ddd;
-            padding: 12px;
+            padding: 15px;
             text-align: center;
         }
+
         th {
             background: #007bff;
             color: white;
         }
+
         img {
-            width: 80px;
+            width: 60px;
             border-radius: 5px;
         }
+
         input[type="number"] {
-            width: 50px;
+            width: 60px;
             padding: 5px;
             text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-        button {
-            background: green;
+
+        .btn {
+            background: #28a745;
             color: white;
             border: none;
             padding: 10px 15px;
             cursor: pointer;
             border-radius: 5px;
+            transition: 0.3s;
         }
-        button:hover {
-            background: darkgreen;
+
+        .btn:hover {
+            background: #218838;
         }
+
+        .remove-btn {
+            background: #dc3545;
+            padding: 8px 12px;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
         .coupon-form {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
+
         .coupon-form input {
-            padding: 8px;
-            width: 200px;
+            padding: 10px;
+            width: 220px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        .coupon-form button {
-            margin-left: 10px;
-        }
+
         .summary {
             text-align: center;
-            background: #f1f1f1;
-            padding: 15px;
+            background: #f8f9fa;
+            padding: 20px;
             border-radius: 8px;
             margin-top: 20px;
+            font-size: 18px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary p {
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
     <div class="cart-container">
         <h2>Your Shopping Cart</h2>
-        
-        <form method="POST" class="coupon-form">
-            <input type="text" name="coupon_code" placeholder="Enter coupon code" required>
-            <button type="submit">Apply</button>
+        <form method="POST" class="coupon-form" action="<?php echo $this->getUrl("*/*/applyCoupon") ?>">
+            <input type="text" name="coupon" placeholder="Enter coupon code" required>
+            <button type="submit" class="btn">Apply</button>
         </form>
-        
-        <?php if (!empty($couponMessage)) : ?>
-            <p style="text-align:center; color: <?= $couponApplied ? 'green' : 'red'; ?>;"> <?= $couponMessage; ?> </p>
-        <?php endif; ?>
-        
+
         <?php if (!empty($data)) : ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Subtotal</th>
-                        <th>Remove</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($data as $_data) : ?>
-                        <tr>
-                            <?php $path = $url . $_data->getProduct()->getFiles()[0]; ?>
-                            <td><img src="<?= $path; ?>" alt="Product"></td>
-                            <td><?= htmlspecialchars($_data->getProduct()->getName()); ?></td>
-                            <td>₹<?= number_format($_data->getPrice(), 2); ?></td>
-                            <td><input type="number" value="<?= $_data->getQuantity(); ?>" min="1"></td>
-                            <td>₹<?= number_format($_data->getSubTotal(), 2); ?></td>
-                            <td><a href="<?= $this->getUrl("*/*/remove") . "/?id=" . $_data->getItemId(); ?>">Remove</a></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-            
-            <div class="summary">
-                <p><strong>Subtotal:</strong> ₹<?= number_format($total, 2); ?></p>
-                <p><strong>Tax (18% GST):</strong> ₹<?= number_format($total * $taxRate, 2); ?></p>
-                <?php if ($discount > 0) : ?>
-                    <p><strong>Discount:</strong> - ₹<?= number_format($discount, 2); ?></p>
-                <?php endif; ?>
-                <p><strong>Grand Total:</strong> ₹<?= number_format($grandTotal, 2); ?></p>
-                <button>Proceed to Checkout</button>
-            </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($data as $_data) : ?>
+                <tr>
+                    <td><img src="<?= $url . $_data->getProduct()->getFiles()[0]; ?>" alt="Product"></td>
+                    <td><?= htmlspecialchars($_data->getProduct()->getName()); ?></td>
+                    <td>₹<?= number_format($_data->getPrice(), 2); ?></td>
+                    <td><input type="number" value="<?= $_data->getQuantity(); ?>" min="1"></td>
+                    <td>₹<?= number_format($_data->getSubTotal(), 2); ?></td>
+                    <td><a href="<?= $this->getUrl("*/*/remove") . "/?id=" . $_data->getItemId(); ?>" class="btn remove-btn">Remove</a></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <div class="summary">
+            <p><strong>Before Discount:</strong> ₹<?= number_format($this->getTotalAmount() + $discount, 2); ?></p>
+            <?php if ($discount > 0) : ?>
+            <p><strong>Discount:</strong> - ₹<?= number_format($discount, 2); ?></p>
+            <?php endif; ?>
+            <p><strong>After Discount:</strong> ₹<?= number_format($this->getTotalAmount(), 2); ?></p>
+            <p><strong>Tax (18% GST):</strong> ₹<?= number_format($this->getTotalAmount() * $taxRate, 2); ?></p>
+            <p><strong>Grand Total:</strong> ₹<?= number_format($this->getTotalAmount() + ($this->getTotalAmount() * $taxRate), 2); ?></p>
+            <button class="btn">Proceed to Checkout</button>
+        </div>
         <?php else : ?>
-            <p style="text-align: center;">Your cart is empty.</p>
+        <p style="text-align: center;">Your cart is empty.</p>
         <?php endif; ?>
     </div>
 </body>

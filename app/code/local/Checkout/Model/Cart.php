@@ -34,14 +34,22 @@ class Checkout_Model_Cart extends Core_Model_Abstract
             // print($_data->getSubtotal());
             // echo '<br>';
             $total = $total + $_data->getSubTotal();
-            $total=$total-intval($_data->getDiscountPrice());
+            // $total=$total-intval($_data->getDiscountPrice());
         }
-        $cart = Mage::getSingleton("checkout/session")->getCart();
+        // $total=$total-intval($this->getDiscountPrice());
+        // echo '<pre>';
+        // print_r($this);
+        // echo '</pre>';
+        // print_r($total);
+        $discount=intval($this->getDiscountPrice());
+        $total=$total-$discount;
+        $this->setTotalAmount($total);
+        // $cart = Mage::getSingleton("checkout/session")->getCart();
 
-        if (!empty($cart)) {
-            $this->setTotalAmount($total);
-            $this->setCartId($cart->getCartId());
-        }
+        // if (!empty($cart)) {
+        //     $this->setTotalAmount($total);
+        //     $this->setCartId($cart->getCartId());
+        // }
     }
     public function removeItem($id)
     {

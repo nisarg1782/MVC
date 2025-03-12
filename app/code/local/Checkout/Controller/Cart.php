@@ -77,8 +77,22 @@ class Checkout_Controller_Cart
     }
     public function testAction()
     {
-
       Mage::getModel("checkout/coupon");
+    }
+    public function applyCouponAction()
+    {
+        $total=0;
+        $request=Mage::getModel("core/request");
+        $coupon=$request->getParam("coupon");
+        $cart=Mage::getSingleton("checkout/session")->getCart()->getItemCollection();
+       foreach($cart->getData() as $_cart)
+       {
+        $total+=$_cart->getSubTotal();
+       }
+       Mage::getModel("checkout/coupon")->calculateDiscount($total,$coupon);
+       $layout = Mage::getBlock('core/layout');
+       $url = $layout->getUrl("Checkout/Cart/Index");
+       header("location:$url");
     }
     
 }

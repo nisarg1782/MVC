@@ -42,16 +42,16 @@ class Checkout_Model_Coupon
         // ];
         $cart = Mage::getModel("checkout/session")->getCart();
         $cart->setCouponCode($coupon)
-        ->setDiscountPrice($discountAmount)
-        // ->setTotalAmount($finalAmount)
-        ->save();
+            ->setDiscountPrice($discountAmount)
+            // ->setTotalAmount($finalAmount)
+            ->save();
     }
 }
 
 // Example Usage:
-$couponModel = new Checkout_Model_Coupon();
-$totalAmount = 500; // Example cart total
-$couponCode = "WELCOME10"; // Example coupon
+// $couponModel = new Checkout_Model_Coupon();
+// $totalAmount = 500; // Example cart total
+// $couponCode = "WELCOME10"; // Example coupon
 
-$result = $couponModel->calculateDiscount($totalAmount, $couponCode);
-print_r($result);
+// $result = $couponModel->calculateDiscount($totalAmount, $couponCode);
+// print_r($result);
