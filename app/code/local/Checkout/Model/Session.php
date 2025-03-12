@@ -4,7 +4,7 @@ class Checkout_Model_Session extends Core_Model_Session
 {
     public function getCart()
     {
-
+        
         $cartid = $this->get('cart_id');
         // $this->remove("cart_id");
         $cart_id = is_null($cartid) ? 0 : $cartid;

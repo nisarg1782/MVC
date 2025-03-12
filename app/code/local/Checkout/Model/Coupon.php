@@ -22,12 +22,12 @@ class Checkout_Model_Coupon
 
         $discountValue = $this->coupons[$coupon];
 
-        // Check if it's a percentage discount
+     
         if (strpos($discountValue, '%') !== false) {
             $discountPercent = (int) str_replace('%', '', $discountValue);
             $discountAmount = ($totalAmount * $discountPercent) / 100;
         }
-        // Check if it's a flat discount (₹)
+      
         elseif (strpos($discountValue, '₹') !== false) {
             $discountAmount = (int) filter_var($discountValue, FILTER_SANITIZE_NUMBER_INT);
         } else {

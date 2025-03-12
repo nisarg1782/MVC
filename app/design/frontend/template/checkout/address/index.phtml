@@ -1,0 +1,176 @@
+<?php
+// $shipping_data = $this->getShippingDetails();
+
+// @session_start();
+// // echo '<pre>';
+// // print_r($addressData);
+// // echo '</pre>';
+// // $cartid=Mage::getSingleton("checkout/session")->getCart()->getCartId();
+// // mage::log($cartid);
+// echo '<pre>';
+// print_r($_SESSION);
+// echo '</pre>';
+// $addressData=$this->getAddress($cartid);
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Form</title>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+
+        <form method="post" action="<?php echo $this->getUrl("*/*/save") ?>">
+            <h3>Shipping Address</h3>
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" name="shipping[first_name]" required>
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" name="shipping[last_name]" required>
+            </div>
+            <div class="form-group">
+                <label>Street Address</label>
+                <input type="text" name="shipping[street_address]" required>
+            </div>
+            <div class="form-group">
+                <label>Country</label>
+                <select name="shipping[country]">
+                    <option value="">Select Country</option>
+                    <option value="India">India</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>State</label>
+                <select name="shipping[state]">
+                    <option value="">Select State</option>
+                    <option value="Gujarat">Gujarat</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>City</label>
+                <select name="shipping[city]">
+                    <option value="">Select City</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                    <option value="Surat">Surat</option>
+                    <option value="Vadodara">Vadodara</option>
+                    <option value="Rajkot">Rajkot</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>ZIP Code</label>
+                <input type="text" name="shipping[zipcode]" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="cart[email]" required>
+            </div>
+            <div class="form-group">
+                <label>Telephone</label>
+                <input type="tel" name="shipping[telephone]" required>
+            </div>
+            <br>
+            <br>
+            <h3>Billing Address</h3>
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" name="billing[first_name]" required>
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" name="billing[last_name]" required>
+            </div>
+            <div class="form-group">
+                <label>Street Address</label>
+                <input type="text" name="billing[street_address]" required>
+            </div>
+            <div class="form-group">
+                <label>Country</label>
+                <select name="billing[country]">
+                    <option value="">Select Country</option>
+                    <option value="India">India</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>State</label>
+                <select name="billing[state]">
+                    <option value="">Select State</option>
+                    <option value="Gujarat">Gujarat</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>City</label>
+                <select name="billing[city]">
+                    <option value="">Select City</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                    <option value="Surat">Surat</option>
+                    <option value="Vadodara">Vadodara</option>
+                    <option value="Rajkot">Rajkot</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>ZIP Code</label>
+                <input type="text" name="billing[zipcode]" required>
+            </div>
+
+            <div class="form-group">
+                <label>Telephone</label>
+                <input type="tel" name="billing[telephone]" required>
+            </div>
+           
+            <button type="submit">Submit Addresses</button>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -77,7 +77,10 @@ class Checkout_Controller_Cart
     }
     public function testAction()
     {
-      Mage::getModel("checkout/coupon");
+     $cart_address=Mage::getModel("checkout/cart_address")->getCollection()->getData();
+     echo '<pre>';
+     print_r($cart_address);
+     echo '</pre>';
     }
     public function applyCouponAction()
     {

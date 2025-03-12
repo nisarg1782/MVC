@@ -1,0 +1,142 @@
+<?php
+// Sample shipping data
+$shipping_data = $this->getAllprovider();
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Shipping & Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .shipping-option,
+        .payment-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            background-color: #fff;
+        }
+
+        .shipping-option:hover,
+        .payment-option:hover {
+            background-color: #f9f9f9;
+        }
+
+        .shipping-option input,
+        .payment-option input {
+            transform: scale(1.2);
+            margin-right: 10px;
+        }
+
+        .details {
+            flex-grow: 1;
+        }
+
+        .details strong {
+            color: #007bff;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .delivery-time {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .submit-btn:hover {
+            background: #0056b3;
+        }
+
+        .form-group {
+            display: none;
+            margin-top: 15px;
+        }
+    </style>
+    <script>
+        function selectPayment(paymentType) {
+            document.getElementById("card-details").style.display = paymentType === "card" ? "block" : "none";
+            document.getElementById("upi-details").style.display = paymentType === "upi" ? "block" : "none";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Select Shipping Provider</h2>
+        <form action="<?php echo $this->getUrl("*/*/save") ?>" method="post">
+            <?php foreach ($shipping_data as $option): ?>
+                <label class="shipping-option">
+                    <input type="radio" name="shipping_provider" value="<?php echo htmlspecialchars($option['name']); ?>" required>
+                    <div class="details">
+                        <strong><?php echo htmlspecialchars($option['name']); ?></strong>
+                        <p class="delivery-time">Delivery: <?php echo htmlspecialchars($option['delivery_time']); ?></p>
+                    </div>
+                    <span class="price">₹<?php echo number_format($option['charge'], 2); ?></span>
+                </label>
+            <?php endforeach; ?>
+
+            <h2>Select Payment Method</h2>
+
+            <label class="payment-option" onclick="selectPayment('card')">
+                <input type="radio" name="payment_method" value="card">
+                <div class="details">Credit / Debit Card</div>
+            </label>
+
+            <label class="payment-option" onclick="selectPayment('upi')">
+                <input type="radio" name="payment_method" value="upi" >
+                <div class="details">UPI</div>
+            </label>
+
+            <label class="payment-option">
+                <input type="radio" name="payment_method" value="cash on delivery" checked>
+                <div class="details">Cash on Delivery (COD)</div>
+            </label>
+
+            <button type="submit" class="submit-btn">Proceed to Payment</button>
+        </form>
+    </div>
+</body>
+
+</html>

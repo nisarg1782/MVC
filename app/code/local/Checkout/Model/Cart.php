@@ -41,8 +41,10 @@ class Checkout_Model_Cart extends Core_Model_Abstract
         // print_r($this);
         // echo '</pre>';
         // print_r($total);
+        $charge=intval($this->getCharge());
         $discount=intval($this->getDiscountPrice());
         $total=$total-$discount;
+        $total=$total+$charge;
         $this->setTotalAmount($total);
         // $cart = Mage::getSingleton("checkout/session")->getCart();
 

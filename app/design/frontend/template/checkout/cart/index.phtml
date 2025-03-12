@@ -156,7 +156,11 @@ $discount = Mage::getSingleton("checkout/session")->getCart()->getDiscountPrice(
             <p><strong>After Discount:</strong> ₹<?= number_format($this->getTotalAmount(), 2); ?></p>
             <p><strong>Tax (18% GST):</strong> ₹<?= number_format($this->getTotalAmount() * $taxRate, 2); ?></p>
             <p><strong>Grand Total:</strong> ₹<?= number_format($this->getTotalAmount() + ($this->getTotalAmount() * $taxRate), 2); ?></p>
-            <button class="btn">Proceed to Checkout</button>
+            <button class="btn">
+            <a href="<?php echo $this->getUrl("checkout/address/index")?>">        
+            Proceed to Checkout
+            </a>
+        </button>
         </div>
         <?php else : ?>
         <p style="text-align: center;">Your cart is empty.</p>
