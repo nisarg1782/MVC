@@ -9,7 +9,9 @@ class Checkout_Model_Cart extends Core_Model_Abstract
     }
     public function addProduct($productid, $quantity)
     {
-        Mage::getModel("checkout/cart_item")->setProductId($productid)->setQuantity($quantity)->setCartId($this->getCartId())->save();
+       
+        Mage::getModel("checkout/cart_item")->setProductId($productid)->setQuantity($quantity)->setCartId($this->getCartId())
+        ->save();
         return $this;
     }
     public function getItemCollection()
@@ -21,33 +23,54 @@ class Checkout_Model_Cart extends Core_Model_Abstract
                 "cart_id",
                 ["=" => $this->getCartId()]
             );
-        
+
         return $cart_item;
     }
     public function _beforeSave()
     {
-        $total=0;
-        $data=$this->getItemCollection()->getData();
-        foreach($data as $_data)
-    {
-        // print($_data->getSubtotal());
-        // echo '<br>';
-        $total=$total+$_data->getSubTotal();
-    }
-    print_r($total);
-    $this->setTotalAmount($total);
+        $total = 0;
+        $data = $this->getItemCollection()->getData();
+        foreach ($data as $_data) {
+            // print($_data->getSubtotal());
+            // echo '<br>';
+            $total = $total + $_data->getSubTotal();
+            $total=$total-intval($_data->getDiscountPrice());
+        }
+        $cart = Mage::getSingleton("checkout/session")->getCart();
+
+        if (!empty($cart)) {
+            $this->setTotalAmount($total);
+            $this->setCartId($cart->getCartId());
+        }
     }
     public function removeItem($id)
     {
-        
-        foreach($this->getItemCollection()->getData() as $_cart)
-       {
-            if($id==$_cart->getItemId())
-            {
-                
+        foreach ($this->getItemCollection()->getData() as $_cart) {
+            if ($id == $_cart->getItemId()) {
+
                 $_cart->delete();
+                // $_cart->save();
             }
-       }
-       return $this;
+        }
+        return $this;
+    }
+    public function updateItem($id, $quantity)
+    {
+        foreach ($this->getItemCollection()->getData() as $_cart) {
+            if ($id == $_cart->getItemId()) {
+                //  print_r($_cart->getQuantity());
+                // echo '<pre>';
+                // print_r($_cart);
+                // echo '</pre>';
+                // die;
+                $_cart->setItemId($id);
+                // $_cart->setProductId($this->getProductId());
+                // $this->setCartId($_cart->getCartId());
+                // $_cart->setQuantity(-$_cart->getQuantity());
+                $_cart->setQuantity($quantity);
+                $_cart->save();
+            }
+        }
+        return $this;
     }
 }

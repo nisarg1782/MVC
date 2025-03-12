@@ -1,8 +1,11 @@
 <?php
 $data = $this->getCartData();
 $url = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
-$total = 0;
+$total = 9000;
 $taxRate = 0.18; // 18% GST
+$discount = 0;
+$grandTotal = $total + ($total * $taxRate);
+
 ?>
 
 <!DOCTYPE html>
@@ -12,183 +15,133 @@ $taxRate = 0.18; // 18% GST
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
     <style>
-        /* General Styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             margin: 0;
-            padding: 0;
+            padding: 20px;
         }
-
         .cart-container {
             width: 80%;
             max-width: 900px;
-            margin: 40px auto;
+            margin: auto;
             background: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-
         h2 {
             text-align: center;
-            margin-bottom: 20px;
             color: #333;
         }
-
-        /* Table Styling */
-        .cart-table {
+        table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-
-        .cart-table th,
-        .cart-table td {
+        th, td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: center;
         }
-
-        .cart-table th {
+        th {
             background: #007bff;
             color: white;
-            text-transform: uppercase;
         }
-
-        .cart-table img {
+        img {
             width: 80px;
-            height: auto;
             border-radius: 5px;
         }
-
-        .cart-quantity {
+        input[type="number"] {
             width: 50px;
             padding: 5px;
             text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 4px;
         }
-
-        .remove-btn {
-            background: red;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-
-        .remove-btn:hover {
-            background: darkred;
-        }
-
-        /* Summary Section */
-        .cart-summary {
-            border-top: 2px solid #ddd;
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .summary-details {
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid #ddd;
-            padding: 15px;
-            background: #f1f1f1;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .summary-details p {
-            display: flex;
-            justify-content: space-between;
-            font-size: 16px;
-            margin: 8px 0;
-        }
-
-        .checkout-btn {
+        button {
             background: green;
             color: white;
             border: none;
-            padding: 12px 20px;
-            font-size: 16px;
+            padding: 10px 15px;
             cursor: pointer;
             border-radius: 5px;
-            transition: 0.3s;
         }
-
-        .checkout-btn:hover {
+        button:hover {
             background: darkgreen;
         }
-
-        .empty-cart {
+        .coupon-form {
             text-align: center;
-            font-size: 18px;
-            color: #555;
-            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .coupon-form input {
+            padding: 8px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .coupon-form button {
+            margin-left: 10px;
+        }
+        .summary {
+            text-align: center;
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
         }
     </style>
 </head>
-
 <body>
-
     <div class="cart-container">
         <h2>Your Shopping Cart</h2>
-
+        
+        <form method="POST" class="coupon-form">
+            <input type="text" name="coupon_code" placeholder="Enter coupon code" required>
+            <button type="submit">Apply</button>
+        </form>
+        
+        <?php if (!empty($couponMessage)) : ?>
+            <p style="text-align:center; color: <?= $couponApplied ? 'green' : 'red'; ?>;"> <?= $couponMessage; ?> </p>
+        <?php endif; ?>
+        
         <?php if (!empty($data)) : ?>
-        <table class="cart-table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($data as $_data) : ?>
-                <tr>
-                    <?php $path = $url . $_data->getProduct()->getFiles()[0]; ?>
-                    <td><img src="<?= $path; ?>" alt="Product Image"></td>
-                    <td><?= htmlspecialchars($_data->getProduct()->getName()); ?></td>
-                    <td>₹<?= number_format($_data->getPrice(), 2); ?></td>
-                    <td>
-                        <input type="number" value="<?= $_data->getQuantity(); ?>" min="1" class="cart-quantity">
-                    </td>
-                    <td>₹<?= number_format($_data->getSubTotal(), 2); ?></td>
-                    <td><button class="remove-btn">
-
-                        <a href="<?php echo $this->getUrl("*/*/remove")."/?id=".$_data->getItemId()?>">Remove </a>
-                    </button></td>
-                </tr>
-               
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-<?php
-$total=$this->getTotalAmount();
-?>
-        <!-- Summary Section -->
-        <div class="cart-summary">
-            <div class="summary-details">
-                <p><strong>Subtotal:</strong> <span>₹<?= number_format($total, 2); ?></span></p>
-                <p><strong>Tax (18% GST):</strong> <span>₹<?= number_format($total * $taxRate, 2); ?></span></p>
-                <p><strong>Grand Total:</strong> <span>₹<?= number_format($total + ($total * $taxRate), 2); ?></span></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($data as $_data) : ?>
+                        <tr>
+                            <?php $path = $url . $_data->getProduct()->getFiles()[0]; ?>
+                            <td><img src="<?= $path; ?>" alt="Product"></td>
+                            <td><?= htmlspecialchars($_data->getProduct()->getName()); ?></td>
+                            <td>₹<?= number_format($_data->getPrice(), 2); ?></td>
+                            <td><input type="number" value="<?= $_data->getQuantity(); ?>" min="1"></td>
+                            <td>₹<?= number_format($_data->getSubTotal(), 2); ?></td>
+                            <td><a href="<?= $this->getUrl("*/*/remove") . "/?id=" . $_data->getItemId(); ?>">Remove</a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            
+            <div class="summary">
+                <p><strong>Subtotal:</strong> ₹<?= number_format($total, 2); ?></p>
+                <p><strong>Tax (18% GST):</strong> ₹<?= number_format($total * $taxRate, 2); ?></p>
+                <?php if ($discount > 0) : ?>
+                    <p><strong>Discount:</strong> - ₹<?= number_format($discount, 2); ?></p>
+                <?php endif; ?>
+                <p><strong>Grand Total:</strong> ₹<?= number_format($grandTotal, 2); ?></p>
+                <button>Proceed to Checkout</button>
             </div>
-            <button class="checkout-btn">Proceed to Checkout</button>
-        </div>
-
         <?php else : ?>
-        <p class="empty-cart">Your cart is empty.</p>
+            <p style="text-align: center;">Your cart is empty.</p>
         <?php endif; ?>
     </div>
-
 </body>
-
 </html>
