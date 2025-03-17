@@ -16,7 +16,7 @@ class Checkout_Model_Shipping
                 return $provider;
             }
         }
-        return null; // Return null if provider not found
+        return null; 
     }
 
     public function getAllShippingProvider()

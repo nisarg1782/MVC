@@ -1,5 +1,5 @@
 <?php
-$base_url = Mage::getBaseUrl() . "Media/catalog_media_gallery/";
+$base_url = Mage::getBaseUrl() . "Media/catalog_product/";
 $all_data = $this->getProduct();
 $data = $all_data[0]; // Product images
 $attribute_data = $all_data[1]; // Product attributes
@@ -137,7 +137,6 @@ $count_img = count($data);
                     <p class="product-price">Price: <?php echo number_format($data[0]->getPrice(), 2); ?></p>
                     <br>
                     <input type="number" name="cart[quantity]" value=1>
-
                     <br>
                 </div>
 
@@ -148,8 +147,9 @@ $count_img = count($data);
                         <p><strong><?php echo $attribute_data[$i]->getName(); ?>:</strong> <?php echo $attribute_data[$i]->getValue(); ?></p>
                     <?php endfor; ?>
                 </div>
-                <input type="hidden" name="cart[productId]" value="<?php echo $data[$i]->getProductId(); ?>">
-                <input type="submit">
+                <input type="hidden" name="cart[productId]" value="<?php echo $data[0]->getProductId(); ?>">
+                <button type="submit" class="add-to-cart">Add to Cart</button>
+
                 <!-- <button class="add-to-cart" onclick="addToCart()">
                 <?php
                 //$base_url=Mage::getBaseUrl();
@@ -160,7 +160,6 @@ $count_img = count($data);
             </form>
         </div>
     </div>
-
     <script>
         function addToCart() {
             alert('Product added to cart!');

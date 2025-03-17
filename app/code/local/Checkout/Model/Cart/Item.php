@@ -26,8 +26,6 @@ class Checkout_Model_Cart_Item extends Core_Model_Abstract
             // $this->setCartId($this->getCartId());
         } else {
             $this->setPrice(intval($this->getProduct()->getPrice()));
-            // $this->setCartId($this->getCartId());
-            
             $this->setSubTotal(intval($this->getQuantity()) * intval($this->getProduct()->getPrice()));
         }
     }

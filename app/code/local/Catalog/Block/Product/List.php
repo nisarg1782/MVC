@@ -31,8 +31,8 @@ class Catalog_Block_Product_List extends Core_Block_Template
     public function getCategoryData()
     {
         $category_collection = Mage::getModel("catalog/category")->getCollection()
-            ->addFieldToFilter("category_id", [">" => 0])
-            ->addFieldToFilter("parent_id", ["IN" => ["null", 0]]);
+           
+            ->addFieldToFilter("parent_id", ["IN" => ["NULL"]]);
         $category_data = $category_collection->getData();
         return $category_data;
     }
