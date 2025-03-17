@@ -97,5 +97,17 @@ class Checkout_Controller_Cart
        $url = $layout->getUrl("Checkout/Cart/Index");
        header("location:$url");
     }
+    public function placeorderAction()
+    {
+        print("in place order action");
+        $cart=Mage::getSingleton("checkout/session")->getCart();
+        $convert_obj=Mage::getModel("checkout/convert_order")->convert($cart);
+        $cart->setIsActive(0)->save();
+        // $cart->remove("cart_id");
+       $session=Mage::getModel("core/session")->remove("cart_id");
+       $layout = Mage::getBlock('core/layout');
+       $url = $layout->getUrl("Catalog/product/list");
+       header("location:$url");
+    }
     
 }

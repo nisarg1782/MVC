@@ -134,7 +134,9 @@ $shipping_data = $this->getAllprovider();
                 <div class="details">Cash on Delivery (COD)</div>
             </label>
 
-            <button type="submit" class="submit-btn">Proceed to Payment</button>
+            <button type="submit" class="submit-btn">
+                <a href="<?php echo $this->getUrl("Checkout/Cart/placeOrder");?>">Place Order</a>
+            </button>
         </form>
     </div>
 </body>

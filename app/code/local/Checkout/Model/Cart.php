@@ -9,9 +9,9 @@ class Checkout_Model_Cart extends Core_Model_Abstract
     }
     public function addProduct($productid, $quantity)
     {
-       
+
         Mage::getModel("checkout/cart_item")->setProductId($productid)->setQuantity($quantity)->setCartId($this->getCartId())
-        ->save();
+            ->save();
         return $this;
     }
     public function getItemCollection()
@@ -25,6 +25,47 @@ class Checkout_Model_Cart extends Core_Model_Abstract
             );
 
         return $cart_item;
+    }
+    public function getAddressCollection()
+    {
+        $cart_address = Mage::getModel("checkout/cart_address")
+            ->getCollection()
+            ->addFieldToFilter(
+                "cart_id",
+                ["=" => $this->getCartId()]
+            );
+
+        return $cart_address;
+    }
+    public function getBillingAddress()
+    {
+        $billing_address = Mage::getModel("checkout/cart_address")
+            ->getCollection()
+            ->addFieldToFilter(
+                "cart_id",
+                ["=" => $this->getCartId()]
+            )
+            ->addFieldToFilter(
+                "address_type",
+                ["=" => "Billing"]
+            );
+
+        return $billing_address;
+    }
+    public function getShippingAddress()
+    {
+        $Shipping_address = Mage::getModel("checkout/cart_address")
+            ->getCollection()
+            ->addFieldToFilter(
+                "cart_id",
+                ["=" => $this->getCartId()]
+            )
+            ->addFieldToFilter(
+                "address_type",
+                ["=" => "Shipping"]
+            );
+
+        return $Shipping_address;
     }
     public function _beforeSave()
     {
@@ -41,11 +82,12 @@ class Checkout_Model_Cart extends Core_Model_Abstract
         // print_r($this);
         // echo '</pre>';
         // print_r($total);
-        $charge=intval($this->getCharge());
-        $discount=intval($this->getDiscountPrice());
-        $total=$total-$discount;
-        $total=$total+$charge;
+        $charge = intval($this->getCharge());
+        $discount = intval($this->getDiscountPrice());
+        $total = $total - $discount;
+        $total = $total + $charge;
         $this->setTotalAmount($total);
+
         // $cart = Mage::getSingleton("checkout/session")->getCart();
 
         // if (!empty($cart)) {
