@@ -147,20 +147,20 @@ $billingAddress = isset($addressData[1]) ? $addressData[1] : null;
             <div class="form-group">
                 <label>Country</label>
                 <select name="billing[country]">
-                    <option>India</option>
+                    <option selected>India</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>state</label>
                 <select name="billing[state]">
-                    <option>Gujarat</option>
+                    <option selected>Gujarat</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>City</label>
                 <select name="billing[city]">
-                    <option>Ahmedabad</option>
+                    <option selected>Ahmedabad</option>
                 </select>
             </div>
             <button type="submit">Submit Addresses</button>
@@ -186,6 +186,8 @@ $billingAddress = isset($addressData[1]) ? $addressData[1] : null;
         let zipRegex = /^[1-9]\d{5}$/; // 6-digit, cannot start with 0
 
 
+
+
         if (!nameRegex.test(firstName)) {
             alert("Shipping First Name must be at least 3 letters, no numbers/special symbols.");
             return false;
@@ -203,7 +205,6 @@ $billingAddress = isset($addressData[1]) ? $addressData[1] : null;
             return false;
         }
 
-
         if (!streetRegex.test(streetAddress)) {
             alert("Shipping Street Address can contain letters, numbers, spaces, and '-'.");
             return false;
@@ -212,7 +213,6 @@ $billingAddress = isset($addressData[1]) ? $addressData[1] : null;
             alert("Billing Street Address can contain letters, numbers, spaces, and '-'.");
             return false;
         }
-
 
         if (!phoneRegex.test(telephone)) {
             alert("Shipping Telephone must be a 10-digit number starting with 6-9.");
