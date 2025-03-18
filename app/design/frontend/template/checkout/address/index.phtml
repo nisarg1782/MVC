@@ -9,233 +9,233 @@ $billingAddress = isset($addressData[1]) ? $addressData[1] : null;
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Address Form</title>
-    <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Address Form</title>
+  <style>
     .form-container {
-        max-width: 600px;
-        margin: auto;
-        padding: 20px;
-        background: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        font-family: Arial, sans-serif;
-        margin-bottom: 20px;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      font-family: Arial, sans-serif;
+      margin-bottom: 20px;
     }
 
     .form-group {
-        margin-bottom: 15px;
+      margin-bottom: 15px;
     }
 
     label {
-        font-weight: bold;
-        display: block;
-        margin-bottom: 5px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
     }
 
     input,
     select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
     button {
-        width: 100%;
-        padding: 10px;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
     }
 
     button:hover {
-        background: #0056b3;
+      background: #0056b3;
     }
-    </style>
+  </style>
 </head>
 
 <body>
-    <div class="form-container">
-        <form method="post" action="<?php echo $this->getUrl("*/*/save") ?>" onsubmit="return validateForm()">
-            <h3>Shipping Address</h3>
-            <input type="hidden" name="shipping[cart_address_id]"
-                value="<?php echo isset($shippingAddress) ? $shippingAddress->getCartAddressId() : ''; ?>">
-            <div class="form-group">
-                <label>First Name</label>
-                <input type="text" name="shipping[first_name]" required id="first_name"
-                    value="<?php echo isset($shippingAddress) ? $shippingAddress->getFirstName() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" name="shipping[last_name]" required
-                    value="<?php echo isset($shippingAddress) ? $shippingAddress->getLastName() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>Street Address</label>
-                <input type="text" name="shipping[street_address]" required
-                    value="<?php echo isset($shippingAddress) ? $shippingAddress->getStreetAddress() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>ZIP Code</label>
-                <input type="text" name="shipping[zipcode]" required
-                    value="<?php echo isset($shippingAddress) ? $shippingAddress->getZipcode() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="cart[email]" required
-                    value="<?php echo isset($shippingAddress) ? $shippingAddress->getEmail() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>Telephone</label>
-                <input type="tel" name="shipping[telephone]" required
-                    value="<?php echo isset($shippingAddress) ? $shippingAddress->getTelephone() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>Country</label>
-                <select name="shipping[country]">
-                    <option>India</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>state</label>
-                <select name="shipping[state]">
-                    <option>Gujarat</option>
-                </select>
-            </div>
+  <div class="form-container">
+    <form method="post" action="<?php echo $this->getUrl("*/*/save") ?>" onsubmit="return validateForm()">
+      <h3>Shipping Address</h3>
+      <input type="hidden" name="shipping[cart_address_id]"
+        value="<?php echo isset($shippingAddress) ? $shippingAddress->getCartAddressId() : ''; ?>">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" name="shipping[first_name]" required id="first_name"
+          value="<?php echo isset($shippingAddress) ? $shippingAddress->getFirstName() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" name="shipping[last_name]" required
+          value="<?php echo isset($shippingAddress) ? $shippingAddress->getLastName() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>Street Address</label>
+        <input type="text" name="shipping[street_address]" required
+          value="<?php echo isset($shippingAddress) ? $shippingAddress->getStreetAddress() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>ZIP Code</label>
+        <input type="text" name="shipping[zipcode]" required
+          value="<?php echo isset($shippingAddress) ? $shippingAddress->getZipcode() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="cart[email]" required
+          value="<?php echo isset($shippingAddress) ? $shippingAddress->getEmail() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>Telephone</label>
+        <input type="tel" name="shipping[telephone]" required
+          value="<?php echo isset($shippingAddress) ? $shippingAddress->getTelephone() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>Country</label>
+        <select name="shipping[country]">
+          <option>India</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>state</label>
+        <select name="shipping[state]">
+          <option>Gujarat</option>
+        </select>
+      </div>
 
-            <div class="form-group">
-                <label>City</label>
-                <select name="shipping[city]">
-                    <option>Ahmedabad</option>
-                </select>
-            </div>
+      <div class="form-group">
+        <label>City</label>
+        <select name="shipping[city]">
+          <option>Ahmedabad</option>
+        </select>
+      </div>
 
-            <br><br>
-            <h3>Billing Address</h3>
-            <input type="hidden" name="billing[cart_address_id]"
-                value="<?php echo isset($billingAddress) ? $billingAddress->getCartAddressId() : ''; ?>">
-            <div class="form-group">
-                <label>First Name</label>
-                <input type="text" name="billing[first_name]" required
-                    value="<?php echo isset($billingAddress) ? $billingAddress->getFirstName() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" name="billing[last_name]" required
-                    value="<?php echo isset($billingAddress) ? $billingAddress->getLastName() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>Street Address</label>
-                <input type="text" name="billing[street_address]" required
-                    value="<?php echo isset($billingAddress) ? $billingAddress->getStreetAddress() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>ZIP Code</label>
-                <input type="text" name="billing[zipcode]" required
-                    value="<?php echo isset($billingAddress) ? $billingAddress->getZipcode() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>Telephone</label>
-                <input type="tel" name="billing[telephone]" required
-                    value="<?php echo isset($billingAddress) ? $billingAddress->getTelephone() : ''; ?>">
-            </div>
-            <div class="form-group">
-                <label>Country</label>
-                <select name="billing[country]">
-                    <option selected>India</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>state</label>
-                <select name="billing[state]">
-                    <option selected>Gujarat</option>
-                </select>
-            </div>
+      <br><br>
+      <h3>Billing Address</h3>
+      <input type="hidden" name="billing[cart_address_id]"
+        value="<?php echo isset($billingAddress) ? $billingAddress->getCartAddressId() : ''; ?>">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" name="billing[first_name]" required
+          value="<?php echo isset($billingAddress) ? $billingAddress->getFirstName() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" name="billing[last_name]" required
+          value="<?php echo isset($billingAddress) ? $billingAddress->getLastName() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>Street Address</label>
+        <input type="text" name="billing[street_address]" required
+          value="<?php echo isset($billingAddress) ? $billingAddress->getStreetAddress() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>ZIP Code</label>
+        <input type="text" name="billing[zipcode]" required
+          value="<?php echo isset($billingAddress) ? $billingAddress->getZipcode() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>Telephone</label>
+        <input type="tel" name="billing[telephone]" required
+          value="<?php echo isset($billingAddress) ? $billingAddress->getTelephone() : ''; ?>">
+      </div>
+      <div class="form-group">
+        <label>Country</label>
+        <select name="billing[country]">
+          <option selected>India</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>state</label>
+        <select name="billing[state]">
+          <option selected>Gujarat</option>
+        </select>
+      </div>
 
-            <div class="form-group">
-                <label>City</label>
-                <select name="billing[city]">
-                    <option selected>Ahmedabad</option>
-                </select>
-            </div>
-            <button type="submit">Submit Addresses</button>
-        </form>
-    </div>
-    <script>
+      <div class="form-group">
+        <label>City</label>
+        <select name="billing[city]">
+          <option selected>Ahmedabad</option>
+        </select>
+      </div>
+      <button type="submit">Submit Addresses</button>
+    </form>
+  </div>
+  <script>
     function validateForm() {
-        let firstName = document.querySelector("input[name='shipping[first_name]']").value.trim();
-        let lastName = document.querySelector("input[name='shipping[last_name]']").value.trim();
-        let streetAddress = document.querySelector("input[name='shipping[street_address]']").value.trim();
-        let telephone = document.querySelector("input[name='shipping[telephone]']").value.trim();
-        let zipCode = document.querySelector("input[name='shipping[zipcode]']").value.trim();
+      let firstName = document.querySelector("input[name='shipping[first_name]']").value.trim();
+      let lastName = document.querySelector("input[name='shipping[last_name]']").value.trim();
+      let streetAddress = document.querySelector("input[name='shipping[street_address]']").value.trim();
+      let telephone = document.querySelector("input[name='shipping[telephone]']").value.trim();
+      let zipCode = document.querySelector("input[name='shipping[zipcode]']").value.trim();
 
-        let billingFirstName = document.querySelector("input[name='billing[first_name]']").value.trim();
-        let billingLastName = document.querySelector("input[name='billing[last_name]']").value.trim();
-        let billingStreetAddress = document.querySelector("input[name='billing[street_address]']").value.trim();
-        let billingTelephone = document.querySelector("input[name='billing[telephone]']").value.trim();
-        let billingZipCode = document.querySelector("input[name='billing[zipcode]']").value.trim();
+      let billingFirstName = document.querySelector("input[name='billing[first_name]']").value.trim();
+      let billingLastName = document.querySelector("input[name='billing[last_name]']").value.trim();
+      let billingStreetAddress = document.querySelector("input[name='billing[street_address]']").value.trim();
+      let billingTelephone = document.querySelector("input[name='billing[telephone]']").value.trim();
+      let billingZipCode = document.querySelector("input[name='billing[zipcode]']").value.trim();
 
-        let nameRegex = /^[A-Za-z]{3,}$/; // Only letters, min 3 chars
-        let streetRegex = /^[A-Za-z0-9\s-]+$/; // Letters, numbers, spaces, and -
-        let phoneRegex = /^[6-9]\d{9}$/; // 10-digit, must start with 6-9
-        let zipRegex = /^[1-9]\d{5}$/; // 6-digit, cannot start with 0
-
-
+      let nameRegex = /^[A-Za-z]{3,}$/; 
+      let streetRegex = /^[A-Za-z0-9\s-]+$/;
+      let phoneRegex = /^[6-9]\d{9}$/;
+      let zipRegex = /^[1-9]\d{5}$/;
 
 
-        if (!nameRegex.test(firstName)) {
-            alert("Shipping First Name must be at least 3 letters, no numbers/special symbols.");
-            return false;
-        }
-        if (!nameRegex.test(lastName)) {
-            alert("Shipping Last Name must be at least 3 letters, no numbers/special symbols.");
-            return false;
-        }
-        if (!nameRegex.test(billingFirstName)) {
-            alert("Billing First Name must be at least 3 letters, no numbers/special symbols.");
-            return false;
-        }
-        if (!nameRegex.test(billingLastName)) {
-            alert("Billing Last Name must be at least 3 letters, no numbers/special symbols.");
-            return false;
-        }
-
-        if (!streetRegex.test(streetAddress)) {
-            alert("Shipping Street Address can contain letters, numbers, spaces, and '-'.");
-            return false;
-        }
-        if (!streetRegex.test(billingStreetAddress)) {
-            alert("Billing Street Address can contain letters, numbers, spaces, and '-'.");
-            return false;
-        }
-
-        if (!phoneRegex.test(telephone)) {
-            alert("Shipping Telephone must be a 10-digit number starting with 6-9.");
-            return false;
-        }
-        if (!phoneRegex.test(billingTelephone)) {
-            alert("Billing Telephone must be a 10-digit number starting with 6-9.");
-            return false;
-        }
 
 
-        if (!zipRegex.test(zipCode)) {
-            alert("Shipping ZIP Code must be exactly 6 digits and cannot start with 0.");
-            return false;
-        }
-        if (!zipRegex.test(billingZipCode)) {
-            alert("Billing ZIP Code must be exactly 6 digits and cannot start with 0.");
-            return false;
-        }
+      if (!nameRegex.test(firstName)) {
+        alert("Shipping First Name must be at least 3 letters, no numbers/special symbols.");
+        return false;
+      }
+      if (!nameRegex.test(lastName)) {
+        alert("Shipping Last Name must be at least 3 letters, no numbers/special symbols.");
+        return false;
+      }
+      if (!nameRegex.test(billingFirstName)) {
+        alert("Billing First Name must be at least 3 letters, no numbers/special symbols.");
+        return false;
+      }
+      if (!nameRegex.test(billingLastName)) {
+        alert("Billing Last Name must be at least 3 letters, no numbers/special symbols.");
+        return false;
+      }
 
-        return true;
+      if (!streetRegex.test(streetAddress)) {
+        alert("Shipping Street Address can contain letters, numbers, spaces, and '-'.");
+        return false;
+      }
+      if (!streetRegex.test(billingStreetAddress)) {
+        alert("Billing Street Address can contain letters, numbers, spaces, and '-'.");
+        return false;
+      }
+
+      if (!phoneRegex.test(telephone)) {
+        alert("Shipping Telephone must be a 10-digit number starting with 6-9.");
+        return false;
+      }
+      if (!phoneRegex.test(billingTelephone)) {
+        alert("Billing Telephone must be a 10-digit number starting with 6-9.");
+        return false;
+      }
+
+
+      if (!zipRegex.test(zipCode)) {
+        alert("Shipping ZIP Code must be exactly 6 digits and cannot start with 0.");
+        return false;
+      }
+      if (!zipRegex.test(billingZipCode)) {
+        alert("Billing ZIP Code must be exactly 6 digits and cannot start with 0.");
+        return false;
+      }
+
+      return true;
     }
-    </script>
+  </script>
 
 </body>
 

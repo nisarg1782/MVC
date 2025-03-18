@@ -91,7 +91,7 @@ class Core_Model_Resource_Collection_Abstract
 
             foreach ($this->_select["JOIN_INNER"] as $innerjoin) {
                 $join_sql .= sprintf(
-                    " LEFT JOIN %s AS %s ON %s ",
+                    " INNER JOIN %s AS %s ON %s ",
                     array_values($innerjoin['tablename'])[0],
                     array_keys($innerjoin['tablename'])[0],
                     $innerjoin['condition']
