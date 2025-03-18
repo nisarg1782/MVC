@@ -1,12 +1,12 @@
 <?php
-class Admin_Block_Order_product extends  Core_Block_Template
+class Admin_Block_Sales_Order_product extends  Core_Block_Template
 {
 
     protected $_orderBlock;
 
     public function __construct()
     {
-        $this->setTemplate("admin/order/product.phtml");
+        $this->setTemplate("admin/sales/order/view/product.phtml");
     }
     public function setOrderBlock($order)
     {

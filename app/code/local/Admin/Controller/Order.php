@@ -4,8 +4,8 @@ class Admin_Controller_Order
     public function listAction()
     {
         $layout = Mage::getBlock("core/layout");
-        $list = $layout->createBlock("admin/order_list")
-            ->setTemplate("admin/order/list.phtml");
+        $list = $layout->createBlock("admin/sales_order_list")
+            ->setTemplate("admin/sales/order/list.phtml");
         $layout->getChild("content")->addChild("list_order", $list);
         $layout->toHtml();
     }
@@ -19,13 +19,13 @@ class Admin_Controller_Order
 
         $order = Mage::getModel("sales/order")
             ->load($order_id);
-        $view_order = $layout->createBlock("admin/order_view")
-            ->setTemplate("admin/order/view.phtml");
+        $view_order = $layout->createBlock("admin/sales_order_view")
+            ->setTemplate("admin/sales/order/view.phtml");
 
         $view_order->setOrder($order);
-        $order_block = $layout->createBlock("admin/order_order");
-        $product_block = $layout->createBlock("admin/order_product");
-        $address_block = $layout->createBlock("admin/order_address");
+        $order_block = $layout->createBlock("admin/sales_order_order");
+        $product_block = $layout->createBlock("admin/sales_order_product");
+        $address_block = $layout->createBlock("admin/sales_order_address");
 
         $order_block->setOrderBlock($view_order);
         $address_block->setOrderBlock($view_order);

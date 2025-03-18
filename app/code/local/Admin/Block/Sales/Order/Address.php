@@ -1,10 +1,10 @@
 <?php
-class Admin_Block_Order_Address extends Core_Block_Template
+class Admin_Block_Sales_Order_Address extends Core_Block_Template
 {
     protected $_orderBlock;
     public function __construct()
     {
-        $this->setTemplate("admin/order/address.phtml");
+        $this->setTemplate("admin/sales/order/view/address.phtml");
     }
     public function setOrderBlock($order)
     {

@@ -1,5 +1,5 @@
 <?php
-class Admin_Block_Order_Order extends Core_Block_Template
+class Admin_Block_Sales_Order_Order extends Core_Block_Template
 {
     protected $_orderBlock;
     public function setOrderBlock($order)
@@ -14,7 +14,7 @@ class Admin_Block_Order_Order extends Core_Block_Template
     }
     public function __construct()
     {
-        $this->setTemplate("admin/order/order.phtml");
+        $this->setTemplate("admin/sales/order/view/order.phtml");
     }
     public function getOrderDetails()
     {

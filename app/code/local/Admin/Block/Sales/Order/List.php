@@ -1,5 +1,5 @@
 <?php
-class Admin_Block_Order_List extends Core_Block_Template
+class Admin_Block_Sales_Order_List extends Core_Block_Template
 {
     public function getOrderData()
     {
