@@ -1,16 +1,30 @@
 <?php
-class Admin_Block_Order_Address
+class Admin_Block_Order_Address extends Core_Block_Template
 {
+    protected $_orderBlock;
+    public function __construct()
+    {
+        $this->setTemplate("admin/order/address.phtml");
+    }
+    public function setOrderBlock($order)
+    {
+        $this->_orderBlock=$order;
+        return $this;
+    }
+    public function getOrderBlock()
+    {
+        return $this->_orderBlock;
+        
+    }
     public function getAddress()
     {
-        $order_id=Mage::getModel("core/request")
-                ->getQuery("order_id");
-        $address_data=Mage::getModel("sales/order_address")
-                        ->getCollection()
-                        ->addFieldToFilter("order_id",["="=>$order_id])
-                        ->getData();
-        return $address_data;
+        $address_collection=$this->getOrderBlock()
+            ->getOrder()
+            ->getAddressCollection();
+        // echo '<pre>';
+        // print_r($address_collection);
+        // echo '</pre>';
+        return $address_collection->getData();
     }
-}
-
+} 
 ?>

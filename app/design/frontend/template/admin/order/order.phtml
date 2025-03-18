@@ -1,0 +1,92 @@
+<?php
+$order_details=$this->getOrderDetails();
+// echo '<pre>';
+// print_r($order_details);
+// echo '</pre>';
+// print("order page");
+?>
+<?php
+// $order_details = $this->getOrderObject()->getOrderDetails();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Info</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h3 {
+            color: #007bff;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="section">
+            <h3>Order Summary</h3>
+            <p><strong>Order No:</strong> <?php echo $order_details->getOrderNo(); ?></p>
+            <p><strong>Order Id:</strong> <?php echo $order_details->getOrderId(); ?></p>
+            <p><strong>Total Amount (Before Discount):</strong>
+                <?php echo $order_details->getTotalAmount() + $order_details->getDiscountPrice() - $order_details->getCharge(); ?>
+            </p>
+            <p><strong>Discount:</strong> <?php echo $order_details->getDiscountPrice(); ?></p>
+            <p><strong>Coupon Code:</strong> <?php echo $order_details->getCouponCode(); ?></p>
+            <p><strong>Provider Name:</strong> <?php echo $order_details->getProviderName(); ?></p>
+            <p><strong>Delivery Charge:</strong> <?php echo $order_details->getCharge(); ?></p>
+            <p><strong>Total Payable Amount (Including Delivery Charge):</strong>
+                <?php echo $order_details->getTotalAmount(); ?>
+            </p>
+        </div>
+
+        <div class="section">
+            <h3>Payment & Status</h3>
+            <p><strong>Payment Method:</strong> <?php echo $order_details->getPaymentMethod(); ?></p>
+            <p><strong>Order Status:</strong> <span id="order-status">Pending</span></p>
+            <button onclick="updateStatus()">Update Status</button>
+        </div>
+    </div>
+
+    <script>
+        function updateStatus() {
+            document.getElementById("order-status").innerText = "Completed";
+            alert("Order status updated to Completed!");
+        }
+    </script>
+</body>
+
+</html>
