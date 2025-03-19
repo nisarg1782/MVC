@@ -87,7 +87,7 @@ $billingAddress = isset($addressData[1]) ? $addressData[1] : null;
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" name="cart[email]" required
+        <input type="email" name="cart[email]" required class="validate_email"
           value="<?php echo isset($shippingAddress) ? $shippingAddress->getEmail() : ''; ?>">
       </div>
       <div class="form-group">

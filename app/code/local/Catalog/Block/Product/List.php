@@ -42,7 +42,7 @@ class Catalog_Block_Product_List extends Core_Block_Template
             "attribute_id",
             1
         )->getData();
-        echo "<pre>";
+        // echo "<pre>";
         $color = [];
         // print_r($product);
         foreach ($product as $data) {

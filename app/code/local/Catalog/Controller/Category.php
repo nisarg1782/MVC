@@ -30,7 +30,7 @@ class Catalog_Controller_Category
         $request = Mage::getModel('core/request');
         $product = Mage::getModel('catalog/category');
         $layout = Mage::getBlock('core/layout');
-        echo "<pre>";
+        // echo "<pre>";
         $data = $request->getParam("catalog_category");
         $product->setData($data);
         $product->save();
