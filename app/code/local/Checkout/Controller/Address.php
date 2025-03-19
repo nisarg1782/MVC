@@ -6,6 +6,7 @@ class Checkout_Controller_Address
         $layout=Mage::getBlock("core/layout");
         $address_index=$layout->createBlock("checkout/address_index")->setTemplate("checkout/address/index.phtml");
         $layout->getChild("content")->addChild("address_index",$address_index);
+        $layout->getChild("head")->addJs("js/page/form.js");
         $layout->toHtml();
     }
     public function saveAction()

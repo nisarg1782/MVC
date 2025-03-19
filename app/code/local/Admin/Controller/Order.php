@@ -26,6 +26,7 @@ class Admin_Controller_Order
         $order_block = $layout->createBlock("admin/sales_order_order");
         $product_block = $layout->createBlock("admin/sales_order_product");
         $address_block = $layout->createBlock("admin/sales_order_address");
+       
 
         $order_block->setOrderBlock($view_order);
         $address_block->setOrderBlock($view_order);
@@ -46,6 +47,7 @@ class Admin_Controller_Order
         $layout->getChild("content")
                 ->getChild("view_order")
                 ->addChild("address", $address_block);
+               
         
         $layout->toHtml();
 

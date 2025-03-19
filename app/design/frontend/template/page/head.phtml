@@ -10,6 +10,12 @@ foreach($css as $css)
     <link href="<?php echo $base_url . $css;?>" rel="stylesheet"></link>
     <?php
 }
+foreach($js as $_js)
+{
+    ?>
+    <script src="<?php echo $base_url.$_js; ?>"></script>
+    <?php
+}
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

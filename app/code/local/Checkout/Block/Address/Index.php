@@ -18,8 +18,6 @@ class Checkout_Block_Address_Index extends Core_Block_Template
         }
         return $data;
         // mage::log($data);
-        
-        
     }
   
 }
