@@ -2,19 +2,16 @@
 class Admin_Block_Sales_Order_product extends  Core_Block_Template
 {
 
-    protected $_orderBlock;
+    
 
     public function __construct()
     {
         $this->setTemplate("admin/sales/order/view/product.phtml");
     }
-    public function setOrderBlock($order)
-    {
-        $this->_orderBlock = $order;
-    }
+   
     public function getOrderBlock()
     {
-        return $this->_orderBlock;
+        return $this->getParent();
     }
     public function getProducts()
     {

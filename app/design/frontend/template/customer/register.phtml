@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration</title>
+</head>
+<body>
+
+<div class="registration-form">
+    <h2></h2>
+    <form action="<?php echo $this->getUrl("*/*/registerCustomer")?>" method="POST">
+        <div class="form-group">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="customer[first_name]" required>
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="customer[last_name]" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="customer[email]" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="customer[password]" required>
+        </div>
+        <div class="form-group">
+            <label for="contact">Contact:</label>
+            <input type="text" id="contact" name="customer[contact]" required>
+        </div>
+        <div class="form-group">
+            <label for="street">Street:</label>
+            <input type="text" id="street" name="customer[street]" required>
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <select id="city" name="customer[city]" required>
+                <option value="New York">New York</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="state">State:</label>
+            <select id="state" name="customer[state]" required>
+                <option value="NY">New York</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <select id="country" name="customer[country]" required>
+                <option value="USA">United States</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="zipcode">Zip Code:</label>
+            <input type="text" id="zipcode" name="customer[zipcode]" required>
+        </div>
+        <div class="form-group">
+            <label for="telephone">Telephone:</label>
+            <input type="text" id="telephone" name="customer[telephone]" required>
+        </div>
+        <div class="form-group">
+            <label>Address Type:</label>
+            <input type="radio" name="customer[address_type]" value="home" required> Home
+            <input type="radio" name="customer[address_type]" value="office"> Office
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+</body>
+</html>

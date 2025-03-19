@@ -28,14 +28,11 @@ class Admin_Controller_Order
         $address_block = $layout->createBlock("admin/sales_order_address");
        
 
-        $order_block->setOrderBlock($view_order);
-        $address_block->setOrderBlock($view_order);
-        $product_block->setOrderBlock($view_order);
+        // $order_block->setOrderBlock($view_order);
+        // $address_block->setOrderBlock($view_order);
+        // $product_block->setOrderBlock($view_order);
 
-        // echo '<pre>';
-        // print_r($view_order->getOrder());
-        // echo '</pre>';
-        // die;
+        
         $layout->getChild("content")
                 ->addChild("view_order", $view_order);
         $layout->getChild("content")
