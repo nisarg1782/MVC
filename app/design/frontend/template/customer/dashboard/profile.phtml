@@ -4,53 +4,61 @@ $profile = $this->getCustomerProfileData();
 <br>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Profile</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .profile-container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
-        }
-        .profile-section {
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            margin-bottom: 20px;
-        }
-        .profile-section p {
-            margin: 5px 0;
-        }
-        .update-button {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-        }
-        .update-button:hover {
-            background-color: #0056b3;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+
+    .profile-container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    .profile-section {
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        margin-bottom: 20px;
+    }
+
+    .profile-section p {
+        margin: 5px 0;
+    }
+
+    .update-button {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .update-button:hover {
+        background-color: #0056b3;
+    }
     </style>
 </head>
+
 <body>
     <div class="profile-container">
         <h2>Profile</h2>
@@ -59,8 +67,10 @@ $profile = $this->getCustomerProfileData();
             <p><strong>Email:</strong> <?php echo $profile->getEmail(); ?></p>
             <p><strong>Contact:</strong> <?php echo $profile->getPhone(); ?></p>
         </div>
-        <a href="<?php echo $this->getUrl("customer/profile_index/edit")."/?customer_id=".$profile->getCustomerId();?>" class="update-button">Update Profile</a>
+        <a href="<?php echo $this->getUrl("customer/profile_index/edit") . "/?customer_id=" . $profile->getCustomerId(); ?>"
+            class="update-button">Update Profile</a>
     </div>
 </body>
 <br>
+
 </html>
