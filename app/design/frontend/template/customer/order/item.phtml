@@ -1,0 +1,109 @@
+<?php
+
+$product=$this->getItemDetails();
+
+// $product = $this->getProductObject()->getProducts();
+// $item_data = $this->getOrderDetails();
+$base_url = Mage::getBaseUrl() . "/Media/catalog_product/";
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h3 {
+            color: #007bff;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .table {
+            width:fit-content;
+            border-collapse: collapse;
+        }
+
+        .table th, .table td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table th {
+            background: #007bff;
+            color: white;
+        }
+
+        .table img {
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="section">
+            <h3>Order Items</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>ProductId</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Color</th>
+                        <th>Manufacture Date</th>
+                        <th>Order Quantity</th>
+                        <th>Price</th>
+                        <th>Sub Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php for ($i = 0; $i < count($product); $i++): ?>
+                        <?php $image_path = $base_url . $product[$i]->getProduct()->getFiles()[0]; ?>
+                        <tr>
+                            <td><img src="<?php echo $image_path; ?>" height="80" width="80"></td>
+                            <td><?php echo $product[$i]->getProduct()->getProductId(); ?></td>
+                            <td><?php echo $product[$i]->getProduct()->getName(); ?></td>
+                            <td><?php echo $product[$i]->getProduct()->getDescription(); ?></td>
+                            <td><?php echo $product[$i]->getProduct()->getColor(); ?></td>
+                            <td><?php echo $product[$i]->getProduct()->getMfgdate(); ?></td>
+                            <td><?php echo $product[$i]->getQuantity(); ?></td>
+                            <td><?php echo $product[$i]->getPrice(); ?></td>
+                            <td><?php echo $product[$i]->getQuantity() * $product[$i]->getPrice(); ?></td>
+                        </tr>
+                    <?php endfor; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

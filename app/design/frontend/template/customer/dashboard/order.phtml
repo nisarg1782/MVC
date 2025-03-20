@@ -4,6 +4,7 @@ $order = $this->getOrderDetails();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@ $order = $this->getOrderDetails();
             padding: 20px;
             background-color: #f4f4f4;
         }
+
         .order-container {
             max-width: 90%;
             margin: auto;
@@ -23,33 +25,44 @@ $order = $this->getOrderDetails();
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         h2 {
             border-bottom: 2px solid #ddd;
             padding-bottom: 10px;
             text-align: center;
         }
+
         .table-wrapper {
-            overflow-x: auto; /* Enables horizontal scrolling if needed */
+            overflow-x: auto;
+            /* Enables horizontal scrolling if needed */
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            table-layout: fixed; /* Ensures proper column widths */
+            table-layout: fixed;
+            /* Ensures proper column widths */
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
-            word-wrap: break-word; /* Ensures text wraps properly */
+            word-wrap: break-word;
+            /* Ensures text wraps properly */
         }
+
         th {
             background-color: #f9f9f9;
         }
+
         .action-buttons {
             display: flex;
             gap: 5px;
         }
+
         .btn {
             padding: 5px 10px;
             cursor: pointer;
@@ -57,12 +70,14 @@ $order = $this->getOrderDetails();
             border: none;
             display: inline-block;
         }
+
         .btn-view {
             background: #007bff;
             color: white;
         }
     </style>
 </head>
+
 <body>
     <div class="order-container">
         <h2>Your Orders</h2>
@@ -83,23 +98,24 @@ $order = $this->getOrderDetails();
                 </thead>
                 <tbody>
                     <?php foreach ($order as $_order): ?>
-                    <tr>
-                        <td><?php echo $_order->getOrderId(); ?></td>
-                        <td><?php echo $_order->getOrderNo(); ?></td>
-                        <td><?php echo $_order->getTotalAmount(); ?></td>
-                        <td><?php echo $_order->getCouponCode(); ?></td>
-                        <td><?php echo $_order->getDiscountPrice(); ?></td>
-                        <td><?php echo $_order->getProviderName(); ?></td>
-                        <td><?php echo $_order->getCharge(); ?></td>
-                        <td><?php echo $_order->getPaymentMethod(); ?></td>
-                        <td class="action-buttons">
-                            <button class="btn btn-view">View</button>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td><?php echo $_order->getOrderId(); ?></td>
+                            <td><?php echo $_order->getOrderNo(); ?></td>
+                            <td><?php echo $_order->getTotalAmount(); ?></td>
+                            <td><?php echo $_order->getCouponCode(); ?></td>
+                            <td><?php echo $_order->getDiscountPrice(); ?></td>
+                            <td><?php echo $_order->getProviderName(); ?></td>
+                            <td><?php echo $_order->getCharge(); ?></td>
+                            <td><?php echo $_order->getPaymentMethod(); ?></td>
+                            <td class="action-buttons">
+                                <a href="<?php echo $this->getUrl("customer/order_index/view")."/?order_id=".$_order->getOrderId();?>" class="btn btn-view">View</a>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 </body>
+
 </html>

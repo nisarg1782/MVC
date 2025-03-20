@@ -1,0 +1,50 @@
+<?php
+$order_address=$this->getAddress();
+// echo '<pre>';
+// print_r($address);
+// echo '</pre>';
+?>
+
+<style>
+    .address-section {
+        margin-bottom: 25px;
+        padding: 20px;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .address-section h3 {
+        color: #007bff;
+        border-bottom: 3px solid #007bff;
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+        font-size: 18px;
+    }
+
+    .address-info p {
+        margin: 8px 0;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .address-info strong {
+        color: #555;
+    }
+</style>
+
+<?php foreach ($order_address as $_order_address): ?>
+    <div class="address-section">
+        <h3><?php echo $_order_address->getAddressType(); ?> Address</h3>
+        <div class="address-info">
+            <p><strong>Contact Name:</strong> <?php echo $_order_address->getFirstName() . ' ' . $_order_address->getLasetName(); ?></p>
+            <p><strong>Street:</strong> <?php echo $_order_address->getStreetAddress(); ?></p>
+            <p><strong>City:</strong> <?php echo $_order_address->getCity(); ?></p>
+            <p><strong>State:</strong> <?php echo $_order_address->getState(); ?></p>
+            <p><strong>Country:</strong> <?php echo $_order_address->getCountry(); ?></p>
+            <p><strong>Zip Code:</strong> <?php echo $_order_address->getZipcode(); ?></p>
+            <p><strong>Mobile:</strong> <?php echo $_order_address->getTelephone(); ?></p>
+        </div>
+    </div>
+<?php endforeach; ?>
+
