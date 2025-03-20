@@ -11,6 +11,5 @@ class Admin_Block_Sales_Order_View extends Core_Block_Template
     public function getOrder()
     {
         return $this->_order;
-
     }
 }

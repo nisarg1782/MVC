@@ -1,7 +1,7 @@
-
 <?php
-$profile=$this->getCustomerProfileData();
+$profile = $this->getCustomerProfileData();
 ?>
+<br>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,17 +37,30 @@ $profile=$this->getCustomerProfileData();
         .profile-section p {
             margin: 5px 0;
         }
+        .update-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .update-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="profile-container">
         <h2>Profile</h2>
         <div class="profile-section">
-            <p><strong>Name:</strong><?php echo $profile->getFirstName().$profile->getLastName();?> </p>
-            <p><strong>Email:</strong><?php echo $profile->getEmail();?></p>
-            <p><strong>Contact:</strong><?php echo $profile->getTelephone();?></p>
-
+            <p><strong>Name:</strong> <?php echo $profile->getFirstName() . ' ' . $profile->getLastName(); ?></p>
+            <p><strong>Email:</strong> <?php echo $profile->getEmail(); ?></p>
+            <p><strong>Contact:</strong> <?php echo $profile->getPhone(); ?></p>
         </div>
+        <a href="<?php echo $this->getUrl("customer/profile_index/edit")."/?customer_id=".$profile->getCustomerId();?>" class="update-button">Update Profile</a>
     </div>
 </body>
+<br>
 </html>

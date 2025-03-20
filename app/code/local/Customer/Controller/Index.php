@@ -26,11 +26,13 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
     }
     public function registerCustomerAction()
     {
+        $layout = Mage::getBlock("core/layout");
         $customer = Mage::getModel("core/request")->getParam("customer");
         $exist_customer = Mage::getModel("customer/customer")
             ->load($customer["email"], "email");
         if (!empty($exist_customer->getData())) {
-            print("in if");
+            $url = $layout->getUrl("Customer/index/register");
+            header("location:$url");
         } else {
             // echo '<pre>';
             // print_r($customer);

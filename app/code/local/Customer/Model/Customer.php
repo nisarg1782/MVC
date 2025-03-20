@@ -6,6 +6,13 @@ class Customer_Model_Customer extends Core_Model_Abstract
         $this->_resourceClassName = "Customer_Model_Resource_Customer";
         $this->_collectionClassName = "Customer_Model_Resource_Customer_Collection";
     }
+    protected function _beforeSave()
+    {
+        // echo '<pre>';
+        // print_r($this);
+        // echo '</pre>';
+       
+    }
     protected function _afterSave()
     {
         $address = Mage::getModel("customer/address")->getCollection()
