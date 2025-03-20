@@ -1,5 +1,7 @@
 <?php
 class Core_Controller_Customer_Action extends Core_Controller_Front_Action
+
+
 {
     protected $_allowed = [];
     public function __construct()
