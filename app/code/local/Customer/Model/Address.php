@@ -8,6 +8,7 @@ class Customer_Model_Address extends Core_Model_Abstract
     }
     protected function _afterSave()
     {
+        
     }
 }
 ?>
