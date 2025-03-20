@@ -1,9 +1,9 @@
 <?php
-class Admin_Controller_Order
+class Admin_Controller_Order extends Core_Controller_Admin_Action
 {
     public function listAction()
     {
-        $layout = Mage::getBlock("core/layout");
+        $layout = $this->getLayout();
         $list = $layout->createBlock("admin/sales_order_list")
             ->setTemplate("admin/sales/order/list.phtml");
         $layout->getChild("content")->addChild("list_order", $list);
@@ -12,7 +12,7 @@ class Admin_Controller_Order
     public function viewAction()
     {
 
-        $layout = Mage::getBlock("core/layout");
+        $layout = $this->getLayout();
         $order_id = Mage::getModel("core/request")
             ->getQuery("order_id");
         // print($order_id);
@@ -28,9 +28,7 @@ class Admin_Controller_Order
         $address_block = $layout->createBlock("admin/sales_order_address");
        
 
-        // $order_block->setOrderBlock($view_order);
-        // $address_block->setOrderBlock($view_order);
-        // $product_block->setOrderBlock($view_order);
+     
 
         
         $layout->getChild("content")
@@ -44,8 +42,6 @@ class Admin_Controller_Order
         $layout->getChild("content")
                 ->getChild("view_order")
                 ->addChild("address", $address_block);
-               
-        
         $layout->toHtml();
 
         

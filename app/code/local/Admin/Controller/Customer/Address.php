@@ -1,10 +1,10 @@
 <?php
-class Admin_Controller_Customer_Address
+class Admin_Controller_Customer_Address extends Core_Controller_Admin_Action
 {
     public function newAction()
     {
         //print(__CLASS__." <br>" . __FUNCTION__);
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         $cartview = $layout->createBlock('Admin/Address_New')
             ->setTemplate('admin/address/new.phtml');
         //    print_r($view);
@@ -14,7 +14,7 @@ class Admin_Controller_Customer_Address
     }
     public function listAction()
     {
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         $cartview = $layout->createBlock('Admin/Address_List')
             ->setTemplate('admin/address/list.phtml');
         //    print_r($view);
@@ -24,7 +24,7 @@ class Admin_Controller_Customer_Address
     }
     public function saveAction()
     {
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         $cartview = $layout->createBlock('Admin/Address_Save')
             ->setTemplate('admin/address/save.phtml');
         //    print_r($view);
@@ -34,7 +34,7 @@ class Admin_Controller_Customer_Address
     }
     public function deleteAction()
     {
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         $cartview = $layout->createBlock('Admin/Address_Delete')
             ->setTemplate('admin/address/delete.phtml');
         //    print_r($view);

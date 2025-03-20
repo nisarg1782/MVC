@@ -1,10 +1,10 @@
 <?php
-class Admin_Controller_Customer_Index
+class Admin_Controller_Customer_Index extends Core_Controller_Admin_Action
 {
     public function newAction()
     {
         //print(__CLASS__." <br>" . __FUNCTION__);
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         $cartview = $layout->createBlock('Admin/Customer_New')
             ->setTemplate('admin/customer/new.phtml');
         //    print_r($view);
@@ -15,7 +15,7 @@ class Admin_Controller_Customer_Index
     public function listAction()
     {
         //print(__CLASS__." <br>" . __FUNCTION__);
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         $cartview = $layout->createBlock('Admin/Customer_List')
             ->setTemplate('admin/customer/list.phtml');
         //    print_r($view);
@@ -26,7 +26,7 @@ class Admin_Controller_Customer_Index
     public function saveAction()
     {
         //print(__CLASS__." <br>" . __FUNCTION__);
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         $cartview = $layout->createBlock('Admin/Customer_Save')
             ->setTemplate('admin/customer/save.phtml');
         //    print_r($view);
@@ -37,7 +37,7 @@ class Admin_Controller_Customer_Index
     public function deleteAction()
     {
         //print(__CLASS__." <br>" . __FUNCTION__);
-       $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
        $cartview = $layout->createBlock('Admin/Customer_Delete')
                       ->setTemplate('admin/customer/delete.phtml');
                    //    print_r($view);

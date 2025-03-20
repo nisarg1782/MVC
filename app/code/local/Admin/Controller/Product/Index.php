@@ -9,7 +9,7 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       // $id=$request->getQuery("id");
       // print("the id is".$id);
 
-      $layout = Mage::getBlock('core/layout');
+      $layout = $this->getLayout();
       $cartview = $layout->createBlock('Admin/Product_New')
          ->setTemplate('admin/product/new.phtml');
       $layout->getChild('content')->addChild('cartindex', $cartview);
@@ -27,7 +27,7 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
    public function listAction()
    {
       //print(__CLASS__." <br>" . __FUNCTION__);
-      $layout = Mage::getBlock('core/layout');
+      $layout = $this->getLayout();
       $cartview = $layout->createBlock('Admin/Product_List')
          ->setTemplate('admin/product/list.phtml');
       //    print_r($view);
@@ -46,7 +46,7 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       $product = Mage::getModel('catalog/product');
       $product_gallrey = Mage::getModel("catalog/gallrey");
       $product_attribute = Mage::getModel("catalog/attribute");
-      $layout = Mage::getBlock('core/layout');
+      $layout = $this->getLayout();
       
       $product_data = $request->getParam("catalog_product");
       $attribute_data = $request->getParam("catalog_product_attribute");
@@ -187,7 +187,7 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
    {
       $request = Mage::getModel("core/request");
       $product = Mage::getModel('catalog/product');
-      $layout = Mage::getBlock("core/layout");
+      $layout = $this->getLayout();
       // $id = $request->getQuery("id");
       //print("the id is ".$id);
       //$request->delete($id);
@@ -209,7 +209,7 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
    {
       $request = Mage::getModel("core/request");
       $product = Mage::getModel('catalog/product');
-      $layout = Mage::getBlock("core/layout");
+      $layout = $this->getLayout();
       $id = $request->getQuery("id");
       //print("the id is ".$id);
       //$request->delete($id);

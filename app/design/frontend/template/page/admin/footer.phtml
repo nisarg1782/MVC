@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: space-between;
+        }
+
+        .content {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: #2C3E50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .footer .column {
+            width: 30%;
+            min-width: 250px;
+            padding: 10px;
+        }
+
+        .footer h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li {
+            margin: 5px 0;
+        }
+
+        .footer ul li a {
+            text-decoration: none;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .footer ul li a:hover {
+            color: #1ABC9C;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #1ABC9C;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            background: #1ABC9C;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: 0.3s;
+            display: none;
+        }
+
+        .back-to-top:hover {
+            background: #16A085;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .footer .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer .column {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+        <h1>Welcome to My Website</h1>
+        <p>Scroll down to see the footer.</p>
+        <p>Click the "Back to Top" button to return to the top.</p>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="column">
+                <h3>About Us</h3>
+                <p>We provide top-quality services and solutions.</p>
+            </div>
+            <div class="column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#">🔵 FB</a>
+                    <a href="#">📸 IG</a>
+                    <a href="#">🐦 TW</a>
+                    <a href="#">🔗 LI</a>
+                </div>
+            </div>
+        </div>
+        <p>&copy; 2025 MyBrand. All rights reserved.</p>
+        <div class="back-to-top" id="backToTop">&#8679;</div>
+    </footer>
+
+    <script>
+        const backToTopButton = document.getElementById("backToTop");
+
+        window.addEventListener("scroll", function() {
+            if (window.scrollY > 200) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
+        });
+
+        backToTopButton.addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+
+</body>
+</html>

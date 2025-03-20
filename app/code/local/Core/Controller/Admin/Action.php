@@ -38,4 +38,8 @@ class Core_Controller_Admin_Action extends Core_Controller_Front_Action
         // die();
 
     }
+    public function getLayout()
+    {
+        return Mage::getBlock("core/admin_layout");
+    }
 }
