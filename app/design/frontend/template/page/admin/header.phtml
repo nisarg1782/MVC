@@ -114,6 +114,19 @@
             <li><a href="#">About</a></li>
             <li><a href="#">Services</a></li>
             <li><a href="#">Contact</a></li>
+            <?php
+            if(isset($_SESSION["admin_id"]))
+            {
+                ?>
+                <li><a href="<?php echo $this->getUrl("admin/account/logout");?>">Logout</a></li>
+                <?php
+            }else{
+                ?>
+                <li><a href="<?php echo $this->getUrl("admin/account/login");?>">Login</a></li>
+                <?php
+            }
+            ?>
+          
         </ul>
         <div class="search-box">
             <input type="text" placeholder="Search...">

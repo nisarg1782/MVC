@@ -103,4 +103,11 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
         // $address->setDashboardBlock($dashboard);
         $layout->toHtml();
     }
+    public function logoutAction()
+    {
+        $session = $this->getSession();
+        $session->remove("login");
+        $session->remove("customer_id");
+        $this->redirect("customer/index/login");
+    }
 }

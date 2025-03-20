@@ -1,82 +1,122 @@
-<style>
-html, body {
-    height: 100%;
-    margin: 0;
-    width: 100%;  /* Ensure full width */
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Full viewport height */
-    width: 100%;  /* Ensure full width */
-}
-
-.content {
-    flex: 1; /* Pushes footer to the bottom */
-}
-
-footer {
-    background: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    width: 100%;  /* Ensure footer spans full width */
-    position: relative; /* Ensures it stays inside container */
-}
-#backToTop {
-    display: none; /* Hidden by default */
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 24px;
-    cursor: pointer;
-    transition: background 0.3s, opacity 0.3s;
-    opacity: 0.8;
-}
-
-#backToTop:hover {
-    background-color: #0056b3;
-    opacity: 1;
-}
-
-
-</style>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const backToTopButton = document.getElementById("backToTop");
-
-    // Show button when scrolling down
-    window.addEventListener("scroll", function () {
-        if (window.scrollY > 200) { // Show after 200px scroll
-            backToTopButton.style.display = "block";
-        } else {
-            backToTopButton.style.display = "none";
+<footer>
+    <style>
+        /* ====== FOOTER STYLES ====== */
+        footer {
+            background: linear-gradient(135deg, #16213e, #1a1a2e);
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            margin-top: 50px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
         }
-    });
 
-    // Scroll smoothly to top when clicked
-    backToTopButton.addEventListener("click", function () {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
-});
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
 
-    </script>
-<div class="container">
-    <div class="content">
-        <!-- Your main content here -->
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #f8b400;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #f8b400;
+        }
+
+        /* Copyright */
+        .footer-copyright {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f8b400;
+            color: black;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+            display: none;
+        }
+
+        .back-to-top:hover {
+            background: #ffcc00;
+        }
+    </style>
+
+    <div class="footer-container">
+        <ul class="footer-links">
+            <li><a href="<?php echo $this->getUrl(''); ?>">Home</a></li>
+            <li><a href="<?php echo $this->getUrl('about-us'); ?>">About Us</a></li>
+            <li><a href="<?php echo $this->getUrl('contact'); ?>">Contact</a></li>
+            <li><a href="<?php echo $this->getUrl('privacy-policy'); ?>">Privacy Policy</a></li>
+        </ul>
+
+        <!-- Social Media Icons -->
+        <div class="social-icons">
+            <a href="https://facebook.com" target="_blank">📘</a>
+            <a href="https://twitter.com" target="_blank">🐦</a>
+            <a href="https://instagram.com" target="_blank">📸</a>
+        </div>
+
+        <div class="footer-copyright">
+            © <?php echo date("Y"); ?> Your Website Name. All Rights Reserved.
+        </div>
     </div>
-    <footer>
-        <p>© 2025 Ashley. All rights reserved.</p>
-    </footer>
-    <button id="backToTop" title="Go to top">↑</button>
-</div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()">⬆ Back to Top</button>
+
+    <script>
+        // Show Back to Top button on scroll
+        window.addEventListener('scroll', function() {
+            let btn = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+
+        // Smooth Scroll to Top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</footer>
