@@ -16,19 +16,19 @@ class Customer_Controller_Order_Index
         $layout->getChild("content")
         ->getChild("view_order")
         ->addChild("customer_order_item",$customer_order_item);
-        $customer_order_item->setOrderBlock($view_order);
+        // $customer_order_item->setOrderBlock($view_order);
 
         $customer_order_address=$layout->createBlock("customer/account_order_address");
         $layout->getChild("content")
         ->getChild("view_order")
         ->addChild("customer_order_address",$customer_order_address);
-        $customer_order_address->setOrderBlock($view_order);
+        // $customer_order_address->setOrderBlock($view_order);
 
         $customer_order=$layout->createBlock("customer/account_order_order");
         $layout->getChild("content")
         ->getChild("view_order")
         ->addChild("customer_order",$customer_order);
-        $customer_order->setOrderBlock($view_order);
+        // $customer_order->setOrderBlock($view_order);
 
         $layout->toHtml();
     }

@@ -8,13 +8,9 @@ class Customer_Block_Account_Dashboard_Order extends Core_Block_Template
     }
     public function getDashboardBlock()
     {
-        return $this->_dashboardBlock;
+        return $this->getParent();
     }
-    public function setDashboardBlock($block)
-    {
-        $this->_dashboardBlock=$block;
-        return $this;
-    }
+    
     public function getOrderDetails()
     {
         return $this->getDashboardBlock()

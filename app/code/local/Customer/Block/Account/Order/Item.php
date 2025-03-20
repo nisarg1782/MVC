@@ -6,14 +6,10 @@ class Customer_Block_Account_Order_Item extends Core_Block_Template
     {
         $this->setTemplate("customer/order/item.phtml");
     }
-    public function setOrderBlock($block)
-    {
-        $this->_orderBlock=$block;
-        return $this;
-    }
+   
     public function getOrderBlock()
     {
-        return $this->_orderBlock;
+        return $this->getParent();
     }
     public function getItemDetails()
     {

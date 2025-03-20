@@ -86,19 +86,19 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
         $layout->getChild("content")
                 ->getChild("dashboard")
                 ->addChild("profile",$profile);
-        $profile->setDashboardBlock($dashboard);
+        // $profile->setDashboardBlock($dashboard);
 
         $order=$layout->createBlock("customer/account_dashboard_order");
         $layout->getChild("content")
                 ->getChild("dashboard")
                 ->addChild("order",$order);
-        $order->setDashboardBlock($dashboard);
+        // $order->setDashboardBlock($dashboard);
 
         $address=$layout->createBlock("customer/account_dashboard_address");
         $layout->getChild("content")
                 ->getChild("dashboard")
                 ->addChild("address",$address);
-        $address->setDashboardBlock($dashboard);
+        // $address->setDashboardBlock($dashboard);
         $layout->toHtml();
     }
 }
