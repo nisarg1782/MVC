@@ -1,0 +1,84 @@
+<?php $address = $this->getAddress(); ?>
+
+<div class="address-form-container">
+    <h2>Customer Address</h2>
+    <form id="addressForm" class="address-form" method="post" action="<?= $this->getUrl("*/*/save") ?>">
+        <div class="form-row">
+            <div class="form-group">
+                <?php if(!empty($address)):?>
+                <input type="hidden" name="customer_address[address_id]" value="<?php echo $address->getAddressId();?>">
+                <?php endif;?>
+                <label for="firstName">First Name*</label>
+                <input type="text" id="firstName" name="customer_address[first_name]" value="<?= $address->getFirstName(); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name*</label>
+                <input type="text" id="lastName" name="customer_address[last_name]" value="<?= $address->getLastName(); ?>" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number*</label>
+            <input type="tel" id="phone" name="customer_address[telephone]" value="<?= $address->getTelephone(); ?>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="street">Street Address*</label>
+            <input type="text" id="street" name="customer_address[street]" placeholder="Street address" value="<?= $address->getStreet(); ?>" required>
+        </div>
+
+        <?php
+        function generateOptions($options, $selectedValue)
+        {
+            foreach ($options as $value => $label) {
+                $selected = ($selectedValue == $value) ? "selected" : "";
+                echo "<option value='$value' $selected>$label</option>";
+            }
+        }
+        ?>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="state">State/Province*</label>
+                <select id="state" name="customer_address[state]" required>
+                    <option value="">Select State</option>
+                    <?php generateOptions(["CA" => "California", "NY" => "New York", "TX" => "Texas", "FL" => "Florida", "IL" => "Illinois"], $address->getState()); ?>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="city">City*</label>
+                <select id="city" name="customer_address[city]" required>
+                    <option value="">Select City</option>
+                    <?php generateOptions(["Los Angeles" => "Los Angeles", "New York City" => "New York City", "Houston" => "Houston", "Miami" => "Miami", "Chicago" => "Chicago"], $address->getCity()); ?>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="country">Country*</label>
+                <select id="country" name="customer_address[country]" required>
+                    <?php generateOptions(["India" => "India", "US" => "United States", "CA" => "Canada", "UK" => "United Kingdom"], $address->getCountry()); ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="zipCode">Zip/Postal Code*</label>
+                <input type="text" id="zipCode" name="customer_address[zip_code]" value="<?= $address->getZipCode(); ?>" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="address_type">Address Type *</label>
+                <select id="address_type" name="customer_address[address_type]" required>
+                    <?php generateOptions(["home" => "home", "work" => "office", "other" => "other"], $address->getAddressType()); ?>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="saveBtn">Save Address</button>
+        </div>
+    </form>
+</div>

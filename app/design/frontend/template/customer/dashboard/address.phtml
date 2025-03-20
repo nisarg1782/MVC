@@ -1,0 +1,129 @@
+<?php
+$address = $this->getAddressData();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Addresses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .address-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f9f9f9;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            display: inline-block;
+        }
+
+        .btn-update {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-delete {
+            background: red;
+            color: white;
+        }
+
+        .add-address {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="address-container">
+        <h2>Your Addresses</h2>
+        <table>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Street Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Country</th>
+                <th>Zipcode</th>
+                <th>Address Type</th>
+                <th>Receiver Contact</th>
+                <th>Actions</th>
+            </tr>
+            <?php foreach ($address as $_address): ?>
+                <tr>
+                    <td><?php echo $_address->getFirstName() ?></td>
+                    <td><?php echo $_address->getLastName() ?></td>
+                    <td><?php echo $_address->getStreet(); ?></td>
+                    <td><?php echo $_address->getCity(); ?></td>
+                    <td><?php echo $_address->getState(); ?></td>
+                    <td><?php echo $_address->getCountry(); ?></td>
+                    <td><?php echo $_address->getZipCode(); ?></td>
+                    <td><?php echo $_address->getAddressType(); ?></td>
+                    <td><?php echo $_address->getTelephone(); ?></td>
+                    <td class="action-buttons">
+                        <a href="<?php echo $this->getUrl("*/address_index/new") . "/?id=" . $_address->getAddressId(); ?>">
+                            <button class="btn btn-update">Update</button>
+                        </a>
+                        <a href="<?php echo $this->getUrl("*/address_index/delete") . "/?id=" . $_address->getAddressId(); ?>">
+                            <button class="btn btn-delete">Delete</button>
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+        <a href="<?php echo $this->getUrl("*/address_index/new") ?>" class="add-address">Add New Address</a>
+    </div>
+</body>
+
+</html>

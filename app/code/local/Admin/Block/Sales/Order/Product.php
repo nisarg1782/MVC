@@ -1,9 +1,6 @@
 <?php
 class Admin_Block_Sales_Order_product extends  Core_Block_Template
 {
-
-    
-
     public function __construct()
     {
         $this->setTemplate("admin/sales/order/view/product.phtml");
