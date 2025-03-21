@@ -6,141 +6,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Registration</title>
     <style>
-        .custom-registration-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 80vh;
-            /* Keeps header and footer unaffected */
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
+    .custom-registration-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        /* Keeps header and footer unaffected */
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
 
-        .custom-registration-container {
-            background: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
+    .custom-registration-container {
+        background: #fff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+    }
 
-        .custom-registration-container h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
+    .custom-registration-container h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
 
-        .form-group {
-            text-align: left;
-            margin-bottom: 15px;
-        }
+    .form-group {
+        text-align: left;
+        margin-bottom: 15px;
+    }
 
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #555;
-        }
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+    }
 
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
 
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #007BFF;
-            outline: none;
-        }
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #007BFF;
+        outline: none;
+    }
 
-        .form-group input[type="radio"] {
-            width: auto;
-            margin-right: 5px;
-        }
+    .form-group input[type="radio"] {
+        width: auto;
+        margin-right: 5px;
+    }
 
-        #emailMessage {
-            font-size: 14px;
-            margin-top: 5px;
-        }
+    #emailMessage {
+        font-size: 14px;
+        margin-top: 5px;
+    }
 
-        .custom-registration-container button {
-            width: 100%;
-            background-color: #007BFF;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s ease;
-            margin-top: 10px;
-        }
+    .custom-registration-container button {
+        width: 100%;
+        background-color: #007BFF;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        margin-top: 10px;
+    }
 
-        .custom-registration-container button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
+    .custom-registration-container button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
 
-        .custom-registration-container button:hover:not(:disabled) {
-            background-color: #0056b3;
-        }
+    .custom-registration-container button:hover:not(:disabled) {
+        background-color: #0056b3;
+    }
 
-        .custom-registration-container a {
-            display: block;
-            margin-top: 15px;
-            color: #007BFF;
-            text-decoration: none;
-            font-size: 14px;
-        }
+    .custom-registration-container a {
+        display: block;
+        margin-top: 15px;
+        color: #007BFF;
+        text-decoration: none;
+        font-size: 14px;
+    }
 
-        .custom-registration-container a:hover {
-            text-decoration: underline;
-        }
+    .custom-registration-container a:hover {
+        text-decoration: underline;
+    }
     </style>
     <script>
-        function checkEmail() {
-            let email = document.getElementById("email").value.trim();
-            let messageDiv = document.getElementById("emailMessage");
-            let submitBtn = document.getElementById("submitBtn");
+    function checkEmail() {
+        let email = document.getElementById("email").value.trim();
+        let messageDiv = document.getElementById("emailMessage");
+        let submitBtn = document.getElementById("submitBtn");
 
-            if (email.length > 3) {
-                let xhr = new XMLHttpRequest();
-                xhr.open("GET", "<?php echo $this->getUrl('*/*/checkEmail') ?>/?email=" + encodeURIComponent(email), true);
+        if (email.length > 3) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "<?php echo $this->getUrl('*/*/checkEmail') ?>/?email=" + encodeURIComponent(email), true);
 
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4) {
-                        if (xhr.status == 200) {
-                            try {
-                                let response = JSON.parse(xhr.responseText);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        try {
+                            let response = JSON.parse(xhr.responseText);
 
-                                messageDiv.innerHTML = response.message;
-                                messageDiv.style.color = response.status === "success" ? "green" : "red";
+                            messageDiv.innerHTML = response.message;
+                            messageDiv.style.color = response.status === "success" ? "green" : "red";
 
-                                submitBtn.disabled = response.status !== "success";
-                            } catch (e) {
-                                messageDiv.innerHTML = "Invalid server response.";
-                                messageDiv.style.color = "red";
-                                submitBtn.disabled = true;
-                            }
-                        } else {
-                            messageDiv.innerHTML = "Server error. Try again later.";
+                            submitBtn.disabled = response.status !== "success";
+                        } catch (e) {
+                            messageDiv.innerHTML = "Invalid server response.";
                             messageDiv.style.color = "red";
                             submitBtn.disabled = true;
                         }
+                    } else {
+                        messageDiv.innerHTML = "Server error. Try again later.";
+                        messageDiv.style.color = "red";
+                        submitBtn.disabled = true;
                     }
-                };
+                }
+            };
 
-                xhr.send();
-            } else {
-                messageDiv.innerHTML = "";
-                submitBtn.disabled = true;
-            }
+            xhr.send();
+        } else {
+            messageDiv.innerHTML = "";
+            submitBtn.disabled = true;
         }
+    }
     </script>
 </head>
 
