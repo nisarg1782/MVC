@@ -5,24 +5,15 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
    //protected $_product = [];
    public function newAction()
    {
-      $request = Mage::getModel("core/request");
-      // $id=$request->getQuery("id");
-      // print("the id is".$id);
-
-      $layout = $this->getLayout();
-      $cartview = $layout->createBlock('Admin/Product_New')
-         ->setTemplate('admin/product/new.phtml');
-      $layout->getChild('content')->addChild('cartindex', $cartview);
-      $layout->toHtml();
-
-
-      //$product=Mage::getModel("catalog/product")->load(34);
-      //   echo "<pre>";
-      //   // print_r($product);
-      //   $product->setName("abc'd");
-      //   $product->setPrice(780);
-      //   $product->save();
-      //   echo "<pre>"
+      // $request = Mage::getModel("core/request");
+      $cartview = $this->getLayout()
+                        ->createBlock('Admin/Product_New')
+                        ->setTemplate('admin/product/new.phtml');
+      $this->getLayout()
+            ->getChild('content')
+            ->addChild('cartindex', $cartview);
+      $this->getLayout()
+            ->toHtml();
    }
    public function listAction()
    {
@@ -30,8 +21,12 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       $layout = $this->getLayout();
       $cartview = $layout->createBlock('Admin/Product_List')
          ->setTemplate('admin/product/list.phtml');
+      // $toolbar_block=$layout->createBlock("Admin/grid_toolbar")
+      //    ->setTemplate("admin/grid/toolbar.phtml");
+
       //    print_r($view);
       $layout->getChild('content')->addChild('list_prod', $cartview);
+    
       $layout->getChild("head")->addCss("css/admin/list.css");
       //print_r($layout);
       $layout->toHtml();

@@ -1,6 +1,6 @@
 <?php
 
-class Customer_Controller_Profile_Index
+class Customer_Controller_Profile_Index extends Core_Controller_Customer_Action
 {
     public function editAction()
     {
@@ -14,15 +14,11 @@ class Customer_Controller_Profile_Index
     {
         $layout = Mage::getBlock("core/layout");
         $customer_data = Mage::getModel("core/request")->getParam("customer");
-        $exist_customer = Mage::getSingleton("customer/session")
-            ->getCustomer()
-            ->load($customer_data["email"], "email");
-
-        if (!empty($exist_customer->getData())) {
-            $url = $layout->getUrl("Customer/profile_index/edit");
-            $url .= "/?customer_id=" . $customer_data["customer_id"];
-            header("location:$url");
-        } else {
+        echo '<pre>';
+        print_r($customer_data);
+        echo '</pre>';
+        // die;
+        
 
             Mage::getSingleton("customer/session")
                 ->getCustomer()
@@ -30,6 +26,43 @@ class Customer_Controller_Profile_Index
                 ->Save();
             $url = $layout->getUrl("customer/index/dashboard");
             header("location:$url");
+        
+    }
+    public function changePassAction()
+    {
+        $layout = Mage::getBlock("core/layout");
+        $change_pass = $layout->createBlock("customer/account_profile_changepass")
+            ->setTemplate("customer/profile/changepass.phtml");
+        $layout->getChild("content")->addChild("profile", $change_pass);
+        $layout->toHtml();
+    }
+    public function changePasswordAction()
+    {
+        $request=Mage::getModel("core/request");
+        $password_data=$request->getParam("password");
+        // echo '<pre>';
+        // print_r($password_data);
+        // echo '</pre>';
+        $customer=Mage::getModel("customer/session")
+                        ->getCustomer();
+        if($password_data["new"]!=$password_data["confirm"])
+        {
+            print("new and confirm password not matched");
         }
+        else if($password_data["current"]==$customer->getPassword() &&
+            $password_data["new"]==$password_data["confirm"])
+        {
+            $customer->setCustomerId($customer->getCustomerId())
+                    ->setPassword($password_data["confirm"])
+                    ->save();
+            $layout=Mage::getBlock("core/layout");
+                    $url = $layout->getUrl("customer/index/login");
+            header("location:$url");
+            
+        }
+        else{
+            print("current password is in valid ");
+        }
+
     }
 }

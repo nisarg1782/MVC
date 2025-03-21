@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password</title>
+    <style>
+        /* Change Password Form Styles */
+        .cp-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f9;
+        }
+
+        .cp-form {
+            background: #ffffff;
+            padding: 20px;
+            width: 320px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .cp-form h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .cp-input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .cp-input-group label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .cp-input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        .cp-input-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .cp-button {
+            width: 100%;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .cp-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="cp-container">
+        <form class="cp-form" method="post" action="<?php echo $this->getUrl("*/*/changePassword");?>">
+            <h2>Change Password</h2>
+
+            <div class="cp-input-group">
+                <label for="current-password">Current Password</label>
+                <input type="password" id="current-password" placeholder="Enter current password" name="password[current]" required>
+            </div>
+
+            <div class="cp-input-group">
+                <label for="new-password">New Password</label>
+                <input type="password" id="new-password" placeholder="Enter new password" 
+                name="password[new]" required>
+            </div>
+
+            <div class="cp-input-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Re-enter new password" name="password[confirm]" required>
+            </div>
+
+            <button type="submit" class="cp-button">Update Password</button>
+        </form>
+    </div>
+
+    
+</body>
+</html>

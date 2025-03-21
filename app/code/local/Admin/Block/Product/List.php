@@ -2,17 +2,36 @@
 
 class Admin_Block_Product_List extends Core_Block_Template
 {
-    public function listdata()
+    protected $_collection;
+    public function __construct()
     {
-        $product = Mage::getModel("catalog/product");
 
-        $collection = $product->getCollection()->innerJoin(
+        $this->init();
+    }
+    public function init()
+    {
+        $layout=$this->getLayout();
+        $toolbar_block=$layout->createBlock("Admin/grid_toolbar")
+                        ->setTemplate("admin/grid/toolbar.phtml");
+        
+        $product = Mage::getModel("catalog/product");
+       $this->addChild("toolbar",$toolbar_block);
+    
+
+        $this->_collection = $product->getCollection()->innerJoin(
             ["cat_table" => "catalog_category"],
             "cat_table.category_id = main_table.category_id",
             ["category_name" => "name"]
         );
-        $data = $collection->getdata();
-        return $data;
+        $toolbar_block->prepareToolbar();
     }
-    
+    public function listdata()
+    {
+        return $this->getCollection()->getData();
+        
+    }
+    public function getCollection()
+    {
+        return $this->_collection;
+    }
 }

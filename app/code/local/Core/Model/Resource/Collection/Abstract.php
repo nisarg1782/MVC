@@ -20,16 +20,14 @@ class Core_Model_Resource_Collection_Abstract
         $this->_select['FROM'] = ["main_table" => $this->_resourcename->getTableName()];
         $this->_select['COLUMNS'] = [];
         $columns = is_array($columns) ? $columns : [$columns];
-        foreach ($columns as $alias=>$column) {
+        foreach ($columns as $alias => $column) {
             // Mage::log($alias);
             // Mage::log($column);
             // die;
-            if(is_integer($alias))
-            {
+            if (is_integer($alias)) {
                 $this->_select['COLUMNS'][] = "main_table." . $column;
-
-            }else{
-                $this->_select['COLUMNS'][] = $alias . " AS ". $column;
+            } else {
+                $this->_select['COLUMNS'][] = $alias . " AS " . $column;
             }
         }
         return $this;
@@ -183,8 +181,6 @@ class Core_Model_Resource_Collection_Abstract
                                 $where = "$field $op ($quotedValues)";
                                 break;
 
-
-
                             case "LIKE":
                             case "NOT LIKE":
                                 $where = "$field $op '" . addslashes($_value) . "'";
@@ -285,7 +281,7 @@ class Core_Model_Resource_Collection_Abstract
     }
     public function Limit($limit, $offset = 0)
     {
-
+        $offset = ($offset - 1) * $limit;
         $this->_select["LIMIT"][] = ["limit" => $limit, "offset" => $offset];
         return $this;
     }

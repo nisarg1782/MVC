@@ -58,7 +58,7 @@ class Core_Block_Template
     }
     public function getLayout()
     {
-        return Mage::getBlockSingleton("core/layout");
+        return Mage::getBlock("core/layout");
     }
     public function setParent($block)
     {
@@ -69,4 +69,9 @@ class Core_Block_Template
     {
         return $this->_parent;
     }
+    public function getRequest()
+    {
+        return Mage::getModel("core/request");
+    }
+    
 }

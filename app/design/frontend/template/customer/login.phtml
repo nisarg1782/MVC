@@ -61,22 +61,36 @@
             background-color: #0056b3;
         }
 
-        .custom-login-container a {
-            display: inline-block;
+        .custom-links-container {
             margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .custom-links-container a {
             color: #007BFF;
             text-decoration: none;
             font-size: 14px;
+            transition: 0.3s ease;
         }
 
-        .custom-login-container a:hover {
+        .custom-links-container a:hover {
             text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .custom-links-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .custom-links-container a {
+                margin-top: 5px;
+            }
         }
     </style>
 </head>
 <body>
-
-    
 
     <!-- Login Form Section -->
     <div class="custom-login-wrapper">
@@ -93,11 +107,13 @@
                 <button type="submit">Login</button>
             </form>
 
-            <a href="<?php echo $this->getUrl('*/*/register') ?>">New User ??</a>
+            <!-- New Forgot Password and Register Links -->
+            <div class="custom-links-container">
+                <a href="<?php echo $this->getUrl('*/*/forgot') ?>">Forgot Password?</a>
+                <a href="<?php echo $this->getUrl('*/*/register') ?>">New User?</a>
+            </div>
         </div>
     </div>
-
-  
 
 </body>
 </html>

@@ -1,0 +1,11 @@
+<?php
+echo $this->getTotalRecords();
+?>
+<form method="get" action="http://localhost/MVC/admin/product_index/list/">
+    <select name="limit">Choose Limit
+        <option>5</option>
+        <option>10</option>
+    </select>
+    <input type="number" name="page" min=1>
+    <input type="submit">
+</form>

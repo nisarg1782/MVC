@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <style>
+        .forgot-pass-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            background: #f4f4f9;
+            padding: 20px;
+        }
+
+        .forgot-pass-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .forgot-pass-container h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .forgot-pass-container p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .forgot-pass-container label {
+            display: block;
+            text-align: left;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        .forgot-pass-container input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .forgot-pass-container button {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .forgot-pass-container button:hover {
+            background-color: #218838;
+        }
+
+        .forgot-pass-container a {
+            display: inline-block;
+            margin-top: 15px;
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-pass-container a:hover {
+            text-decoration: underline;
+        }
+
+        .otp-section {
+            display: none;
+            margin-top: 15px;
+        }
+    </style>
+
+    <script>
+        function sendOtp(event) {
+            event.preventDefault();
+            let email = document.getElementById("email").value.trim();
+            let messageDiv = document.getElementById("message");
+            let otpSection = document.getElementById("otpSection");
+
+            if (!email) {
+                messageDiv.innerHTML = "Please enter a valid email.";
+                messageDiv.style.color = "red";
+                return;
+            }
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "<?php echo $this->getUrl('*/*/sendOtp'); ?>/?email="+email, true);
+            // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        messageDiv.innerHTML = xhr.responseText;
+                        messageDiv.style.color = "green";
+
+                        // Show OTP input field
+                        otpSection.style.display = "block";
+                    } else {
+                        messageDiv.innerHTML = "Failed to send OTP. Try again.";
+                        messageDiv.style.color = "red";
+                    }
+                }
+            };
+
+            xhr.send("customer[email]=" + encodeURIComponent(email));
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Forgot Password Form Section -->
+    <div class="forgot-pass-wrapper">
+        <div class="forgot-pass-container">
+            <h2>Forgot Password</h2>
+            <p>An OTP will be sent to your registered email.</p>
+
+            <form id="forgotPassForm" onsubmit="sendOtp(event)">
+                <label for="email">Enter your Email:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit">Send OTP</button>
+            </form>
+
+            <p id="message"></p>
+
+            <!-- OTP Verification Section (Hidden Initially) -->
+            <div class="otp-section" id="otpSection">
+                <label for="otp">Enter OTP:</label>
+                <input type="text" id="otp" name="otp" maxlength="6" required>
+                <button onclick="verifyOtp()">Verify OTP</button>
+            </div>
+
+            <a href="<?php echo $this->getUrl('*/*/login') ?>">Back to Login</a>
+        </div>
+    </div>
+    <script>
+        function verifyOtp() {
+            let otp = document.getElementById("otp").value.trim();
+            let messageDiv = document.getElementById("message");
+
+            if (otp.length !== 6 || isNaN(otp)) {
+                messageDiv.innerHTML = "Please enter a valid 6-digit OTP.";
+                messageDiv.style.color = "red";
+                return;
+            }
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "<?php echo $this->getUrl('*/*/verifyOtp'); ?>/?verify_otp="+otp, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert("your password is 1234");
+                        setTimeout(function () {
+                    window.location.href = "<?php echo $this->getUrl('*/*/login'); ?>";
+                }, 1000);
+                        // messageDiv.innerHTML = xhr.responseText;
+                        // messageDiv.style.color = "green";
+                    } else {
+                        messageDiv.innerHTML = "Invalid OTP. Try again.";
+                        messageDiv.style.color = "red";
+                    }
+                }
+            };
+
+            xhr.send("otp=" + encodeURIComponent(otp));
+        }
+    </script>
+
+</body>
+</html>
