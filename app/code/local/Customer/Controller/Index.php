@@ -30,7 +30,7 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
         $layout = Mage::getBlock("core/layout");
         $customer = Mage::getModel("core/request")->getParam("customer");
 
-        $customer = Mage::getModel("customer/session")
+        $customer = Mage::getSingleton("customer/session")
             ->getCustomer()
             ->setData($customer)
             ->Save();
@@ -44,7 +44,7 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
         $login_data = Mage::getModel("core/request")->getParam("customer");
         $session = Mage::getSingleton("core/session");
 
-        $model = Mage::getModel("customer/session")
+        $model = Mage::getSingleton("customer/session")
             ->getCustomer()
             ->getCollection()
             ->addFieldToFilter("email", ["=" => $login_data["email"]]);
@@ -78,7 +78,7 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
             ->setTemplate("customer/dashboard.phtml");
 
         $layout->getChild("content")->addChild("dashboard", $dashboard);
-        $customer = Mage::getModel("customer/session")
+        $customer = Mage::getSingleton("customer/session")
             ->getCustomer();
         $dashboard->setCustomer($customer);
 
@@ -110,7 +110,6 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
     }
     public function checkEmailAction()
     {
-
         header('Content-Type: application/json; charset=UTF-8');
         header('Access-Control-Allow-Origin: *');
 
@@ -124,21 +123,27 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
 
         try {
 
-            $customer = Mage::getModel("customer/session")
-                ->getCustomer()
+            $loggedInCustomer = Mage::getSingleton("customer/session")->getCustomer();
+            $loggedInCustomerId = $loggedInCustomer ? $loggedInCustomer->getCustomerId() : null;
+            $loggedInCustomerEmail = $loggedInCustomer ? $loggedInCustomer->getEmail() : null;
+
+
+            $customer = Mage::getModel("customer/customer")
                 ->getCollection()
-                ->addFieldToFilter("email", $email)
+                ->addFieldToFilter("email", ["=" => $email])
+                ->addFieldToFilter("customer_id", ["!=" => $loggedInCustomerId])
                 ->getFirstItem();
 
-            $response = [];
+            if ($loggedInCustomerId && $email == $loggedInCustomerEmail) {
 
-            if ($customer->getCustomerId()) {
-                $response = ["status" => "error", "message" => "Email already registered!"];
+                echo json_encode(["status" => "success", "message" => "This is your current email."]);
+            } elseif ($customer->getCustomerId()) {
+
+                echo json_encode(["status" => "error", "message" => "Email already registered!"]);
             } else {
-                $response = ["status" => "success", "message" => "Email available!"];
-            }
 
-            echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                echo json_encode(["status" => "success", "message" => "Email available!"]);
+            }
         } catch (Exception $e) {
             echo json_encode(["status" => "error", "message" => "Server error: " . $e->getMessage()]);
         }

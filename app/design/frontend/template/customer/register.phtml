@@ -5,48 +5,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Registration</title>
+    <style>
+        .custom-registration-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            /* Keeps header and footer unaffected */
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .custom-registration-container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .custom-registration-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        .form-group input[type="radio"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        #emailMessage {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .custom-registration-container button {
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .custom-registration-container button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .custom-registration-container button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+
+        .custom-registration-container a {
+            display: block;
+            margin-top: 15px;
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .custom-registration-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
     <script>
         function checkEmail() {
             let email = document.getElementById("email").value.trim();
             let messageDiv = document.getElementById("emailMessage");
             let submitBtn = document.getElementById("submitBtn");
+
             if (email.length > 3) {
                 let xhr = new XMLHttpRequest();
                 xhr.open("GET", "<?php echo $this->getUrl('*/*/checkEmail') ?>/?email=" + encodeURIComponent(email), true);
 
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4) {
-                        // console.log("Raw Response:", xhr.responseText); // Debugging
-
                         if (xhr.status == 200) {
                             try {
-                                // Check if response is JSON
-                                if (xhr.responseText.trim().startsWith("{")) {
-                                    let response = JSON.parse(xhr.responseText);
-                                    // console.log("Parsed Response:", response);
+                                let response = JSON.parse(xhr.responseText);
 
-                                    messageDiv.innerHTML = response.message;
-                                    messageDiv.style.color = response.status === "success" ? "green" : "red";
+                                messageDiv.innerHTML = response.message;
+                                messageDiv.style.color = response.status === "success" ? "green" : "red";
 
-                                    if (response.status === "success") {
-                                        submitBtn.disabled = false; // Enable submit button
-                                    } else {
-                                        submitBtn.disabled = true; // Disable submit button
-                                    }
-                                } else {
-                                    throw new Error("Invalid JSON format (HTML received)");
-                                }
+                                submitBtn.disabled = response.status !== "success";
                             } catch (e) {
-                                // console.error("JSON Parsing Error:", e, "Response:", xhr.responseText);
                                 messageDiv.innerHTML = "Invalid server response.";
                                 messageDiv.style.color = "red";
-                                submitBtn.disabled = true; // Disable button on error
+                                submitBtn.disabled = true;
                             }
                         } else {
-                            // console.error("HTTP Error:", xhr.status);
                             messageDiv.innerHTML = "Server error. Try again later.";
                             messageDiv.style.color = "red";
-                            submitBtn.disabled = true; // Disable button on server error
+                            submitBtn.disabled = true;
                         }
                     }
                 };
@@ -54,80 +138,82 @@
                 xhr.send();
             } else {
                 messageDiv.innerHTML = "";
-                submitBtn.disabled = true; // Disable if email is too short
+                submitBtn.disabled = true;
             }
         }
     </script>
-
-
 </head>
 
 <body>
 
-    <div class="registration-form">
-        <h2>Customer Registration</h2>
-        <form action="<?php echo $this->getUrl('*/*/registerCustomer') ?>" method="POST">
-            <div class="form-group">
-                <label for="first_name">First Name:</label>
-                <input type="text" id="first_name" name="customer[first_name]" required>
-            </div>
-            <div class="form-group">
-                <label for="last_name">Last Name:</label>
-                <input type="text" id="last_name" name="customer[last_name]" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="customer[email]" required onkeyup="checkEmail()">
-                <div id="emailMessage" style="color: red; font-size: 14px;"></div>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="customer[password]" required>
-            </div>
-            <div class="form-group">
-                <label for="contact">Contact:</label>
-                <input type="text" id="contact" name="customer[contact]" required>
-            </div>
-            <div class="form-group">
-                <label for="street">Street:</label>
-                <input type="text" id="street" name="customer[street]" required>
-            </div>
-            <div class="form-group">
-                <label for="city">City:</label>
-                <select id="city" name="customer[city]" required>
-                    <option value="New York">New York</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="state">State:</label>
-                <select id="state" name="customer[state]" required>
-                    <option value="NY">New York</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="country">Country:</label>
-                <select id="country" name="customer[country]" required>
-                    <option value="USA">United States</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="zipcode">Zip Code:</label>
-                <input type="text" id="zipcode" name="customer[zipcode]" required>
-            </div>
-            <div class="form-group">
-                <label for="telephone">Telephone:</label>
-                <input type="text" id="telephone" name="customer[telephone]" required>
-            </div>
-            <div class="form-group">
-                <label>Address Type:</label>
-                <input type="radio" name="customer[address_type]" value="home" required> Home
-                <input type="radio" name="customer[address_type]" value="office"> Office
-            </div>
-            <button type="submit" id="submitBtn" disabled>Register</button>
 
-        </form>
-        <a href="<?php echo $this->getUrl('*/*/login') ?>">Login here</a>
+    <div class="custom-registration-wrapper">
+        <div class="custom-registration-container">
+            <h2>Customer Registration</h2>
+            <form action="<?php echo $this->getUrl('*/*/registerCustomer') ?>" method="POST">
+                <div class="form-group">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="customer[first_name]" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" name="customer[last_name]" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="customer[email]" required onkeyup="checkEmail()">
+                    <div id="emailMessage"></div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="customer[password]" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact:</label>
+                    <input type="text" id="contact" name="customer[contact]" required>
+                </div>
+                <div class="form-group">
+                    <label for="street">Street:</label>
+                    <input type="text" id="street" name="customer[street]" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <select id="city" name="customer[city]" required>
+                        <option value="New York">New York</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="state">State:</label>
+                    <select id="state" name="customer[state]" required>
+                        <option value="NY">New York</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country:</label>
+                    <select id="country" name="customer[country]" required>
+                        <option value="USA">United States</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="zipcode">Zip Code:</label>
+                    <input type="text" id="zipcode" name="customer[zipcode]" required>
+                </div>
+                <div class="form-group">
+                    <label for="telephone">Telephone:</label>
+                    <input type="text" id="telephone" name="customer[telephone]" required>
+                </div>
+                <div class="form-group">
+                    <label>Address Type:</label>
+                    <input type="radio" name="customer[address_type]" value="home" required> Home
+                    <input type="radio" name="customer[address_type]" value="office"> Office
+                </div>
+                <button type="submit" id="submitBtn" disabled>Register</button>
+            </form>
+            <a href="<?php echo $this->getUrl('*/*/login') ?>">Login here</a>
+        </div>
     </div>
+
+
 
 </body>
 

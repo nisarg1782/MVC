@@ -14,7 +14,7 @@ class Customer_Controller_Profile_Index
     {
         $layout = Mage::getBlock("core/layout");
         $customer_data = Mage::getModel("core/request")->getParam("customer");
-        $exist_customer = Mage::getModel("customer/session")
+        $exist_customer = Mage::getSingleton("customer/session")
             ->getCustomer()
             ->load($customer_data["email"], "email");
 
@@ -24,7 +24,7 @@ class Customer_Controller_Profile_Index
             header("location:$url");
         } else {
 
-            Mage::getModel("customer/session")
+            Mage::getSingleton("customer/session")
                 ->getCustomer()
                 ->setData($customer_data)
                 ->Save();
