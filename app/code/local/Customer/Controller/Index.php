@@ -3,7 +3,8 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
 {
     protected $_allowed = [
         "register",
-        "login"
+        "login",
+        "checkEmail"
 
     ];
     public function registerAction()
@@ -28,19 +29,12 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
     {
         $layout = Mage::getBlock("core/layout");
         $customer = Mage::getModel("core/request")->getParam("customer");
-        $exist_customer = Mage::getModel("customer/customer")
-            ->load($customer["email"], "email");
-        if (!empty($exist_customer->getData())) {
-            $url = $layout->getUrl("Customer/index/register");
-            header("location:$url");
-        } else {
-            // echo '<pre>';
-            // print_r($customer);
-            // echo '</pre>';
-            Mage::getModel("customer/customer")
-                ->setData($customer)
-                ->Save();
-        }
+
+        $customer = Mage::getModel("customer/session")
+            ->getCustomer()
+            ->setData($customer)
+            ->Save();
+
         $layout = Mage::getBlock("core/layout");
         $url = $layout->getUrl("Customer/index/login");
         header("location:$url");
@@ -49,8 +43,9 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
     {
         $login_data = Mage::getModel("core/request")->getParam("customer");
         $session = Mage::getSingleton("core/session");
-        // print_r($param);
-        $model = Mage::getModel("customer/customer")
+
+        $model = Mage::getModel("customer/session")
+            ->getCustomer()
             ->getCollection()
             ->addFieldToFilter("email", ["=" => $login_data["email"]]);
         $data = $model->getData();
@@ -77,30 +72,33 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
     public function dashboardAction()
     {
         $layout = Mage::getBlock("core/layout");
-        $session = Mage::getSingleton("core/session");
+
+
         $dashboard = $layout->createBlock("customer/account_dashboard")
             ->setTemplate("customer/dashboard.phtml");
+
         $layout->getChild("content")->addChild("dashboard", $dashboard);
-        $customer=Mage::getModel("customer/customer")->load($session->get("customer_id"));
+        $customer = Mage::getModel("customer/session")
+            ->getCustomer();
         $dashboard->setCustomer($customer);
-        
-        $profile=$layout->createBlock("customer/account_dashboard_profile");
-        $layout->getChild("content")
-                ->getChild("dashboard")
-                ->addChild("profile",$profile);
-        // $profile->setDashboardBlock($dashboard);
 
-        $order=$layout->createBlock("customer/account_dashboard_order");
+        $profile = $layout->createBlock("customer/account_dashboard_profile");
         $layout->getChild("content")
-                ->getChild("dashboard")
-                ->addChild("order",$order);
-        // $order->setDashboardBlock($dashboard);
+            ->getChild("dashboard")
+            ->addChild("profile", $profile);
 
-        $address=$layout->createBlock("customer/account_dashboard_address");
+
+        $order = $layout->createBlock("customer/account_dashboard_order");
         $layout->getChild("content")
-                ->getChild("dashboard")
-                ->addChild("address",$address);
-        // $address->setDashboardBlock($dashboard);
+            ->getChild("dashboard")
+            ->addChild("order", $order);
+
+
+        $address = $layout->createBlock("customer/account_dashboard_address");
+        $layout->getChild("content")
+            ->getChild("dashboard")
+            ->addChild("address", $address);
+
         $layout->toHtml();
     }
     public function logoutAction()
@@ -109,5 +107,41 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
         $session->remove("login");
         $session->remove("customer_id");
         $this->redirect("customer/index/login");
+    }
+    public function checkEmailAction()
+    {
+
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Access-Control-Allow-Origin: *');
+
+        $request = Mage::getModel("core/request");
+        $email = trim($request->getQuery("email"));
+
+        if (!$email) {
+            echo json_encode(["status" => "error", "message" => "Email is required"]);
+            exit;
+        }
+
+        try {
+
+            $customer = Mage::getModel("customer/session")
+                ->getCustomer()
+                ->getCollection()
+                ->addFieldToFilter("email", $email)
+                ->getFirstItem();
+
+            $response = [];
+
+            if ($customer->getCustomerId()) {
+                $response = ["status" => "error", "message" => "Email already registered!"];
+            } else {
+                $response = ["status" => "success", "message" => "Email available!"];
+            }
+
+            echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        } catch (Exception $e) {
+            echo json_encode(["status" => "error", "message" => "Server error: " . $e->getMessage()]);
+        }
+        exit;
     }
 }

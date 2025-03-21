@@ -1,33 +1,96 @@
 <?php
 $profile = $this->getProfile();
+$currentEmail = htmlspecialchars($profile->getEmail(), ENT_QUOTES, 'UTF-8');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Profile</title>
+    <script>
+        function checkEmail() {
+            let email = document.getElementById("email").value.trim();
+            let messageDiv = document.getElementById("emailMessage");
+            let submitBtn = document.getElementById("submitBtn");
+            if (email.length > 3) {
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", "<?php echo $this->getUrl('customer/index/checkEmail') ?>/?email=" + encodeURIComponent(email), true);
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4) {
+                        // console.log("Raw Response:", xhr.responseText); // Debugging
+
+                        if (xhr.status == 200) {
+                            try {
+                                // Check if response is JSON
+                                if (xhr.responseText.trim().startsWith("{")) {
+                                    let response = JSON.parse(xhr.responseText);
+                                    // console.log("Parsed Response:", response);
+
+                                    messageDiv.innerHTML = response.message;
+                                    messageDiv.style.color = response.status === "success" ? "green" : "red";
+
+                                    if (response.status === "success") {
+                                        submitBtn.disabled = false; // Enable submit button
+                                    } else {
+                                        submitBtn.disabled = true; // Disable submit button
+                                    }
+                                } else {
+                                    throw new Error("Invalid JSON format (HTML received)");
+                                }
+                            } catch (e) {
+                                // console.error("JSON Parsing Error:", e, "Response:", xhr.responseText);
+                                messageDiv.innerHTML = "Invalid server response.";
+                                messageDiv.style.color = "red";
+                                submitBtn.disabled = true; // Disable button on error
+                            }
+                        } else {
+                            // console.error("HTTP Error:", xhr.status);
+                            messageDiv.innerHTML = "Server error. Try again later.";
+                            messageDiv.style.color = "red";
+                            submitBtn.disabled = true; // Disable button on server error
+                        }
+                    }
+                };
+
+                xhr.send();
+            } else {
+                messageDiv.innerHTML = "";
+                submitBtn.disabled = true; // Disable if email is too short
+            }
+        }
+    </script>
 </head>
+
 <body>
     <div class="profile-container">
         <h2>Profile</h2>
-        <form action="<?php echo $this->getUrl("*/*/save")?>" method="POST">
+        <form action="<?php echo $this->getUrl("*/*/save"); ?>" method="POST">
             <div class="profile-section">
-                <input type="hidden" name="customer[customer_id]" value="<?php echo $profile->getCustomerId();?>">
+                <input type="hidden" name="customer[customer_id]" value="<?php echo $profile->getCustomerId(); ?>">
+
                 <label for="first_name">First Name:</label>
-                <input type="text" id="first_name" name="customer[first_name]" value="<?php echo htmlspecialchars($profile->getFirstName(), ENT_QUOTES, 'UTF-8'); ?>" required>
-                
+                <input type="text" id="first_name" name="customer[first_name]"
+                    value="<?php echo htmlspecialchars($profile->getFirstName(), ENT_QUOTES, 'UTF-8'); ?>" required>
+
                 <label for="last_name">Last Name:</label>
-                <input type="text" id="last_name" name="customer[last_name]" value="<?php echo htmlspecialchars($profile->getLastName(), ENT_QUOTES, 'UTF-8'); ?>" required>
-                
+                <input type="text" id="last_name" name="customer[last_name]"
+                    value="<?php echo htmlspecialchars($profile->getLastName(), ENT_QUOTES, 'UTF-8'); ?>" required>
+
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="customer[email]" value="<?php echo htmlspecialchars($profile->getEmail(), ENT_QUOTES, 'UTF-8'); ?>" required>
-                
+                <input type="email" id="email" name="customer[email]" value="<?php echo $currentEmail; ?>" required
+                    onkeyup="checkEmail()">
+                <div id="emailMessage" style="color: red; font-size: 14px;"></div>
+
                 <label for="telephone">Contact:</label>
-                <input type="text" id="telephone" name="customer[phone]" value="<?php echo htmlspecialchars($profile->getPhone(), ENT_QUOTES, 'UTF-8'); ?>" required>
+                <input type="text" id="telephone" name="customer[phone]"
+                    value="<?php echo htmlspecialchars($profile->getPhone(), ENT_QUOTES, 'UTF-8'); ?>" required>
             </div>
-            <button type="submit" class="update-button">Update Profile</button>
+            <button type="submit" id="submitBtn" class="update-button">Update Profile</button>
         </form>
     </div>
 </body>
+
 </html>
