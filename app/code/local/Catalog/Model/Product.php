@@ -84,6 +84,8 @@ class Catalog_Model_Product extends Core_Model_Abstract
         }
 
         $image_data = $_FILES["catalog_product"];
+        if(!empty($image_data))
+        {
         // print_r($image_data);
         $product_gallrey = Mage::getModel("catalog/gallrey");
         $main_img = $this->getMainImage();
@@ -139,4 +141,5 @@ class Catalog_Model_Product extends Core_Model_Abstract
             }
         }
     }
+}
 }

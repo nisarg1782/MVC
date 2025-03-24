@@ -28,6 +28,28 @@ class Checkout_Model_Convert_Order
             $sales_order_item = Mage::getModel("sales/order_item")
                 ->setData($item_data)
                 ->save();
+                echo '<pre>';
+                print_r($item_data);
+                echo '</pre>';
+               
+            $product=Mage::getModel("catalog/product")
+                ->load($item_data["product_id"])
+                ;
+            echo '<pre>';
+            print_r($product);
+            echo '</pre>';
+            $quantity=$product->getStockQuantity()-$item_data["quantity"];
+             $product->setStockQuantity($quantity);
+            $product->save();
+            
+        //    
+        //    echo '<pre>';
+        //    print_r($product);
+        //    echo '</pre>';
+        //    die;
+            // print($quantity);
+            // $product->setStockQuantity($quantity);
+            // $product->save();
         }
 
         

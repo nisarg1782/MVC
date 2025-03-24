@@ -3,7 +3,6 @@ $data1 = $this->productData();
 $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_product/";
 ?>
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -177,6 +176,7 @@ $mediaBaseUrl = Mage::getBaseUrl() . "Media/catalog_product/";
         });
     });
     </script>
+     <?php $this->getChildHtml("toolbar");?>
 </body>
 
 </html>

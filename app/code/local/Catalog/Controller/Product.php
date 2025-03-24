@@ -16,7 +16,7 @@ class Catalog_Controller_Product
 
         $layout = Mage::getBlockSingleton("core/layout");
         $request = Mage::getModel("core/request");
-        $list = $layout->createBlock('catalog/product_list')->setTemplate('catalog/product/list.phtml');
+        $list = $layout->createBlock('catalog/product_list');
         $layout->getChild('content')->addChild('list', $list);
         if ($request->isAjax()) {
             // print("in if");
