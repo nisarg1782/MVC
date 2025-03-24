@@ -20,7 +20,14 @@ class Catalog_Controller_Product
         $layout->getChild('content')->addChild('list', $list);
         if ($request->isAjax()) {
             // print("in if");
-            $layout->getChild("content")->getChild("list")->removeChild("filter");
+            $layout->getChild("content")
+                ->getChild("list")
+                ->removeChild("filter");
+                
+            $layout->getChild("content")
+                ->getChild("list")
+                ->getChild("products")
+                ->removeChild("toolbar");
             // $layout->getChild("content")->getChild("list")->removeChild("products");
             $layout->removeChild("footer");
             $layout->removeChild("header");

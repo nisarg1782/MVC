@@ -1,5 +1,6 @@
 <?php
 $totalPages = ceil($this->getTotalRecords() / $this->getLimit());
+
 $baseUrl = $this->getUrl("*/*/*") . "/";
 
 echo "<p>Total Records:" . $this->getTotalRecords();

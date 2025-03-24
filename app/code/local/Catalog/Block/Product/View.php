@@ -9,7 +9,9 @@ class Catalog_Block_Product_View extends Core_Block_Template
         $request = Mage::getModel("core/request");
         $id = $request->getQuery("id");
         
-        $cat = Mage::getModel("catalog/product")->getCollection()->addFieldToFilter("main_table.product_id", ["=" => $id])
+        $cat = Mage::getModel("catalog/product")
+            ->getCollection()
+            ->addFieldToFilter("main_table.product_id", ["=" => $id])
             // ->alias("name", "product_name")
             ->innerJoin(
                 ["cmg" => "catalog_media_gallery"],

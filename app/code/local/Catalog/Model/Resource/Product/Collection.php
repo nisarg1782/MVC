@@ -25,6 +25,7 @@ class Catalog_Model_Resource_Product_Collection extends Core_Model_Resource_Coll
         // print_r($this->_select);
         return $this;
     }
+    
     public function addCategoryFilter($category_id)
     {
 
