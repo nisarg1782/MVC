@@ -21,6 +21,13 @@ class Sales_Model_Order extends Core_Model_Abstract
                         ->addFieldToFilter("order_id",["="=>$this->getOrderId()]);
         return $item_collection;
     }
+    protected function _afterSave()
+    {
+        Mage::getModel("sales/order_status")->setOrderStatus("pending")
+                                            ->setOrderId($this->getOrderId())
+                                            ->save();
+       
+    }
     
    
 }

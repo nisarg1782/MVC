@@ -10,14 +10,14 @@ class Admin_Block_Product_List extends Core_Block_Template
     }
     public function init()
     {
-        $layout=$this->getLayout();
-        $toolbar_block=$layout->createBlock("Admin/grid_toolbar")
-                        ->setTemplate("admin/grid/toolbar.phtml");
-        
-        $product = Mage::getModel("catalog/product");
-       $this->addChild("toolbar",$toolbar_block);
-    
+        $layout = $this->getLayout();
+        $toolbar_block = $layout->createBlock("Admin/grid_toolbar")
+            ->setTemplate("admin/grid/toolbar.phtml");
 
+            $this->addChild("toolbar", $toolbar_block);
+            
+            
+        $product = Mage::getModel("catalog/product");
         $this->_collection = $product->getCollection()->innerJoin(
             ["cat_table" => "catalog_category"],
             "cat_table.category_id = main_table.category_id",
@@ -28,7 +28,6 @@ class Admin_Block_Product_List extends Core_Block_Template
     public function listdata()
     {
         return $this->getCollection()->getData();
-        
     }
     public function getCollection()
     {

@@ -30,27 +30,7 @@ class Checkout_Model_Convert_Order
                 ->save();
         }
 
-        // $billing_address=$cart->getBillingAddress()->getData();
-        // echo '<pre>';
-        // print_r($billing_address);
-        // echo '</pre>';
-        // unset($billing_address["created_at"]);
-        // unset($billing_address["updated_at"]);
-        // $billing_address["order_id"]=$order_id;
-        // echo '<pre>';
-        // print_r($billing_address);
-        // echo '</pre>';
-        // // die;
-        // Mage::getModel("sales/order_address")->setData($billing_address)->save();
-        // // die;
-        // $shipping_address=$cart->getShippingAddress()->getData();
-        // echo '<pre>';
-        // print_r($shipping_address);
-        // echo '</pre>';
-        // unset($shipping_address["created-at"]);
-        // $shipping_address["order_id"]=$order_id;
-        // unset($shipping_address["updated-at"]);
-        // Mage::getModel("sales/order_address")->setData($shipping_address)->save();
+        
 
         $cart_address = $cart->getAddressCollection()
             ->getData();
