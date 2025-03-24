@@ -1,12 +1,12 @@
 <?php
-class Customer_Controller_Order_Index
+class Customer_Controller_Order_Index extends Core_Controller_Front_Action
 {
     public function viewAction()
     {
-        $order_id=Mage::getModel("core/request")->getQuery("order_id");
+        $order_id=$this->getRequest()->getQuery("order_id");
         $order=Mage::getModel("sales/order")->load($order_id);
         
-        $layout=Mage::getBlock("core/layout");
+        $layout=$this->getLayout();
         $view_order=$layout->createBlock("customer/account_order_view")
                 ->setTemplate("customer/order/view.phtml");
         $layout->getChild("content")->addChild("view_order",$view_order);

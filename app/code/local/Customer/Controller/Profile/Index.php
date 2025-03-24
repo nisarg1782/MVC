@@ -4,7 +4,7 @@ class Customer_Controller_Profile_Index extends Core_Controller_Customer_Action
 {
     public function editAction()
     {
-        $layout = Mage::getBlock("core/layout");
+        $layout=$this->getLayout();
         $profile = $layout->createBlock("customer/account_profile_profile")
             ->setTemplate("customer/profile/edit.phtml");
         $layout->getChild("content")->addChild("profile", $profile);
@@ -12,25 +12,18 @@ class Customer_Controller_Profile_Index extends Core_Controller_Customer_Action
     }
     public function saveAction()
     {
-        $layout = Mage::getBlock("core/layout");
-        $customer_data = Mage::getModel("core/request")->getParam("customer");
-        // echo '<pre>';
-        // print_r($customer_data);
-        // echo '</pre>';
-        // die;
-        
-
+        $layout=$this->getLayout();
+        $customer_data =$this->getRequest()->getParam("customer");
             Mage::getSingleton("customer/session")
                 ->getCustomer()
                 ->setData($customer_data)
                 ->Save();
-            $url = $layout->getUrl("customer/index/dashboard");
-            header("location:$url");
+            $this->redirect("customer/index/dashboard");
         
     }
     public function changePassAction()
     {
-        $layout = Mage::getBlock("core/layout");
+        $layout=$this->getLayout();
         $change_pass = $layout->createBlock("customer/account_profile_changepass")
             ->setTemplate("customer/profile/changepass.phtml");
         $layout->getChild("content")->addChild("profile", $change_pass);
@@ -38,16 +31,14 @@ class Customer_Controller_Profile_Index extends Core_Controller_Customer_Action
     }
     public function changePasswordAction()
     {
-        $request=Mage::getModel("core/request");
+        $request=$this->getRequest();
         $password_data=$request->getParam("password");
-        // echo '<pre>';
-        // print_r($password_data);
-        // echo '</pre>';
+        
         $customer=Mage::getModel("customer/session")
                         ->getCustomer();
         if($password_data["new"]!=$password_data["confirm"])
         {
-            print("new and confirm password not matched");
+            // print("new and confirm password not matched");
         }
         else if($password_data["current"]==$customer->getPassword() &&
             $password_data["new"]==$password_data["confirm"])
@@ -55,10 +46,9 @@ class Customer_Controller_Profile_Index extends Core_Controller_Customer_Action
             $customer->setCustomerId($customer->getCustomerId())
                     ->setPassword($password_data["confirm"])
                     ->save();
-            $layout=Mage::getBlock("core/layout");
-                    $url = $layout->getUrl("customer/index/login");
-            header("location:$url");
-            
+      
+                    $this->redirect("customer/index/login");
+     
         }
         else{
             print("current password is in valid ");

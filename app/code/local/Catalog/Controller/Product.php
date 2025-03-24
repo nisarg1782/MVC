@@ -1,9 +1,9 @@
 <?php
-class Catalog_Controller_Product
+class Catalog_Controller_Product extends Core_Controller_Front_Action
 {
     public function viewAction()
     {
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         $view = $layout->createBlock('catalog/product_view')
             ->setTemplate('catalog/product/view.phtml');
 
@@ -14,8 +14,8 @@ class Catalog_Controller_Product
     public function listAction()
     {
 
-        $layout = Mage::getBlockSingleton("core/layout");
-        $request = Mage::getModel("core/request");
+        $layout = $this->getLayout();
+        $request =$this->getRequest();
         $list = $layout->createBlock('catalog/product_list');
         $layout->getChild('content')->addChild('list', $list);
         if ($request->isAjax()) {
@@ -41,7 +41,7 @@ class Catalog_Controller_Product
         // $request = Mage::getSingleton("core/request");
         // $tmp_get = $request->getQuery();
         // if (empty($tmp_get)) {
-        //     $layout = Mage::getBlock('core/layout');
+        //     $layout = $this->getLayout();
         //     $list = $layout->createBlock('catalog/product_list');
         //     $layout->getChild('content')->addChild('list', $list);
         //     $layout->toHtml();
@@ -110,8 +110,8 @@ class Catalog_Controller_Product
     // }
     public function testAction()
     {
-        echo "<pre>";
-        echo "<pre>";
+        // echo "<pre>";
+        // echo "<pre>";
         $collections = Mage::getModel("catalog/filter")->getProductCollection();
         echo $collections->prepareQuery();
     }

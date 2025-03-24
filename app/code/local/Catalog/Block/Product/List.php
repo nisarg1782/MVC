@@ -18,7 +18,7 @@ class Catalog_Block_Product_List extends Core_Block_Template
         // $toolbar = $this->getLayout()->createBlock("catalog/grid_toolbar")
         // ->setTemplate("catalog/grid/toolbar.phtml");
         // $this->addChild("toolbar",$toolbar);
-        // $this->init();   
+        $this->init();   
     }
 
     public function getCategoryData()
@@ -46,4 +46,29 @@ class Catalog_Block_Product_List extends Core_Block_Template
         $color = array_unique($color);
         return $color;
     }
+    public function init()
+    {
+        $toolbar = $this->getLayout()->createBlock("catalog/grid_toolbar")
+            ->setTemplate("catalog/grid/toolbar.phtml");
+        $this->addChild("toolbar", $toolbar);
+        $this->_collection = Mage::getModel("catalog/filter")
+            ->getProductCollection()
+            ->joinLeft(
+                ["cmg_img" => "catalog_media_gallery"],
+                "main_table.product_id=cmg_img.product_id and cmg_img.default_file_path=1",
+                ["image" => "file_path"]
+            );
+
+        $toolbar->prepareToolbar();
+    }
+    public function getCollection()
+    {
+        return $this->_collection;
+    }
+    public function productData()
+    {
+
+        return $this->getCollection()->getData();
+    }
+
 }

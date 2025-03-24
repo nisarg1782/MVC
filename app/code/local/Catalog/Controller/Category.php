@@ -1,11 +1,11 @@
 <?php
-class Catalog_Controller_Category
+class Catalog_Controller_Category extends Core_Controller_Front_Action
 {
 
     public function listAction()
     {
         //print(__CLASS__." <br>" . __FUNCTION__);
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         $list = $layout->createBlock('catalog/category_list')
             ->setTemplate('catalog/category/list.phtml');
         //    print_r($view);
@@ -17,7 +17,7 @@ class Catalog_Controller_Category
     public function newAction()
     {
         //print(__CLASS__." <br>" . __FUNCTION__);
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         $new = $layout->createBlock('catalog/category_new')
             ->setTemplate('catalog/category/new.phtml');
         //    print_r($view);
@@ -27,9 +27,9 @@ class Catalog_Controller_Category
     }
     public function saveAction()
     {
-        $request = Mage::getModel('core/request');
+        $request = $this->getRequest();
         $product = Mage::getModel('catalog/category');
-        $layout = Mage::getBlock('core/layout');
+        $layout = $this->getLayout();
         // echo "<pre>";
         $data = $request->getParam("catalog_category");
         $product->setData($data);
@@ -40,9 +40,9 @@ class Catalog_Controller_Category
     }
     public function deleteAction()
     {
-        $request = Mage::getModel("core/request");
+        $request = $this->getRequest();
         $product = Mage::getModel('catalog/category');
-        $layout = Mage::getBlock("core/layout");
+        $layout = $this->getLayout();
         $new = $layout->createBlock('catalog/category_delete');
         $id = $request->getQuery("id");
         //print("the id is ".$id);

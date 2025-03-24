@@ -1,7 +1,7 @@
 <?php
 ob_start();
 // session_start();
-class Checkout_Controller_Cart
+class Checkout_Controller_Cart extends Core_Controller_Front_Action
 {
     public $productdata = [];
     public function indexAction()
@@ -9,7 +9,7 @@ class Checkout_Controller_Cart
 
 
         //print(__CLASS__." <br>" . __FUNCTION__);
-        $layout = Mage::getBlock('core/layout');
+        $layout =$this->getLayout();
         $cartview = $layout->createBlock('checkout/cart_index')
             ->setTemplate('checkout/cart/index.phtml');
         //    print_r($view);
@@ -19,7 +19,7 @@ class Checkout_Controller_Cart
     }
     public function updateAction()
     {
-        $request=Mage::getModel("core/request");
+        $request=$this->getRequest();
         $item_id=$request->getQuery("id");
         $quantity=$request->getQuery("quantity");
         // echo '<pre>';
@@ -31,8 +31,8 @@ class Checkout_Controller_Cart
         $cart=Mage::getSingleton("checkout/session")->getCart();
         $cart->updateItem($item_id,$quantity);
         $cart->save();
-        $layout = Mage::getBlock('core/layout');
-        $url=$layout->getUrl("*/*/index");
+        $layout=$this->getLayout();
+        $url=$layout->redirect("*/*/index");
         header("location:$url");
       
     }
@@ -41,7 +41,7 @@ class Checkout_Controller_Cart
 
         $product_id = 0;
         $quantity = 0;
-        $request = Mage::getModel("core/request");
+        $request = $this->getRequest();
         $data = $request->getParam("cart");
         $product_id = $data["productId"];
         $quantity = $data["quantity"];
@@ -57,57 +57,62 @@ class Checkout_Controller_Cart
         // foreach ($cart_item_data as $cartdata) {
         //     $this->productdata[] = $cartdata->getProduct();
         // }
-        $layout = Mage::getBlock("core/layout");
-        $url = $layout->getUrl("Checkout/Cart/Index");
+        // $layout = $this->getLayout();
+        $this->redirect("Checkout/Cart/Index");
         // print_r($url);
-        header("location:$url");
+        // header("location:$url");
     }
     public function removeAction()
     {
-        $request = Mage::getModel("core/request");
+        $request = $this->getRequest();
         $id = $request->getQuery("id");
         // print_r($id);
         $cart = Mage::getSingleton("checkout/session")->getCart();
         $cart->removeItem($id);
         $cart->setCartId($cart->getCartId());
         $cart->save();
-        $layout = Mage::getBlock('core/layout');
-        $url = $layout->getUrl("Checkout/Cart/Index");
-        header("location:$url");
+        // $layout = Mage::getBlock('core/layout');
+        $this->redirect("Checkout/Cart/Index");
+        // header("location:$url");
     }
     public function testAction()
     {
-     $cart_address=Mage::getModel("checkout/cart_address")->getCollection()->getData();
-     echo '<pre>';
-     print_r($cart_address);
-     echo '</pre>';
+     $cart_address=Mage::getModel("checkout/cart_address")
+        ->getCollection()
+        ->getData();
+    //  echo '<pre>';
+    //  print_r($cart_address);
+    //  echo '</pre>';
     }
     public function applyCouponAction()
     {
         $total=0;
-        $request=Mage::getModel("core/request");
+        $request=$this->getRequest();
         $coupon=$request->getParam("coupon");
-        $cart=Mage::getSingleton("checkout/session")->getCart()->getItemCollection();
+        $cart=Mage::getSingleton("checkout/session")
+            ->getCart()
+            ->getItemCollection();
        foreach($cart->getData() as $_cart)
        {
         $total+=$_cart->getSubTotal();
        }
-       Mage::getModel("checkout/coupon")->calculateDiscount($total,$coupon);
-       $layout = Mage::getBlock('core/layout');
-       $url = $layout->getUrl("Checkout/Cart/Index");
-       header("location:$url");
+       Mage::getModel("checkout/coupon")
+            ->calculateDiscount($total,$coupon);
+    //    $layout =$this->getLayout();
+       $this->redirect("Checkout/Cart/Index");
+    //    header("location:$url");
     }
     public function placeorderAction()
     {
-        print("in place order action");
+        // print("in place order action");
         $cart=Mage::getSingleton("checkout/session")->getCart();
         $convert_obj=Mage::getModel("checkout/convert_order")->convert($cart);
         $cart->setIsActive(0)->save();
         // $cart->remove("cart_id");
        $session=Mage::getModel("core/session")->remove("cart_id");
-       $layout = Mage::getBlock('core/layout');
-       $url = $layout->getUrl("Catalog/product/list");
-       header("location:$url");
+    //    $layout = $this->getLayout();
+        $this->redirect("Catalog/product/list");
+    //    header("location:$url");
     }
     
 }
