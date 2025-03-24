@@ -8,15 +8,15 @@ class Core_Controller_Admin_Action extends Core_Controller_Front_Action
     }
     protected function _init()
     {
-        $isLogin = $this->getSession()->get('login');
+        // $isLogin = $this->getSession()->get('login');
         $admin_id = $this->getSession()->get('admin_id');
         
         if (!in_array($this->getRequest()->getActionName(), $this->_allowed)) {
-            if (is_null($isLogin)) {
+            if (is_null($admin_id)) {
                 $this->redirect("admin/account/login");
             }
             
-            else if ($isLogin === $admin_id) {
+            else if ($admin_id) {
                 
             } else {
                 $this->redirect("admin/account/login");
