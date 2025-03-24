@@ -7,47 +7,43 @@ $color = $this->getAttData();
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    class ProductFilter {
-        constructor() {
-            this.bindEvents();
-        }
-
-        bindEvents() {
-            $('select[name="cid"]').on("change", () => this.fetchData());
-            // $('input[name="mfg_date"]').on("change", () => this.fetchData());
-            $('select[name="color"]').on("change", () => this.fetchData());
-        }
-
-        fetchData() {
-            // console.log("fetchData() called"); 
-
-            let selectedCategories = $('select[name="cid"]').val();
-            console.log(selectedCategories);
-            // let mfg_date = $('input[name="mfg_date"]').val();
-            let selectedColors = $('select[name="color"]').val();
-
-            let requestData = {
-                cid: selectedCategories
-            };
-
-            // if (mfg_date) requestData.mfgdate = mfg_date;
-            if (selectedColors) requestData.color = selectedColors;
-
-            $.ajax({
-                url: "http://localhost/MVC/catalog/product/list/",
-                type: "GET",
-                data: requestData,
-                dataType: "html",
-                success: (response) => {
-                    console.log("AJAX Success:", response);
-                    $("#product-container").html(response);
-                },
-                error: (xhr, status, error) => {
-                    // console.error("AJAX Error:", xhr.responseText, error);
-                }
-            });
-        }
+ class ProductFilter {
+    constructor() {
+        this.bindEvents();
     }
+
+    bindEvents() {
+        $('select[name="cid"]').on("change", () => this.fetchData());
+        $('select[name="color"]').on("change", () => this.fetchData());
+    }
+
+    fetchData() {
+        let selectedCategories = $('select[name="cid"]').val();
+        let selectedColors = $('select[name="color"]').val();
+
+        let requestData = {
+            cid: selectedCategories,
+            color: selectedColors
+        };
+
+        let currentUrl = window.location.href;
+
+        $.ajax({
+            url: currentUrl,
+            type: "GET",
+            data: requestData,
+            dataType: "html",
+            success: (response) => {
+                console.log("AJAX Success:", response);
+                $("#product-container").html(response);
+            },
+            error: (xhr, status, error) => {
+                console.error("AJAX Error:", xhr.responseText, error);
+                
+            }
+        });
+    }
+}
 
     $(document).ready(() => {
         new ProductFilter();
