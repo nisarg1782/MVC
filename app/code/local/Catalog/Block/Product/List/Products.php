@@ -9,11 +9,9 @@ class Catalog_Block_Product_List_Products extends Catalog_Block_Product_List
     }
     public function init()
     {
-       
-
         $toolbar = $this->getLayout()->createBlock("catalog/grid_toolbar")
-        ->setTemplate("catalog/grid/toolbar.phtml");
-        $this->addChild("toolbar",$toolbar);
+            ->setTemplate("catalog/grid/toolbar.phtml");
+        $this->addChild("toolbar", $toolbar);
         $this->_collection = Mage::getModel("catalog/filter")
             ->getProductCollection()
             ->joinLeft(
@@ -30,8 +28,7 @@ class Catalog_Block_Product_List_Products extends Catalog_Block_Product_List
     }
     public function productData()
     {
-      
-     return $this->getCollection()->getData();
+
+        return $this->getCollection()->getData();
     }
 }
-?>
