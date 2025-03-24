@@ -14,9 +14,9 @@ class Customer_Controller_Profile_Index extends Core_Controller_Customer_Action
     {
         $layout = Mage::getBlock("core/layout");
         $customer_data = Mage::getModel("core/request")->getParam("customer");
-        echo '<pre>';
-        print_r($customer_data);
-        echo '</pre>';
+        // echo '<pre>';
+        // print_r($customer_data);
+        // echo '</pre>';
         // die;
         
 

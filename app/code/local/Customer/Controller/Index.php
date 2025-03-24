@@ -13,7 +13,7 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
         "checkEmail",
         "forgot",
         "forgotPassword",
-         "sendOtp",
+        "sendOtp",
         "generateOtp"
 
     ];
@@ -66,13 +66,13 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
                 print("yes you are Customer");
                 $password = $data[0]->getPassword();
                 $customer_id = $data[0]->getCustomerId();
-                $session->set("login", $customer_id);
                 $session->set("customer_id", $customer_id);
+                // $session->set("customer_id", $customer_id);
                 $layout = Mage::getBlock("core/layout");
                 $url = $layout->getUrl("*/*/dashboard");
                 header("location:$url");
             } else {
-                $session->remove("login");
+                // $session->remove("login");
                 $session->remove("customer_id");
             }
         } else {
@@ -114,8 +114,8 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
     public function logoutAction()
     {
         $session = $this->getSession();
-        $session->remove("login");
         $session->remove("customer_id");
+        // $session->remove("customer_id");
         $this->redirect("customer/index/login");
     }
     public function checkEmailAction()
@@ -174,72 +174,71 @@ class Customer_Controller_Index extends Core_Controller_Customer_Action
         $request = Mage::getModel("core/request")->getParam("customer");
         $customer_data = $customer->load($request["email"], "email");
         if (!empty($customer_data->getData())) {
-        //    $this->sendOtpAction($request["email"]);
+            //    $this->sendOtpAction($request["email"]);
         } else {
             print("invalid email");
         }
     }
     public function generateOtpAction()
-{
-    return rand(100000, 999999); // Generate 6-digit OTP
-}
+    {
+        return rand(100000, 999999); // Generate 6-digit OTP
+    }
 
-public function sendOtpAction()
-{
-    $request=Mage::getModel("core/request");
-    $email=$request->getQuery("email");
-    $customer = Mage::getModel("customer/session")
+    public function sendOtpAction()
+    {
+        $request = Mage::getModel("core/request");
+        $email = $request->getQuery("email");
+        $customer = Mage::getModel("customer/session")
             ->getCustomer();
-    $customer_data = $customer->load($email, "email");
-    if (!empty($customer_data->getData())) {
-        //    $this->sendOtpAction($request["email"]);
-        
-    // Generate OTP
-    $otp = rand(100000, 999999);
-    $_SESSION['otp'] = $otp;
-    $_SESSION['otp_expiry'] = time() + 300; // OTP valid for 5 minutes
-    echo '<pre>';
-    print_r($_SESSION["otp"]);
-    echo '</pre>';
-    $customer->setPassword(1234)
-            ->save();
+        $customer_data = $customer->load($email, "email");
+        if (!empty($customer_data->getData())) {
+            //    $this->sendOtpAction($request["email"]);
 
-    // PHPMailer setup
-    // $mail = new PHPMailer(true);
+            // Generate OTP
+            $otp = rand(100000, 999999);
+            $_SESSION['otp'] = $otp;
+            $_SESSION['otp_expiry'] = time() + 300; // OTP valid for 5 minutes
+            echo '<pre>';
+            print_r($_SESSION["otp"]);
+            echo '</pre>';
+            $customer->setPassword(1234)
+                ->save();
 
-    // try {
-    //     // SMTP Configuration
-    //     $mail->isSMTP();
-    //     $mail->Host = 'smtp.gmail.com'; // Gmail SMTP server
-    //     $mail->SMTPAuth = true;
-    //     $mail->Username = 'your-email@gmail.com'; // Replace with your Gmail
-    //     $mail->Password = 'your-app-password'; // Use App Password (not your Gmail password)
-    //     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    //     $mail->Port = 587;
+            // PHPMailer setup
+            // $mail = new PHPMailer(true);
 
-        
-    //     $mail->setFrom('your-email@gmail.com', 'Your Name');
-    //     $mail->addAddress($email);
-    //     $mail->Subject = 'Your OTP Code';
-    //     $mail->Body = "Your OTP is: $otp. This OTP is valid for 5 minutes.";
+            // try {
+            //     // SMTP Configuration
+            //     $mail->isSMTP();
+            //     $mail->Host = 'smtp.gmail.com'; // Gmail SMTP server
+            //     $mail->SMTPAuth = true;
+            //     $mail->Username = 'your-email@gmail.com'; // Replace with your Gmail
+            //     $mail->Password = 'your-app-password'; // Use App Password (not your Gmail password)
+            //     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            //     $mail->Port = 587;
 
-    //     if ($mail->send()) {
-    //         echo "OTP sent successfully to $email";
-    //     } else {
-    //         echo "Failed to send OTP.";
-    //     }
-    // } catch (Exception $e) {
-    //     echo "Mailer Error: " . $mail->ErrorInfo;
-    // }
-}
-else{
-    print("invalid");
-}
-}
-public function verifyOtpAction()
-{
-    $request=Mage::getModel("core/request");
-    $enteredOtp=$request->getQuery("verify_otp");
+
+            //     $mail->setFrom('your-email@gmail.com', 'Your Name');
+            //     $mail->addAddress($email);
+            //     $mail->Subject = 'Your OTP Code';
+            //     $mail->Body = "Your OTP is: $otp. This OTP is valid for 5 minutes.";
+
+            //     if ($mail->send()) {
+            //         echo "OTP sent successfully to $email";
+            //     } else {
+            //         echo "Failed to send OTP.";
+            //     }
+            // } catch (Exception $e) {
+            //     echo "Mailer Error: " . $mail->ErrorInfo;
+            // }
+        } else {
+            print("invalid");
+        }
+    }
+    public function verifyOtpAction()
+    {
+        $request = Mage::getModel("core/request");
+        $enteredOtp = $request->getQuery("verify_otp");
         if (!isset($_SESSION['otp']) || !isset($_SESSION['otp_expiry'])) {
             echo "No OTP found. Please request a new one.";
             return;
@@ -251,17 +250,14 @@ public function verifyOtpAction()
         }
         if ($enteredOtp == $_SESSION['otp']) {
             echo "OTP verified successfully.";
-            
+
             unset($_SESSION['otp']);
             $layout = Mage::getBlock("core/layout");
-        $url = $layout->getUrl("Customer/index/login");
-        header("location:$url");// Clear OTP after success
-            
+            $url = $layout->getUrl("Customer/index/login");
+            header("location:$url"); // Clear OTP after success
+
         } else {
             echo "Invalid OTP. Please try again.";
         }
     }
 }
-
-
-

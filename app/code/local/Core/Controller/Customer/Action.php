@@ -10,8 +10,8 @@ class Core_Controller_Customer_Action extends Core_Controller_Front_Action
     }
     protected function _init()
     {
-        $isLogin = $this->getSession()->get('login');
-        $admin_id = $this->getSession()->get('customer_id');
+        $isLogin = $this->getSession()->get('customer_id');
+        // $admin_id = $this->getSession()->get('customer_id');
         // print("login is " . $isLogin);
         // print("<br>");
         // print("the admin is id " . $admin_id);
@@ -20,16 +20,8 @@ class Core_Controller_Customer_Action extends Core_Controller_Front_Action
             if (is_null($isLogin)) {
                 $this->redirect("customer/index/login");
             }
-            // print("login is ".$isLogin);
-            // print("<br>");
-            // print("admin id is ".$admin_id);
-            // die;
-            else if ($isLogin === $admin_id) {
-                // print("login is ".$isLogin);
-                // print("<br>");
-                //  print("admin id is ".$admin_id);
-                // die;
-                // $this->redirect("admin/product_index/list");
+            else if ($isLogin) {
+              
             } else {
                 $this->redirect("customer/index/login");
             }

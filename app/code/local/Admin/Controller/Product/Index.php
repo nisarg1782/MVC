@@ -45,7 +45,7 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
 
       $product_data = $request->getParam("catalog_product");
       $attribute_data = $request->getParam("catalog_product_attribute");
-      
+
       $name = substr($product_data["name"], 0, 3);
       $sku = $product_data["color"] . $product_data["category_id"] . $name . "abcdokyhyhyh";
       $product_data["sku"] = $sku;
@@ -64,7 +64,7 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       $request = Mage::getModel("core/request");
       $product = Mage::getModel('catalog/product');
       $layout = $this->getLayout();
-  
+
       $request_single = Mage::getSingleton("catalog/product");
       $request_single->name = "abcdefg";
       print_r($request_single);
@@ -79,10 +79,10 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       $product = Mage::getModel('catalog/product');
       $layout = $this->getLayout();
       $id = $request->getQuery("id");
- 
+
       $prod_Deldata = $product->getResource()->load($id);
 
-      
+
       $filepath = "C:/xampp/htdocs/MVC/Media/" . $product->getResource()->getTablename() . "/" . $prod_Deldata["image"];
       print($filepath);
       unlink($filepath);
