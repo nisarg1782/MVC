@@ -41,5 +41,13 @@ class Admin_Block_Widget_Grid extends Core_Block_Template
             echo "<td>Invalid filter class: {$class}</td>"; // Handle missing filter classes
         }
     }
+    public function getValue($col)
+    {
+        print($col);
+        $data=$this->getColumnData($col);
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+    }
 
 }

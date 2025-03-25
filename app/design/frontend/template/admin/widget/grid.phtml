@@ -20,21 +20,17 @@ $columns = $this->getColumns();
         </tr>
 
         <!-- Example Product Rows (Should be dynamic) -->
+        <?php foreach($this->getCollection() as $collection):?>
+            <?php foreach($this->getColumns() as $cols):?>
+                <tr>
+                    <td>
+                    
+                    </td>
+                </tr>
+                <?php endforeach;?>
+                <?php endforeach;?>
         <tr>
-            <td>1</td>
-            <td>Sample Product</td>
-            <td>SKU12345</td>
-            <td>10</td>
-            <td>$50.00</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Another Product</td>
-            <td>SKU67890</td>
-            <td>5</td>
-            <td>$75.00</td>
-            <td>20</td>
+           
         </tr>
     </tbody>
 </table>
