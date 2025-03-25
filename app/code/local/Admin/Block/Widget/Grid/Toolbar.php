@@ -1,5 +1,5 @@
 <?php
-class Admin_Block_Grid_Toolbar extends Core_Block_Template
+class Admin_Block_Widget_Grid_Toolbar extends Core_Block_Template
 {
     protected $_limit;
     protected $_page;
@@ -12,17 +12,20 @@ class Admin_Block_Grid_Toolbar extends Core_Block_Template
         $limit = $this->getRequest()->getQuery("limit");
 
         $this->_collection = clone $this->getParent()
-                                        ->getCollection();
+            ->getCollection();
 
-        if (is_numeric($page) &&
+        if (
+            is_numeric($page) &&
             $page >= 1
         ) {
             $this->_page = $page;
         } else {
             $this->_page = 1;
         }
-        if (is_numeric($limit) && 
-            $limit >= 1) {
+        if (
+            is_numeric($limit) &&
+            $limit >= 1
+        ) {
 
             $this->_limit = intval($limit);
         } else {

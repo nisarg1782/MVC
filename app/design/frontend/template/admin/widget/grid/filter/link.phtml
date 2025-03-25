@@ -1,0 +1,9 @@
+<?php
+$data = $this->getData();
+$link = $data["link"] ?? "#"; // Default to "#" if no link is provided
+$text = $data["label"] ?? "Click Here"; // Default label if missing
+?>
+
+<!-- Anchor Link -->
+<a href="<?php echo $link; ?>">Edit</a><br>
+<a href="<?php echo $link; ?>">Delete</a>

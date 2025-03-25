@@ -19,8 +19,8 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
    {
       //print(__CLASS__." <br>" . __FUNCTION__);
       $layout = $this->getLayout();
-      $cartview = $layout->createBlock('Admin/Product_List')
-         ->setTemplate('admin/product/list.phtml');
+      $cartview = $layout->createBlock('Admin/Product_List');
+         // ->setTemplate('admin/product/list.phtml');
       // $toolbar_block=$layout->createBlock("Admin/grid_toolbar")
       //    ->setTemplate("admin/grid/toolbar.phtml");
 

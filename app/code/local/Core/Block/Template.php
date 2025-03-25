@@ -6,7 +6,7 @@ class Core_Block_Template
     protected $_template;
     public function toHtml()
     {
-        include_once(Mage::getBaseDir() . "app/design/frontend/template/" . $this->_template);
+        include(Mage::getBaseDir() . "app/design/frontend/template/" . $this->_template);
     }
     public function addChild($key, $block)
     {

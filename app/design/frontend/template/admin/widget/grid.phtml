@@ -1,0 +1,40 @@
+<?php
+$this->getChildHtml("toolbar");
+$columns = $this->getColumns();
+?>
+
+<table border="1">
+    <thead>
+        <tr>
+            <?php foreach ($columns as $cols): ?>
+                <th><?php echo $cols["label"]; ?></th>
+            <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Filter Row (Aligned with Columns) -->
+        <tr>
+            <?php foreach ($columns as $cols): ?>
+                <td><?php $this->renderFilter($cols["label"]); ?></td>
+            <?php endforeach; ?>
+        </tr>
+
+        <!-- Example Product Rows (Should be dynamic) -->
+        <tr>
+            <td>1</td>
+            <td>Sample Product</td>
+            <td>SKU12345</td>
+            <td>10</td>
+            <td>$50.00</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Another Product</td>
+            <td>SKU67890</td>
+            <td>5</td>
+            <td>$75.00</td>
+            <td>20</td>
+        </tr>
+    </tbody>
+</table>

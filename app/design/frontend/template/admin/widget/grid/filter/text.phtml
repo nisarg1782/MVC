@@ -1,0 +1,11 @@
+<?php
+$data = $this->getData();
+$filterType = $data["filter"] ?? "text"; // Default to text if filter type is missing
+$label = $data["label"] ?? "Value"; // Default label if missing
+?>
+
+<!-- Minimum Value Input -->
+<input type="<?php echo $filterType; ?>" 
+       name="<?php echo $label; ?>"
+       placeholder="Enter  <?php echo $label; ?>">
+
