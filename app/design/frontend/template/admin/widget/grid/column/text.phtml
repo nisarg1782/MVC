@@ -1,4 +1,7 @@
 <?php
-$data=$this->getData();
-echo $data["label"];
+// echo '<pre>';
+// print_r($this->getData());
+// print_r($this->getCols());
+// echo '</pre>';
+echo $this->getData()[$this->getCols()["label"]];
 ?>

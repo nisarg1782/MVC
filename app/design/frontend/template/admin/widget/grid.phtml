@@ -19,18 +19,18 @@ $columns = $this->getColumns();
             <?php endforeach; ?>
         </tr>
 
-        <!-- Example Product Rows (Should be dynamic) -->
-        <?php foreach($this->getCollection() as $collection):?>
+        
+        <?php foreach($this->getCollection()->getData() as $collection):?>
+            <tr>
             <?php foreach($this->getColumns() as $cols):?>
-                <tr>
+                
                     <td>
-                    
+                    <?php echo $this->getValue($collection,$cols);?>
                     </td>
+               
+                <?php endforeach;?>
                 </tr>
                 <?php endforeach;?>
-                <?php endforeach;?>
-        <tr>
-           
-        </tr>
+        
     </tbody>
 </table>

@@ -13,7 +13,7 @@ class Admin_Block_Widget_Grid extends Core_Block_Template
         $toolbar_block->prepareToolbar();
 
         $this->setTemplate("admin/widget/grid.phtml");
-        // $this->renderFilter();
+        
     }
     public function addColumns($key, $data)
     {
@@ -31,6 +31,9 @@ class Admin_Block_Widget_Grid extends Core_Block_Template
     public function renderFilter($field)
     {
         $data = $this->getColumnData($field);
+        if(isset($data["filter"]) &&
+            $data["filter"]!="")
+        {
         $class = "Admin_Block_Widget_Grid_Filter_" . $data["filter"];
 
         if (class_exists($class)) {
@@ -41,13 +44,25 @@ class Admin_Block_Widget_Grid extends Core_Block_Template
             echo "<td>Invalid filter class: {$class}</td>"; // Handle missing filter classes
         }
     }
-    public function getValue($col)
+}
+    public function getValue($collection,$col)
     {
-        print($col);
-        $data=$this->getColumnData($col);
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
+        
+       $data=$collection->getData();
+    //    echo '<pre>';
+    //    print_r($data);
+    //    echo '</pre>';
+       if(in_array($col["data_index"],array_keys($data)))
+       {
+        // echo '<pre>';
+        // print_r($col);
+        // echo '</pre>';
+        $class= "Admin_Block_Widget_Grid_Column_" .$col["column"];
+        $obj=new $class;
+        
+        $obj->setData($this->getColumnData($col["label"]),$data);
+        $obj->toHtml();
+       }
     }
 
 }
