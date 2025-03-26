@@ -1,8 +1,26 @@
 <?php
 $this->getChildHtml("toolbar");
 $columns = $this->getColumns();
+// echo '<pre>';
+// print_r($columns);
+// echo '</pre>';
 ?>
+<button>
+        <a href="<?php echo $this->getUrl("*/*/export") ?>">
+          Export Data
+        </a>
 
+    </button>
+    <br>
+    <br>
+
+    <?php if(in_array("product_id",array_keys($columns))):?>
+        <button>
+        <a href="<?php echo $this->getUrl("*/*/new") ?>">
+            click to add new Product
+        </a>
+    </button>
+    <?php endif;?>
 <table border="1">
     <thead>
         <tr>
@@ -34,3 +52,31 @@ $columns = $this->getColumns();
         
     </tbody>
 </table>
+<?php if(in_array("product_id",array_keys($columns))):?>
+    <a href="<?php echo $this->getUrl("admin/order/list") ?>">View Orders</a>
+    <?php endif;?>
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const inputs = document.querySelectorAll('input, textarea, select'); // Capture all form fields
+
+    function logValues() {
+      let data = {};
+      inputs.forEach(input => {
+        if (input.type === "checkbox" || input.type === "radio") {
+          data[input.name] = input.checked; // Capture checkboxes and radio buttons
+        } else {
+          data[input.name || input.id || `input_${input.type}`] = input.value; // Store value
+        }
+      });
+      console.log(data);
+    }
+
+    // Attach event listeners
+    inputs.forEach(input => {
+      input.addEventListener("input", logValues); // Capture values on input change
+    });
+
+    // Initial log in case of pre-filled values
+    logValues();
+  });
+</script>

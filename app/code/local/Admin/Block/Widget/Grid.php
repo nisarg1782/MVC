@@ -45,22 +45,20 @@ class Admin_Block_Widget_Grid extends Core_Block_Template
         }
     }
 }
-    public function getValue($collection,$col)
+    public function getValue($collection,$coloumns)
     {
         
        $data=$collection->getData();
     //    echo '<pre>';
-    //    print_r($data);
+    //    print_r($col);
     //    echo '</pre>';
-       if(in_array($col["data_index"],array_keys($data)))
+       if(in_array($coloumns["data_index"],array_keys($data)))
        {
-        // echo '<pre>';
-        // print_r($col);
-        // echo '</pre>';
-        $class= "Admin_Block_Widget_Grid_Column_" .$col["column"];
+        // print("in if");
+        $class= "Admin_Block_Widget_Grid_Column_" .$coloumns["column"];
         $obj=new $class;
-        
-        $obj->setData($this->getColumnData($col["label"]),$data);
+       
+        $obj->setData($coloumns,$data);
         $obj->toHtml();
        }
     }

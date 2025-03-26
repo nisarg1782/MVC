@@ -4,8 +4,8 @@ class Admin_Controller_Order extends Core_Controller_Admin_Action
     public function listAction()
     {
         $layout = $this->getLayout();
-        $list = $layout->createBlock("admin/sales_order_list")
-            ->setTemplate("admin/sales/order/list.phtml");
+        $list = $layout->createBlock("admin/sales_order_list");
+            // ->setTemplate("admin/sales/order/list.phtml");
         $layout->getChild("content")->addChild("list_order", $list);
         $layout->toHtml();
     }

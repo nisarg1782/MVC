@@ -71,20 +71,21 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
 
       $request_single2 = Mage::getSingleton("catalog/product")->load(65);
 
-      // print_r($request_single2);
+      
    }
    public function deleteAction()
    {
       $request = Mage::getModel("core/request");
       $product = Mage::getModel('catalog/product');
       $layout = $this->getLayout();
-      $id = $request->getQuery("id");
+      $id = $request->getQuery("product_id");
+      
+      $prod_Deldata = $product->load($id);
 
-      $prod_Deldata = $product->getResource()->load($id);
-
-
-      $filepath = "C:/xampp/htdocs/MVC/Media/" . $product->getResource()->getTablename() . "/" . $prod_Deldata["image"];
+      
+      $filepath = "C:/xampp/htdocs/MVC/Media/" . $product->getResource()->getTablename() . "/" . $prod_Deldata->getFiles()[0];
       print($filepath);
+      // die;
       unlink($filepath);
       $product->setData($id);
       $product->delete();

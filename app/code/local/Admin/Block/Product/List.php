@@ -52,12 +52,21 @@ class Admin_Block_Product_List extends Admin_Block_Widget_Grid
             "data_index" => "stock_quantity", //db column which you want to display
             "column"=>"text"
         ]);
-        $this->addColumns("actions", [
-            "label" => "Actions", //which you want to display
+        $this->addColumns("Edit", [
+            "label" => "Edit", //which you want to display
             "filter" => "", //data type of html field
-            "data_index" => "product_id", //db column which you want to display
-            "url"=>"http:://google.com",
-            "column"=>"link"
+            "data_index" =>"product_id", //db column which you want to display
+            "url"=>$this->getUrl("*/*/new"),
+            "column"=>"link",
+            "display"=>"Edit",
+        ]);
+        $this->addColumns("Delete", [
+            "label" => "Delete", //which you want to display
+            "filter" => "", //data type of html field
+            "data_index" =>"product_id", //db column which you want to display
+            "url"=>$this->getUrl("*/*/delete"),
+            "column"=>"link",
+            "display"=>"Delete",
         ]);
         
     }

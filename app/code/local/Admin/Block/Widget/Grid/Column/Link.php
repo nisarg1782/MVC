@@ -3,6 +3,7 @@ class Admin_Block_Widget_Grid_Column_Link extends Core_Block_Template
 {
     protected $_data;
     protected $_cols;
+   
     public function __construct()
     {
         $this->setTemplate("admin/widget/grid/column/link.phtml");
@@ -21,5 +22,6 @@ class Admin_Block_Widget_Grid_Column_Link extends Core_Block_Template
     {
         return $this->_cols;
     }
+   
 }
 ?>
