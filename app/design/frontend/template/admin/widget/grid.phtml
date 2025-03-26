@@ -57,26 +57,62 @@ $columns = $this->getColumns();
     <?php endif;?>
     <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const inputs = document.querySelectorAll('input, textarea, select'); // Capture all form fields
-
-    function logValues() {
+    function captureAndSendData() {
+      const inputs = document.querySelectorAll('input, textarea, select');
       let data = {};
+
       inputs.forEach(input => {
-        if (input.type === "checkbox" || input.type === "radio") {
-          data[input.name] = input.checked; // Capture checkboxes and radio buttons
-        } else {
-          data[input.name || input.id || `input_${input.type}`] = input.value; // Store value
+        let key = input.name || input.id || `input_${input.type}`;
+        let value = input.type === "checkbox" || input.type === "radio" ? input.checked : input.value;
+
+        // Exclude "limit" field and only store non-empty values or checked checkboxes/radios
+        if (key !== "limit" && key !== "input_limit") { 
+          if ((input.type === "checkbox" || input.type === "radio") && value) {
+            data[key] = value;
+          } else if (value.trim() !== "") { // Ignore empty text values
+            data[key] = value;
+          }
         }
       });
-      console.log(data);
+
+    //   console.log("Captured Data:", data); // Debugging
+      displayData(data); // Function to display data
+
+      // Send data to PHP
+      fetch("Grid.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => console.log("Response from PHP:", result))
+      .catch(error => console.error("Error:", error));
     }
 
-    // Attach event listeners
-    inputs.forEach(input => {
-      input.addEventListener("input", logValues); // Capture values on input change
+    function displayData(data) {
+      let displayDiv = document.getElementById("displayData");
+      displayDiv.innerHTML = ""; // Clear previous data
+
+      for (let key in data) {
+        let p = document.createElement("p");
+        p.textContent = `${key}: ${data[key]}`;
+        displayDiv.appendChild(p);
+      }
+    }
+
+    // Attach event listener to all inputs
+    document.querySelectorAll('input, textarea, select').forEach(input => {
+      input.addEventListener("input", captureAndSendData);
     });
 
-    // Initial log in case of pre-filled values
-    logValues();
+    // Capture initial values
+    captureAndSendData();
   });
 </script>
+
+<!-- Section to display the captured values -->
+<div id="displayData" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;"></div>
+
+
+
+
