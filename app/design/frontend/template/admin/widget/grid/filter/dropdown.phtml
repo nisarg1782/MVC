@@ -1,1 +1,12 @@
-dropdown page
+<?php
+$data=$this->getData();
+// echo '<pre>';
+// print_r($data);
+// echo '</pre>';
+// die;
+?>
+<select name="">Select Status
+    <?php foreach($data["options"] as $opt):?>
+        <option value="<?php echo $opt?>"><?php echo $opt;?></option>
+        <?php endforeach; ?>
+</select>

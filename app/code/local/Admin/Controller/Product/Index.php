@@ -57,7 +57,7 @@ class Admin_Controller_Product_Index extends Core_Controller_Admin_Action
       $url = $layout->getUrl("*/*/list");
       header("Location:" . $url);
 
-      // print($product_gallrey->getProductId());
+     
    }
    public function testAction()
    {

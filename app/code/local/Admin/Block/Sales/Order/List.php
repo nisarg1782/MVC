@@ -58,9 +58,10 @@ class Admin_Block_Sales_Order_List extends Admin_Block_Widget_Grid
         ]);
         $this->addColumns("provider_name", [
             "label" => "provider_name", //which you want to display
-            "filter" => "text", //data type of html field
+            "filter" => "dropdown", //data type of html field
             "data_index" => "provider_name", //db column which you want to display
-            "column" => "text"
+            "column" => "text",
+            "options"=>$this->getProvider()
         ]);
         $this->addColumns("charge", [
             "label" => "charge", //which you want to display
@@ -88,6 +89,15 @@ class Admin_Block_Sales_Order_List extends Admin_Block_Widget_Grid
             "column" => "link",
             "display"=>"View"
         ]);
+        // $this->addColumns("Status", [
+        //     "label" => "Status", //which you want to display
+        //     "filter" => "dropdown", //data type of html field
+        //     "data_index" => "", //db column which you want to display
+        //     "url" => $this->getUrl("*/*/view"),
+        //     "column" => "dropdown",
+        //     "display"=>"View",
+        //     "options"=>$this->getProvider()
+        // ]);
     }
     public function getOrderData()
     {
@@ -96,5 +106,19 @@ class Admin_Block_Sales_Order_List extends Admin_Block_Widget_Grid
     public function getCollection()
     {
         return $this->_collection;
+    }
+    public function getProvider()
+    {
+        $provider=[];
+        // echo '<pre>';
+        // print_r($this->getOrderData());
+        // echo '</pre>';
+        $data=$this->getOrderData();
+        foreach($data as $_data)
+        {
+          $provider[]=$_data->getProviderName();
+        }
+        return array_unique($provider);
+        // return $data;
     }
 }

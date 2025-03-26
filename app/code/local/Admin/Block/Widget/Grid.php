@@ -59,36 +59,6 @@ class Admin_Block_Widget_Grid extends Core_Block_Template
             $obj->toHtml();
         }
     }
-
-
-   
-    public function capturevalues($data) {
-        // Enable detailed error reporting
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);
-    
-        // Ensure the response is always JSON
-        header("Content-Type: application/json");
-    
-        // Check if the input is valid JSON
-        if (!empty($data) && is_array($data)) {
-            echo json_encode([
-                "status" => "success",
-                "received_data" => $data
-            ]);
-        } else {
-            // Log any issue to a file (useful for debugging)
-            error_log("Invalid data received: " . print_r($data, true));
-    
-            // Return a proper error response
-            echo json_encode([
-                "status" => "error",
-                "message" => "No data received or invalid JSON"
-            ]);
-        }
-    }
-    
 }
     
     
