@@ -15,7 +15,7 @@ class Catalog_Controller_Product extends Core_Controller_Front_Action
     {
 
         $layout = $this->getLayout();
-        $request =$this->getRequest();
+        $request = $this->getRequest();
         $list = $layout->createBlock('catalog/product_list');
         $layout->getChild('content')->addChild('list', $list);
         if ($request->isAjax()) {
@@ -23,7 +23,7 @@ class Catalog_Controller_Product extends Core_Controller_Front_Action
             $layout->getChild("content")
                 ->getChild("list")
                 ->removeChild("filter");
-                
+
             $layout->getChild("content")
                 ->getChild("list")
                 ->getChild("products")
@@ -31,6 +31,11 @@ class Catalog_Controller_Product extends Core_Controller_Front_Action
             // $layout->getChild("content")->getChild("list")->removeChild("products");
             $layout->removeChild("footer");
             $layout->removeChild("header");
+            // $message_block = $layout->createBlock("core/message_message")
+                // ->addMessage("warning", "dont you dare");
+            // echo '<pre>';
+            // print_r($_SESSION);
+            // echo '</pre>';
         } else {
 
             // print("no in ajax");
@@ -110,9 +115,38 @@ class Catalog_Controller_Product extends Core_Controller_Front_Action
     // }
     public function testAction()
     {
-        // echo "<pre>";
-        // echo "<pre>";
-        $collections = Mage::getModel("catalog/filter")->getProductCollection();
-        echo $collections->prepareQuery();
+
+        $message_block = $this->getLayout()->createBlock("core/message_message")
+            ->addMessage("warning", "dont you dare")
+            ->addMessage("error","no");
+           
+        // echo '<pre>';
+        print_r($_SESSION);
+        // echo '</pre>';
+        $this->getLayout()->toHtml();
+    }
+    public function test2Action()
+    {
+
+        // $message_block = $this->getLayout()->createBlock("core/message_message")
+        //     ->addMessage("warning", "dont you dare")
+        //     ->addMessage("error","no");
+           
+        // echo '<pre>';
+        print_r($_SESSION);
+        // echo '</pre>';
+        $this->getLayout()->toHtml();
+    }
+    public function test33Action()
+    {
+
+        // $message_block = $this->getLayout()->createBlock("core/message_message")
+        //     ->addMessage("warning", "dont you dare")
+        //     ->addMessage("error","no");
+           
+        // echo '<pre>';
+        print_r($_SESSION);
+        // echo '</pre>';
+        $this->getLayout()->toHtml();
     }
 }

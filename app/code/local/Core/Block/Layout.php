@@ -21,6 +21,8 @@ class Core_Block_Layout extends Core_Block_Template
         $this->addChild("footer", $footer);
         $content = $this->createBlock("page/content");
         $this->addChild("content", $content);
+        $message=$this->createBlock("core/message_message");
+        $this->addChild("message",$message);
     }
 
 

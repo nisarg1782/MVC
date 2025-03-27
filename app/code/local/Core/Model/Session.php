@@ -33,4 +33,19 @@ class Core_Model_Session
             return "";
         }
     }
+    public function getSession()
+    {
+        return Mage::getSingleton("core/session");
+    }
+    public function removeMessage($key)
+    {
+        if (isset($_SESSION["message"][$key])) {
+            unset($_SESSION["message"][$key]);
+        } else {
+            return "";
+        }
+        
+       
+    }
+    
 }
