@@ -1,11 +1,16 @@
 <?php
 $this->getChildHtml("toolbar");
 $columns = $this->getColumns();
+// echo '<pre>';
+// print_r($columns);
+// echo '</pre>';
+// die;
 ?>
 
 <button>
     <a href="<?php echo $this->getUrl("*/*/export") ?>">Export Data</a>
 </button>
+
 <br><br>
 
 <?php if (in_array("product_id", array_keys($columns))): ?>
@@ -18,7 +23,9 @@ $columns = $this->getColumns();
     <thead>
         <tr>
             <?php foreach ($columns as $col): ?>
-                <th><?php echo $col["label"]; ?></th>
+              <th><?php 
+              echo $col->getData()["label"];
+              ?></th>
             <?php endforeach; ?>
         </tr>
     </thead>
@@ -27,12 +34,9 @@ $columns = $this->getColumns();
         <tr class="filter-row">
             <?php foreach ($columns as $col): ?>
                 <td>
-                    <?php if (isset($col["type"]) && $col["type"] == "number"): ?>
-                        <input type="number" class="filter-input" name="<?php echo $col["label"]; ?>_min" placeholder="Min">
-                        <input type="number" class="filter-input" name="<?php echo $col["label"]; ?>_max" placeholder="Max">
-                    <?php else: ?>
-                        <?php $this->renderFilter($col["label"]); ?>
-                    <?php endif; ?>
+                    <?php 
+                    echo $col->getFilter($col);
+                    // echo '</pre>';?>
                 </td>
             <?php endforeach; ?>
         </tr>
@@ -41,8 +45,9 @@ $columns = $this->getColumns();
         <?php foreach ($this->getCollection()->getData() as $collection): ?>
             <tr class="data-row">
                 <?php foreach ($columns as $col): ?>
-                    <td data-filter-key="<?php echo $col['label']; ?>">
-                        <?php echo $this->getValue($collection, $col); ?>
+                  <?php $col->setRow($collection);?>
+                    <td>
+                        <?php echo $col->render();?>
                     </td>
                 <?php endforeach; ?>
             </tr>
@@ -52,65 +57,39 @@ $columns = $this->getColumns();
 
 <?php if (in_array("product_id", array_keys($columns))): ?>
     <a href="<?php echo $this->getUrl("admin/order/list") ?>">View Orders</a>
-<?php endif; ?>
+<?php endif; ?>  
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    function applyFilters() {
-      const filters = document.querySelectorAll('.filter-row input, .filter-row select');
-      let filterData = {};
+ $(document).ready(function () {
+    $(".filter-row :input").on("input", function () {
+        let filterData = {};
 
-      filters.forEach(input => {
-        let key = input.name;
-        let value = input.type === "checkbox" || input.type === "radio" ? input.checked : input.value.trim().toLowerCase();
+        $(".filter-row td :input").each(function () {  
+            let key = $(this).attr("data-filter-key") || $(this).attr("name") || $(this).attr("id"); // Get filter key
+            let value = $(this).val().trim(); // Get input value, trim spaces
 
-        if (value !== "" && key) {
-          filterData[key] = value;
-        }
-      });
-
-      filterTable(filterData);
-    }
-
-    function filterTable(filters) {
-      const rows = document.querySelectorAll(".data-row");
-
-      rows.forEach(row => {
-        let showRow = true;
-
-        Object.keys(filters).forEach(filterKey => {
-          const filterValue = filters[filterKey];
-          let isMinFilter = filterKey.endsWith("_min");
-          let isMaxFilter = filterKey.endsWith("_max");
-          let baseKey = filterKey.replace("_min", "").replace("_max", "");
-          let cell = row.querySelector(`[data-filter-key="${baseKey}"]`);
-
-          if (cell) {
-            let cellValue = parseFloat(cell.textContent.trim()) || 0;
-
-            if (isMinFilter && cellValue < parseFloat(filterValue)) {
-              showRow = false;
+            if (key && value !== "") {  // Ensure key is valid and value is not empty
+                filterData[key] = value;
             }
-            if (isMaxFilter && cellValue > parseFloat(filterValue)) {
-              showRow = false;
-            }
-            if (!isMinFilter && !isMaxFilter) {
-              let cellText = cell.textContent.trim().toLowerCase();
-              if (!cellText.includes(filterValue)) {
-                showRow = false;
-              }
-            }
-          }
         });
 
-        row.style.display = showRow ? "" : "none";
-      });
-    }
+        console.log("Filter Data Sent:", filterData); // Debugging
 
-    // Attach event listeners to all filter inputs
-    document.querySelectorAll('.filter-row input, .filter-row select').forEach(input => {
-      input.addEventListener("input", applyFilters);
-      input.addEventListener("change", applyFilters);
+        $.ajax({
+            url: "<?php echo $this->getUrl('*/*/*'); ?>",
+            type: "POST",
+            data: filterData,
+            success: function (response) {
+                $("#dataTable tbody").html(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", error); // Log AJAX error
+                alert("Error while filtering data.");
+            }
+        });
     });
-  });
+});
+
+
 </script>
