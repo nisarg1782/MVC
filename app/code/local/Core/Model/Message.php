@@ -11,11 +11,9 @@ class Core_Model_Message extends Core_Model_Session
         $message_array = $this->get("message");
         if (isset($message_array)) {
             $message_array["error"] = $message;
-            // print_r($message_array);
+        
             $this->set("message", $message_array);
-            // echo '<pre>';
-            // print_r($this->get("message"));
-            // echo '</pre>';
+           
         } else {
             $this->set("message", ["error" => $message]);
         }
