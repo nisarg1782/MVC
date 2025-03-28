@@ -28,7 +28,13 @@ class Admin_Block_Widget_Grid_Column_Link extends Admin_Block_Widget_Grid_Column
     }
     public function render()
     {
-       return "<a href=#>edit</a>";
+       $function=$this->getData()["callback"];
+       $url=Mage::getBlockSingleton("admin/product_list")
+       ->$function($this->getRow());
+  
+       $tag="<a href={$url}>{$this->getData()['display']}</a>";
+       return $tag;
+   
     }
    
    

@@ -70,6 +70,7 @@ class Admin_Block_Product_List extends Admin_Block_Widget_Grid
             "url" => $this->getUrl("*/*/new"),
             "column" => "link",
             "display" => "Edit",
+            "callback"=>"isEditUrl"
         ]);
         $this->addColumns("Delete", [
             "label" => "Delete", //which you want to display
@@ -78,6 +79,7 @@ class Admin_Block_Product_List extends Admin_Block_Widget_Grid
             "url" => $this->getUrl("*/*/delete"),
             "column" => "link",
             "display" => "Delete",
+            "callback"=>"isDeleteUrl"
         ]);
     }
     public function listdata()
@@ -85,7 +87,6 @@ class Admin_Block_Product_List extends Admin_Block_Widget_Grid
 
         return $this->getCollection()->getData();
     }
-   
     public function getCategory()
     {
         $category_data = [];
@@ -97,6 +98,14 @@ class Admin_Block_Product_List extends Admin_Block_Widget_Grid
             $category_data[$_category->getCategoryId()] = $_category->getName();
         }
         return $category_data;
+    }
+    public function isEditUrl($row)
+    {
+      return $this->getUrl("*/*/new")."/?product_id=".$row->getProductId();
+    }
+    public function isDeleteUrl($row)
+    {
+      return $this->getUrl("*/*/delete")."/?product_id=".$row->getProductId();
     }
 
   

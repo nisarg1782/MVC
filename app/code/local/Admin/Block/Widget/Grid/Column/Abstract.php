@@ -41,10 +41,9 @@ class Admin_Block_Widget_Grid_Column_Abstract
             return $tag;
         }
     }
-    public function getValue() {
-       
-    
-      return $this->getRow()->getData()[$this->getData()["data_index"]];
-    
+    public function getValue()
+    {
+
+        return $this->getRow()->getData()[$this->getData()["data_index"]];
     }
 }

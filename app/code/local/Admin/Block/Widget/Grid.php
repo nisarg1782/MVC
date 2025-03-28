@@ -101,9 +101,9 @@ class Admin_Block_Widget_Grid extends Core_Block_Template
                 }
             }
         }
-        echo '<pre>';
-        print_r($collection->prepareQuery());
-        echo '</pre>';
+        // echo '<pre>';
+        // print_r($collection->prepareQuery());
+        // echo '</pre>';
         // return $collection;
     }
     
